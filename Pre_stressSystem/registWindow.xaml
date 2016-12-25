@@ -1,0 +1,50 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pre_stressSystem"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Pre_stressSystem.registWindow"
+        mc:Ignorable="d"
+        Height="450" Width="650" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="1"/>
+                <GradientStop Color="White" Offset="0.023"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="107" Margin="41,74,0,0" VerticalAlignment="Top" Width="105" Source="picture/Portrait.png"/>
+        <Label x:Name="label_head" Content="预应力管理系统账号注册" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top" Height="37" Width="239" FontSize="20"/>
+        <Label x:Name="label_ID" Content="* 姓名:" HorizontalAlignment="Left" Margin="192,93,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_gender" Content="性别:" HorizontalAlignment="Left" Margin="202,148,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_number" Content="* 工号:" HorizontalAlignment="Left" Margin="339,93,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_birthday" Content="生日:" HorizontalAlignment="Left" Margin="349,148,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_format" Content="（8位，如:19850505）" HorizontalAlignment="Left" Margin="478,148,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_phone" Content="手机:" HorizontalAlignment="Left" Margin="202,203,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.522,0.577"/>
+        <Label x:Name="label_department" Content="部门:" HorizontalAlignment="Left" Margin="350,203,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_portrait" Content="上传头像" HorizontalAlignment="Left" Margin="63,186,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_password" Content="*登陆密码:" HorizontalAlignment="Left" Margin="202,264,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_password2" Content="*再次输入:" HorizontalAlignment="Left" Margin="202,294,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_ID" HorizontalAlignment="Left" Height="23" Margin="244,95,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" VerticalContentAlignment="Center" FontSize="15" FontFamily="KaiTi" Background="#FFFFF9F9"/>
+        <TextBox x:Name="textBox_number" HorizontalAlignment="Left" Height="23" Margin="386,95,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" VerticalContentAlignment="Center" FontSize="15" FontFamily="KaiTi" Background="#FFFFF9F9"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="244,148,0,0" VerticalAlignment="Top" Width="95" Height="23" IsTextSearchCaseSensitive="True">
+            <System:String>男</System:String>
+            <System:String>女</System:String>
+        </ComboBox>
+        <TextBox x:Name="textBox_birthday" HorizontalAlignment="Left" Height="23" Margin="386,148,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" VerticalContentAlignment="Center" FontSize="15" FontFamily="KaiTi" Background="#FFFFF9F9"/>
+        <TextBox x:Name="textBox_phone" HorizontalAlignment="Left" Height="23" Margin="244,203,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" VerticalContentAlignment="Center" FontSize="15" FontFamily="KaiTi" Background="#FFFFF9F9"/>
+        <TextBox x:Name="textBox_department" HorizontalAlignment="Left" Height="23" Margin="388,203,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" VerticalContentAlignment="Center" FontSize="15" FontFamily="KaiTi" Background="#FFFFF9F9"/>
+        <TextBox x:Name="textBox_password" HorizontalAlignment="Left" Height="23" Margin="268,266,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" VerticalContentAlignment="Center" FontSize="15" FontFamily="KaiTi" Background="#FFFFF9F9"/>
+        <TextBox x:Name="textBox_password2" HorizontalAlignment="Left" Height="23" Margin="268,296,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" VerticalContentAlignment="Center" FontSize="15" FontFamily="KaiTi" Background="#FFFFF9F9"/>
+        <Border BorderBrush="#FF3A3535" BorderThickness="1" HorizontalAlignment="Left" Height="35" Margin="216,348,0,0" VerticalAlignment="Top" Width="206">
+            <Button x:Name="button_cancel" Content="取消" Margin="110,5,19,9" Width="75" Height="19" Cursor="Hand" Click="button_cancel_Click"/>
+
+        </Border>
+        <Button x:Name="button_ok" Content="确定" HorizontalAlignment="Left" Margin="227,355,0,0" VerticalAlignment="Top" Width="75" Cursor="Hand" Click="button_ok_Click"/>
+        <Label x:Name="label" Content="注：带星号的是必填项" HorizontalAlignment="Left" Margin="404,296,0,0" VerticalAlignment="Top" Foreground="#FFE03636"/>
+
+
+
+    </Grid>
+</Window>

@@ -1,0 +1,55 @@
+﻿<Page x:Class="Pre_stressSystem.mainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Pre_stressSystem"
+      mc:Ignorable="d" 
+      Title="mainPage">
+
+    <Viewbox Stretch="Fill">
+        <Canvas Height="768" Width="1366">
+            <Canvas.Background>
+                <ImageBrush ImageSource="picture/train_2.jpg"/>
+            </Canvas.Background>
+
+
+            <DockPanel  x:Name="toolBar2" Height="37" Width="1366" HorizontalAlignment="Right" Background="#FFFDF9F9" Opacity="0.9">
+                <Button Name="dectct" Width="100" Height="35" BorderBrush="#FF151414" Content="预应力检测" FontSize="15" Margin="0,0,0,1" VerticalAlignment="Bottom"  Click="dectct_Click" />
+                <Button Name="sensor" Width="100" Height="35" BorderBrush="#FF151414" Content="传感器管理" FontSize="15" Margin="0,0,0,0" Click="sensor_Click" />
+                <Button Name="sensor_history" Width="115" Height="35" BorderBrush="#FF151414" Content="传感器数据查询" FontSize="15" Margin="0,0,0,0" Click="sensor_history_Click" />
+                <Button Name="line_history" Width="100" Height="35" BorderBrush="#FF151414" Content="线路数据查询" FontSize="15" Margin="0,0,0,0" Click="line_history_Click" />
+                <Button Name="user_managment" Width="100" Height="35" BorderBrush="#FF151414" Content="用户管理" FontSize="15" Margin="0,0,0,0" Click="user_managment_Click"/>
+                <Image Name="logout" Source="picture/log-out.png" Margin="0,0,5,0" HorizontalAlignment="Right" DockPanel.Dock="Right" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave" />
+                <TextBlock Name="user_name" Margin="0,0,15,0" FontSize="18" FontFamily="KaiTi"  HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center">
+                    <TextBlock.RenderTransform>
+                        <TranslateTransform>
+                        </TranslateTransform>
+                    </TextBlock.RenderTransform>
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Window.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever" FillBehavior="Stop">
+                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.X"
+                                                From="0"  To="-480" Duration="0:0:8" AutoReverse="True">
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+
+                </TextBlock>
+            </DockPanel>
+            <Frame x:Name="function_frame" Content="" Height="731" Canvas.Top="37" Width="1366"/>
+            <!--<Grid Height="602" Canvas.Left="252" Canvas.Top="114" Width="846" >
+                <Border Name="border_detect"  HorizontalAlignment="Left" Height="376" Width="376" Margin="10,28,0,0" VerticalAlignment="Top" Background="#FF283DCA" Opacity="0.9" />
+                <Border Name="border_sensor"  HorizontalAlignment="Left" Height="137" Margin="400,28,0,0" VerticalAlignment="Top" Width="446" Background="#FF1DFF00" Opacity="0.85"/>
+                <Border Name="border_sensor_history"  HorizontalAlignment="Left" Height="215" Margin="400,189,0,0" VerticalAlignment="Top" Width="215" Background="#FFFF7900" Opacity="0.9"/>
+                <Border Name="border_line_history"  HorizontalAlignment="Left" Height="215" Margin="629,189,0,0" VerticalAlignment="Top" Width="215" Background="#FFFF7900" Opacity="0.9"/>
+                <Border Name="border_user_managment"  HorizontalAlignment="Left" Height="103" Margin="10,431,0,0" VerticalAlignment="Top" Width="826" Opacity="0.9" Background="#FFF4EDF1"/>
+            </Grid>-->
+        </Canvas>
+    </Viewbox>
+</Page>

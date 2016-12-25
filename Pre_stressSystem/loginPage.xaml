@@ -1,0 +1,26 @@
+﻿<Page x:Class="Pre_stressSystem.loginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Pre_stressSystem"
+      mc:Ignorable="d" 
+      Title="loginPage" KeyDown="page_KeyDown">
+
+    <Viewbox Name="viewboxlogin" Stretch="Fill">
+        <Canvas Name="canvaslogin" Height="768" Width="1366">
+            <Canvas.Background>
+                <ImageBrush ImageSource="picture/cover_pic2.jpg"/>
+            </Canvas.Background>
+            <Grid Height="294" Canvas.Left="530" Canvas.Top="384" Width="308" RenderTransformOrigin="0.497,0.648">
+                <Label x:Name="label_usrename" Content="用户：" Canvas.Left="548" Canvas.Top="452" Height="33" Width="79" BorderBrush="#FF0E0D0D" BorderThickness="0,0,0,0" FontSize="20" FontFamily="KaiTi" Margin="10,94,220,167"/>
+                <Label x:Name="label_password" Content="密码：" Canvas.Left="548" Canvas.Top="524" Height="33" Width="79" BorderBrush="#FF0E0D0D" BorderThickness="0,0,0,0" FontSize="20" FontFamily="KaiTi" Margin="10,145,220,116"/>
+                <PasswordBox x:Name="passwordBox" Canvas.Left="656" Canvas.Top="34" Width="136" Height="24" Margin="84,149,89,121"/>
+                <TextBox x:Name="textBox_username" Height="24" Canvas.Left="56" TextWrapping="Wrap" Canvas.Top="464" Width="136" FontSize="19" FontFamily="Times New Roman" Margin="84,101,89,169"/>
+                <Button x:Name="button_login" Content="登 陆" Canvas.Left="291" Canvas.Top="627" Width="104" Height="37" FontSize="19" Margin="83,204,122,53" Click="button_login_Click" Cursor="Hand" />
+                <Label x:Name="label_regsit" Content="注册" Margin="206,209,59,56" FontSize="17" BorderThickness="0,0,0,1" BorderBrush="Black" Height="29" MouseUp="label_regsit_MouseUp" Cursor="Hand"/>
+            </Grid>
+
+        </Canvas>
+    </Viewbox>
+</Page>

@@ -1,0 +1,15 @@
+﻿<Window x:Class="Pre_stressSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pre_stressSystem"
+        mc:Ignorable="d"  WindowState="Maximized" Title="大型预制构件预应力管理系统"  Loaded="Window_Loaded">
+    <Viewbox Name="viewboxMain" Stretch="Fill">
+        <Canvas Name="canvasMain" Height="768" Width="1366">
+           
+            <Frame Name="Frame_main" Width="1366" Height="768" NavigationUIVisibility="Hidden" d:IsHidden="True"/>
+        </Canvas>
+
+    </Viewbox>
+</Window>
