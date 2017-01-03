@@ -8,7 +8,13 @@
       Title="userPage">
 
     <Viewbox Stretch="Fill">
-        <Canvas Height="726" Width="1366" Background="#FF8D8D93">
+        <Canvas Height="726" Width="1366">
+            <Canvas.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF3A3939" Offset="1"/>
+                    <GradientStop Color="White"/>
+                </LinearGradientBrush>
+            </Canvas.Background>
             <Label x:Name="label" Content="用户设置" Canvas.Left="484" Canvas.Top="143" Height="90" Width="418" FontSize="53"/>
             <TextBox x:Name="textBox" Height="41" Canvas.Left="497" TextWrapping="Wrap" Canvas.Top="255" Width="329" FontSize="22"/>
         </Canvas>

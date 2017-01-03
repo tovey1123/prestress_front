@@ -26,8 +26,6 @@ namespace Pre_stressSystem
             GlobalVariable.g_Framemain = this.Frame_main;
         }
 
-
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.Frame_main.Content = new loginPage(Frame_main);

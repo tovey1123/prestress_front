@@ -89,7 +89,7 @@ namespace Pre_stressSystem
             bool numberExist = false;
             foreach (var id in connecttoMysql.input)
             {
-                if (id.Key == Convert.ToInt32( textBox_ID.Text))
+                if (id.Key == Convert.ToInt32(textBox_number.Text))
                 {
                     numberExist = true;
                     return numberExist;

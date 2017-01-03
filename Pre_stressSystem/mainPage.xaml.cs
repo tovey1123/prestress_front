@@ -30,11 +30,16 @@ namespace Pre_stressSystem
             InitializeComponent();
             String datetime= System.DateTime.Now.ToString("yyyy/MM/dd");
             user_name.Text = datetime+" "+ "当前用户为：" + GlobalVariable.userName;
+            ShowDetect();
         }
+
 
         private void logout_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            //clear data 
             GlobalVariable.userName = "";
+            connecttoMysql.input = null;
+            //jump to loginpage
             this.NavigationService.Navigate(new loginPage(GlobalVariable.g_Framemain));
         }
 
@@ -50,6 +55,15 @@ namespace Pre_stressSystem
         }
 
 
+        private void ShowDetect()
+        {
+            if (dp == null)
+            {
+                dp = new detectPage();
+                this.function_frame.Content = dp;
+            }
+            else this.function_frame.Content = dp;
+        }
         private void dectct_Click(object sender, RoutedEventArgs e)
         {
             if(dp==null)

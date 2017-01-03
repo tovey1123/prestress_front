@@ -20,8 +20,7 @@ namespace Pre_stressSystem
     /// </summary>
     public partial class loginPage : Page
     {
-       //List<string> idList = new List<string>();
-       // List<string> pwdList = new List<string>();
+
         private Frame m_parent = null;
         public loginPage(Frame parent)
         {
