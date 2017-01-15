@@ -26,6 +26,9 @@ namespace Pre_stressSystem
         {
             this.m_parent = parent;
             InitializeComponent();
+
+            this.textBox_username.Focus();
+
         }
 
 
@@ -80,9 +83,27 @@ namespace Pre_stressSystem
             switch (e.Key)
             {
                 case Key.Enter: button_login_Click(sender, e); break;
+                //case Key.Tab: ChangeFoucs(); break;
+
 
             }
         }
+
+        //private void ChangeFoucs()
+        //{
+        //    //通过Tab键切换焦点
+        //    if (textBox_username.IsKeyboardFocused)
+        //    {
+        //        this.passwordBox.Focus();
+        //        return;
+
+        //    }
+        //    if(passwordBox.IsKeyboardFocused)
+        //    {
+        //        this.textBox_username.Focus();
+        //        return;
+        //    }
+        //}
         private Boolean checknumber()
         {
             bool numberExist = false;

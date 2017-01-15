@@ -64,6 +64,7 @@ namespace Pre_stressSystem
             }
             else this.function_frame.Content = dp;
         }
+
         private void dectct_Click(object sender, RoutedEventArgs e)
         {
             if(dp==null)
