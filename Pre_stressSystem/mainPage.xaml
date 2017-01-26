@@ -20,8 +20,8 @@
                 <Button Name="sensor_history" Width="115" Height="35" BorderBrush="#FF151414" Content="传感器数据查询" FontSize="15" Margin="0,0,0,0" Click="sensor_history_Click" />
                 <Button Name="line_history" Width="100" Height="35" BorderBrush="#FF151414" Content="线路数据查询" FontSize="15" Margin="0,0,0,0" Click="line_history_Click" />
                 <Button Name="user_managment" Width="100" Height="35" BorderBrush="#FF151414" Content="用户管理" FontSize="15" Margin="0,0,0,0" Click="user_managment_Click"/>
-                <Image Name="logout" Source="picture/log-out.png" Margin="0,0,5,0" HorizontalAlignment="Right" DockPanel.Dock="Right" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave" />
-                <TextBlock Name="user_name" Margin="0,0,15,0" FontSize="18" FontFamily="KaiTi"  HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center">
+                <Image Name="logout" Source="picture/log-out.png" Margin="0,0,5,0" HorizontalAlignment="Right" DockPanel.Dock="Right" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave" Height="37" VerticalAlignment="Bottom" />
+                <TextBlock Name="user_name" Margin="0,0,15,0" FontSize="18" FontFamily="KaiTi"  HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" Opacity="1">
                     <TextBlock.RenderTransform>
                         <TranslateTransform>
                         </TranslateTransform>
@@ -42,7 +42,7 @@
 
                 </TextBlock>
             </DockPanel>
-            <Frame x:Name="function_frame" Content="" Height="731" Canvas.Top="37" Width="1366"/>
+            <Frame x:Name="function_frame" Content="" Height="731" Canvas.Top="37" Width="1366" />
             <!--<Grid Height="602" Canvas.Left="252" Canvas.Top="114" Width="846" >
                 <Border Name="border_detect"  HorizontalAlignment="Left" Height="376" Width="376" Margin="10,28,0,0" VerticalAlignment="Top" Background="#FF283DCA" Opacity="0.9" />
                 <Border Name="border_sensor"  HorizontalAlignment="Left" Height="137" Margin="400,28,0,0" VerticalAlignment="Top" Width="446" Background="#FF1DFF00" Opacity="0.85"/>

@@ -26,7 +26,6 @@ namespace Pre_stressSystem
         {
             this.m_parent = parent;
             InitializeComponent();
-
             this.textBox_username.Focus();
 
         }
@@ -37,16 +36,19 @@ namespace Pre_stressSystem
         private void button_login_Click(object sender, RoutedEventArgs e)
         {
             //if(!connecttoMysql.hasSearched)
-            { 
+
             #region connect to mysql
+
                 MySqlConnection mysql = connecttoMysql.getMySqlCon();
                 string order = "select * from user_tb";
                 MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);
-                connecttoMysql.getResultset(mySqlCommand);
-                #endregion
-            }
+                connecttoMysql.getLoginResult(mySqlCommand);
+
+            #endregion
+            
 
             #region check login
+
             if (passwordBox.Password == "" || textBox_username.Text == "")
             {
                 MessageBox.Show("用户名或密码为空！");
@@ -75,6 +77,7 @@ namespace Pre_stressSystem
             }
             #endregion
             connecttoMysql.input.Clear();
+            mysql.Close();
         }
 
         //press "Enter", the same as login_click
@@ -87,23 +90,10 @@ namespace Pre_stressSystem
 
 
             }
-        }
+        }   
 
-        //private void ChangeFoucs()
-        //{
-        //    //通过Tab键切换焦点
-        //    if (textBox_username.IsKeyboardFocused)
-        //    {
-        //        this.passwordBox.Focus();
-        //        return;
-
-        //    }
-        //    if(passwordBox.IsKeyboardFocused)
-        //    {
-        //        this.textBox_username.Focus();
-        //        return;
-        //    }
-        //}
+ 
+        //检查工号是不是存在
         private Boolean checknumber()
         {
             bool numberExist = false;
@@ -128,6 +118,7 @@ namespace Pre_stressSystem
 
                         idcorrect = true;
                         GlobalVariable.userName = namepwd.Key;
+                        GlobalVariable.userNumber = Convert.ToInt32(textBox_username.Text);
                         return idcorrect;
                     }
                 }

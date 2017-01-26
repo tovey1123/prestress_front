@@ -10,6 +10,7 @@ namespace Pre_stressSystem
     class GlobalVariable
 {
     static public String userName;
+    static public int? userNumber;   //可空值型int
     static public Window g_mainWindow;
     static public Frame g_Framemain;
     }

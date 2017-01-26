@@ -50,10 +50,10 @@ namespace Pre_stressSystem
                     MySqlConnection mysql = connecttoMysql.getMySqlCon();
                     string order = "select * from user_tb";
                     MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);
-                    connecttoMysql.getResultset(mySqlCommand);
+                    connecttoMysql.getLoginResult(mySqlCommand);
                     if (checkNumber())
                     {
-                        MessageBox.Show("此用户已经注册");
+                        MessageBox.Show("此用户已注册");
                     }
                     else  //correct, add a recond
                     {

@@ -4,19 +4,72 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Pre_stressSystem"
+      xmlns:System="clr-namespace:System;assembly=mscorlib" 
       mc:Ignorable="d" 
       Title="userPage">
 
     <Viewbox Stretch="Fill">
-        <Canvas Height="726" Width="1366">
+        <Canvas Height="768" Width="1366">
             <Canvas.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="#FF3A3939" Offset="1"/>
                     <GradientStop Color="White"/>
                 </LinearGradientBrush>
             </Canvas.Background>
-            <Label x:Name="label" Content="用户设置" Canvas.Left="484" Canvas.Top="143" Height="90" Width="418" FontSize="53"/>
-            <TextBox x:Name="textBox" Height="41" Canvas.Left="497" TextWrapping="Wrap" Canvas.Top="255" Width="329" FontSize="22"/>
+            <Label x:Name="label" Content="员工信息管理" Canvas.Left="491" Canvas.Top="27" Height="72" Width="372" FontSize="56" FontFamily="KaiTi"/>
+
+            <Grid x:Name="Grid_info" Height="397" Canvas.Left="249" Canvas.Top="130" Width="924" IsHitTestVisible="False" Opacity="0.66">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="19*"/>
+                    <ColumnDefinition Width="289*"/>
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="36,2,68,48" Grid.ColumnSpan="2">
+
+                </Border>
+                <Image x:Name="image" HorizontalAlignment="Left" Height="149" VerticalAlignment="Top" Width="138" Source="picture/Portrait.png" Margin="20,51,0,0" Grid.Column="1"/>
+                <Label x:Name="label_Number" Content="员工编号:" Margin="205,87,601,285" Grid.Column="1"/>
+                <TextBox x:Name="textBox_Number" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="296,87,471,287" Grid.Column="1"/>
+                <Label x:Name="label_name" Content="员工姓名:" FontSize="12" Margin="425,87,381,285" Grid.Column="1"/>
+                <TextBox x:Name="textBox_name" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="497,87,270,287" Grid.Column="1"/>
+                <Label x:Name="label_email" Content="Email:" FontSize="12" Margin="222,137,601,235" Grid.Column="1"/>
+                <TextBox x:Name="textBox_email" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="296,137,471,237" Grid.Column="1"/>
+                <Label x:Name="label_gender" Content="性别:" FontSize="12" Margin="449,137,381,235" Grid.Column="1" />
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="23" IsTextSearchCaseSensitive="True" Margin="497,137,0,0" Grid.Column="1">
+                    <System:String>男</System:String>
+                    <System:String>女</System:String>
+                </ComboBox>
+                <Label x:Name="label_phone" Content="电话:" FontSize="12" Margin="230,187,601,187" Grid.Column="1" />
+                <TextBox x:Name="textBox_phone" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="296,187,471,187" Grid.Column="1"/>
+                <Label x:Name="label_birthday" Content="生日:" FontSize="12" Margin="449,187,381,185" Grid.Column="1" />
+                <TextBox x:Name="textBox_birthday" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="497,187,270,187" Grid.Column="1"/>
+                <Label x:Name="label_format" Content="（8位，如:19850505）" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="605,187,0,0" Grid.Column="1"/>
+                <Label x:Name="label_department" Content="部门:" FontSize="12" Margin="230,237,601,136" Grid.Column="1" />
+                <TextBox x:Name="textBox_department" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="296,237,471,137" Grid.Column="1"/>
+                <Label x:Name="label_lever" Content="姓别:" FontSize="12" Margin="449,237,381,135" Grid.Column="1" />
+                <TextBox x:Name="textBox_lever" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="497,237,270,137" Grid.Column="1"/>
+                <Label x:Name="label_address" Content="地址:" FontSize="12" Margin="230,287,601,86" Grid.Column="1" />
+                <TextBox x:Name="textBox_address" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="296,291,270,86" Grid.Column="1"/>
+                <Button x:Name="uploadpic" Content="上传照片" Margin="61,192,748,175" Grid.Column="1"/>
+                <Label x:Name="label1" Content="基本信息" Grid.Column="1" HorizontalAlignment="Left" Margin="336,9,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Lucida Fax"/>
+            </Grid>
+            <Grid x:Name= "grid_changepwd" Height="149" Canvas.Left="274" Canvas.Top="509" Width="840" Opacity="0.66">
+                <Label x:Name="label2" Content="修改密码" Margin="368,0,370,108"  FontSize="22" FontFamily="Lucida Fax"/>
+                <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="139" VerticalAlignment="Top" Width="822" Margin="12,0,0,0" IsHitTestVisible="False">
+                   
+                </Border>
+                <Label x:Name="oldpwd" Content="旧密码:" Margin="130,36,658,89"/>
+                <Label x:Name="oldpwd2" Content="再次输入旧密码:" Margin="428,36,300,89"/>
+                <Label x:Name="newpwd" Content="新密码:" Margin="130,82,658,44"/>
+                <TextBox x:Name="textBox_oldpwd" TextWrapping="Wrap"  FontSize="15" Margin="194,36,522,89"/>
+                <TextBox x:Name="textBox_oldpwd2" TextWrapping="Wrap"  FontSize="15" Margin="536,36,180,89"/>
+                <TextBox x:Name="textBox_newpwd" TextWrapping="Wrap"  FontSize="15" Margin="194,82,522,46"/>
+            </Grid>
+            <Button x:Name="button_save" Content="保存修改" Canvas.Left="590" Canvas.Top="681" Visibility="Collapsed" Height="26"/>
+            <Button x:Name="button_cancel" Content="放弃修改" Canvas.Left="682" Canvas.Top="681" Visibility="Collapsed" Height="26"/>
+            <Button x:Name="button_edit" Content="修改信息" Width="61" Canvas.Left="640" Canvas.Top="681" Click="button_edit_Click" Height="26"/>
+          
         </Canvas>
     </Viewbox>
 </Page>
+
+    
