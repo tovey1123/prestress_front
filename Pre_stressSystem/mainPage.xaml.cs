@@ -39,7 +39,7 @@ namespace Pre_stressSystem
             //clear data 
             GlobalVariable.userName = "";
             GlobalVariable.userNumber = null;
-            connecttoMysql.input.Clear();
+            connecttoMysql.cleardata();
             //jump to loginpage
             this.NavigationService.Navigate(new loginPage(GlobalVariable.g_Framemain));
         }

@@ -28,3 +28,5 @@ D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\userPag
 D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\bin\Debug\MySql.Data.dll
 D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\registWindow.g.cs
 D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\registWindow.baml
+D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\piceditWindow.g.cs
+D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\piceditWindow.baml

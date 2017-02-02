@@ -10,7 +10,7 @@
     <Viewbox Name="viewboxlogin" Stretch="Fill" >
         <Canvas Name="canvaslogin" Height="768" Width="1366" RenderTransformOrigin="0.488,0.599" >
             <Canvas.Background>
-                <ImageBrush ImageSource="picture/cover1.png"/>
+                <ImageBrush ImageSource="picture/cover.png"/>
             </Canvas.Background>
             <Grid Height="294" Canvas.Left="540" Canvas.Top="360" Width="308" RenderTransformOrigin="0.497,0.648" IsHitTestVisible="True">
                 <Label x:Name="label_usrename" Content="用户：" Canvas.Left="548" Canvas.Top="452" Height="33" Width="79" BorderBrush="#FF0E0D0D" BorderThickness="0,0,0,0" FontSize="20" FontFamily="KaiTi" Margin="10,94,220,167"/>

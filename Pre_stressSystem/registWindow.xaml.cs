@@ -64,7 +64,7 @@ namespace Pre_stressSystem
                         string phone = (textBox_phone.Text .Length==0) ? "NULL" : "'" + textBox_phone.Text + "'";
                         string birthday= (textBox_birthday.Text .Length==0) ? "NULL" : "'"+textBox_birthday.Text + "'";
                         string department = (textBox_department.Text .Length==0) ? "NULL" : "'"+textBox_department.Text + "'";
-                        string order2 = "insert into user_tb  values("+ number+","+ID+","+pwd+","+gender+","+phone+","+birthday+","+department+")";
+                        string order2 = "insert into user_tb (employee_Number,employee_ID,employee_pwd,gender,phone,birthday,department) values(" + number+","+ID+","+pwd+","+gender+","+phone+","+birthday+","+department+")";
                         MySqlCommand SqlCommandInsert = new MySqlCommand(order2, mysql);
                         try
                         {

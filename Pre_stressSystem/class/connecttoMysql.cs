@@ -25,7 +25,7 @@ namespace Pre_stressSystem
 
         public static void getLoginResult(MySqlCommand mySqlCommand)
         {
-            
+            cleardata();           
             MySqlDataReader reader = mySqlCommand.ExecuteReader();
             
             try
@@ -52,7 +52,7 @@ namespace Pre_stressSystem
 
         public static void getUserInfo(MySqlCommand mySqlCommand)
         {
-
+            cleardata();
             MySqlDataReader reader = mySqlCommand.ExecuteReader();
 
             try
@@ -60,10 +60,10 @@ namespace Pre_stressSystem
                 while (reader.Read()) //read by lows
                 {
                     int number = reader.GetInt32(reader.GetOrdinal("employee_Number"));
-                    if (number!= GlobalVariable.userNumber)
-                    {
-                        continue;
-                    }
+                    //if (number!= GlobalVariable.userNumber)
+                    //{
+                    //    continue;
+                    //}
                     string name = reader.GetString(reader.GetOrdinal("employee_ID"));             
                     string pwd = reader.GetString(reader.GetOrdinal("employee_pwd"));
                     string gender = reader.IsDBNull(reader.GetOrdinal("gender")) ? null : reader.GetString(reader.GetOrdinal("gender"));
@@ -71,6 +71,7 @@ namespace Pre_stressSystem
                     string birthday = reader.IsDBNull(reader.GetOrdinal("birthday")) ? null : reader.GetString(reader.GetOrdinal("birthday"));
                     string department = reader.IsDBNull(reader.GetOrdinal("department")) ? null : reader.GetString(reader.GetOrdinal("department"));
                     string Email = reader.IsDBNull(reader.GetOrdinal("Email"))?null: reader.GetString(reader.GetOrdinal("Email"));
+                    string lever = reader.IsDBNull(reader.GetOrdinal("lever")) ? null : reader.GetString(reader.GetOrdinal("lever"));
                     string address = reader.IsDBNull(reader.GetOrdinal("address")) ? null : reader.GetString(reader.GetOrdinal("address"));
                     userInfo.Add("name", name);
                     userInfo.Add("number", number);
@@ -80,6 +81,7 @@ namespace Pre_stressSystem
                     userInfo.Add("birthday", birthday);
                     userInfo.Add("department", department);
                     userInfo.Add("Email", Email);
+                    userInfo.Add("lever", lever);
                     userInfo.Add("address", address);
                     break;
                 }
@@ -93,6 +95,12 @@ namespace Pre_stressSystem
             {
                 reader.Close();
             }
+        }
+
+        public static void cleardata()
+        {
+            input.Clear();
+            userInfo.Clear();
         }
     }
 }
