@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Windows.Threading;
 
 namespace Pre_stressSystem
 {
@@ -27,8 +29,23 @@ namespace Pre_stressSystem
             InitializeComponent();
             getUserInfo();
             showInfo();
-        }
+            if (File.Exists(savePath))
+            {
+                //image.Source = new BitmapImage(new Uri(savePath, UriKind.RelativeOrAbsolute));
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                using (Stream ms = new MemoryStream(File.ReadAllBytes(savePath)))
+                {
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                    image.Source = bitmap;
+                   // bitmap.Freeze();
+                }
 
+            }
+        }
+       
         private void info_edit_Click(object sender, RoutedEventArgs e)
         {
             this.info_edit.Visibility = Visibility.Collapsed;
@@ -36,10 +53,9 @@ namespace Pre_stressSystem
             this.info_cancel.Visibility = Visibility.Visible;
             this.Grid_info.Opacity = 1;
             this.uploadpic.Visibility = Visibility.Visible;
-            this.Grid_info.IsHitTestVisible = true;
-           
+            this.Grid_info.IsHitTestVisible = true;           
         }
-
+        public static string img="0";
         Dictionary<string, object> userInfo = null;
         private void getUserInfo()
         {
@@ -89,7 +105,16 @@ namespace Pre_stressSystem
                         string department = (textBox_department.Text.Length == 0) ? "NULL" : "'" + textBox_department.Text + "'";
                         string address = (textBox_address.Text.Length == 0) ? "NULL" : "'" + textBox_address.Text + "'";
                         string lever = (textBox_lever.Text.Length == 0) ? "NULL" : "'" + textBox_lever.Text + "'";
-                        string order2 = "update user_tb  set employee_Number=" + number + "," + "employee_ID=" +name + ","+ "gender="  + gender + "," +"phone="+ phone + "," +"birthday="+ birthday + "," +"department="+ department +"," + "Email=" + email + ","+ "address=" + address + "," +"lever="+lever + " where employee_Number="+ GlobalVariable.userNumber;
+                        string order2 = "update user_tb  set employee_Number=" + number + "," 
+                        + "employee_ID=" +name + ","
+                        + "gender="  + gender + "," 
+                        +"phone="+ phone + "," 
+                        +"birthday="+ birthday + "," 
+                        +"department="+ department +"," 
+                        + "Email=" + email + ","
+                        + "address=" + address + "," 
+                        +"lever="+lever 
+                        + " where employee_Number="+ GlobalVariable.userNumber;
                         MySqlCommand SqlCommandUpdate = new MySqlCommand(order2, mysql);
                         try
                         {
@@ -118,6 +143,10 @@ namespace Pre_stressSystem
 
         private void info_cancel_Click(object sender, RoutedEventArgs e)
         {
+            if (File.Exists(savePath))
+            {
+                File.Delete(savePath);
+            }
             getUserInfo();
             showInfo();
             this.info_edit.Visibility = Visibility.Visible;
@@ -178,12 +207,11 @@ namespace Pre_stressSystem
             this.Grid_info.IsHitTestVisible = false;
         }
 
+
+        DispatcherTimer t = new DispatcherTimer();
         private void uploadpic_Click(object sender, RoutedEventArgs e)
         {
-           // var openFileDialog = new Microsoft.Win32.OpenFileDialog();
-            //Microsoft.Win32.OpenFileDialog
-            //var result = openFileDialog.ShowDialog();
-            //MessageBox.Show(openFileDialog.ToString());
+
             var openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.Title = "选择文件";
             openFileDialog.Filter = "jpg|*.jpg|jpeg|*.jpeg|png|*.png";
@@ -197,13 +225,67 @@ namespace Pre_stressSystem
                 return;
             }
             string fileName = openFileDialog.FileName;
-            // MessageBox.Show( fileName);
-            //image.Source = new BitmapImage(new Uri(fileName, UriKind.RelativeOrAbsolute));
-            //new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/img/login_img/login_loginblue.png", UriKind.RelativeOrAbsolute)));
             Window pew = new piceditWindow(fileName);
             pew.ShowDialog();
+            t.Interval =TimeSpan.FromMilliseconds(500);         //设置定时器，定时刷新结果
+ 
+            t.Tick += new EventHandler(refresh);
+
+            t.Start(); 
 
 
         }
+       // PicturePath Portraint = new PicturePath();
+        string savePath = Environment.CurrentDirectory + "\\" + GlobalVariable.userNumber.ToString() + ".jpg";
+        string savePath2 = Environment.CurrentDirectory + "\\" + GlobalVariable.userNumber.ToString() +"_temp"+".jpg";
+
+        public void refresh(object source, EventArgs e)
+        {
+            if (File.Exists(savePath2))
+            {
+                if (File.Exists(savePath))
+                {                  
+                    File.Delete(savePath);                      //删除原文件
+                    FileInfo fi = new FileInfo(savePath2);      
+                    fi.MoveTo(savePath);                         //将temp文件改名
+
+
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    using (Stream ms = new MemoryStream(File.ReadAllBytes(savePath)))
+                    {
+                        bitmap.StreamSource = ms;
+                        bitmap.EndInit();
+                        image.Source = bitmap;
+                        // bitmap.Freeze();
+                    }
+
+                }
+
+            }
+            else if (File.Exists(savePath))
+            {
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                using (Stream ms = new MemoryStream(File.ReadAllBytes(savePath)))
+                {
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                    image.Source = bitmap;
+                    // bitmap.Freeze();
+                }
+            }
+            if (GlobalVariable.editPictureDone.Equals("1") || GlobalVariable.editPictureDone.Equals("2"))
+            {
+                t.Stop();
+                GlobalVariable.editPictureDone = "0";
+            }
+           
+            
+        }
+       
+       
     }
 }

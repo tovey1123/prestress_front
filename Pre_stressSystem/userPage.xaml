@@ -7,6 +7,9 @@
       xmlns:System="clr-namespace:System;assembly=mscorlib" 
       mc:Ignorable="d" 
       Title="userPage">
+    <Page.Resources>
+        <local:Select2ImageConvert x:Key="S2I"/>
+    </Page.Resources>
 
     <Viewbox Stretch="Fill">
         <Canvas Height="768" Width="1366">
@@ -26,7 +29,8 @@
                 <Border BorderBrush="Black" BorderThickness="1" Margin="36,46,68,4" Grid.ColumnSpan="2">
 
                 </Border>
-                <Image x:Name="image" HorizontalAlignment="Left" Height="136" VerticalAlignment="Top" Width="133" Source="picture/Portrait.png" Margin="28,95,0,0" Grid.Column="1" Stretch="UniformToFill"/>
+                <Image x:Name="image" HorizontalAlignment="Left" Height="158" VerticalAlignment="Top" Width="130" Source="picture/Portrait.png" Margin="32,95,0,0" Grid.Column="1"/>
+                <!--<Image x:Name="image" HorizontalAlignment="Left" Height="136" VerticalAlignment="Top" Width="133" Source="{Binding Path=Userhead,Converter={StaticResource S2I}}" Margin="28,95,0,0" Grid.Column="1" Stretch="UniformToFill"/>-->
                 <Label x:Name="label_Number" Content="*员工编号:" Margin="218,131,583,241" Grid.Column="1" Width="66"/>
                 <TextBox x:Name="textBox_Number" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="296,131,433,243" Grid.Column="1"/>
                 <Label x:Name="label_name" Content="*员工姓名:" FontSize="12" Margin="473,131,328,241" Grid.Column="1" Width="66"/>
@@ -38,7 +42,7 @@
                     <System:String>男</System:String>
                     <System:String>女</System:String>
                 </ComboBox>
-                <Label x:Name="label_phone" Content="电话:" FontSize="12" Margin="243,181,588,193" Grid.Column="1" />
+                <Label x:Name="label_phone" Content="电话:" FontSize="12" Margin="243,181,588,191" Grid.Column="1" />
                 <TextBox x:Name="textBox_phone" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="296,183,433,191" Grid.Column="1"/>
                 <Label x:Name="label_birthday" Content="生日:" FontSize="12" Margin="503,231,327,141" Grid.Column="1" />
                 <TextBox x:Name="textBox_birthday" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="545,231,201,143" Grid.Column="1"/>
@@ -49,7 +53,7 @@
                 <TextBox x:Name="textBox_lever" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="297,279,433,95" Grid.Column="1"/>
                 <Label x:Name="label_address" Content="地址:" FontSize="12" Margin="244,349,587,24" Grid.Column="1" />
                 <TextBox x:Name="textBox_address" TextWrapping="Wrap" FontSize="15" FontFamily="KaiTi" Margin="296,349,201,28" Grid.Column="1"/>
-                <Button x:Name="uploadpic" Content="上传照片" Margin="61,236,748,131" Grid.Column="1" Visibility="Collapsed" Click="uploadpic_Click"/>
+                <Button x:Name="uploadpic" Content="上传照片" Margin="61,256,748,111" Grid.Column="1" Visibility="Collapsed" Click="uploadpic_Click"/>
                 <Label x:Name="baseInfo" Content="基本信息" Grid.Column="1" HorizontalAlignment="Left" Margin="336,49,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Lucida Fax"/>
                 <Label x:Name="pis" Content="注:带'*'为必填项" Grid.Column="1" HorizontalAlignment="Left" Margin="676,358,0,0" VerticalAlignment="Top" FontSize="13" Foreground="#FFE80909"/>
             </Grid>

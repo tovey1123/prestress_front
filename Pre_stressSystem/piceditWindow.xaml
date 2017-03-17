@@ -5,11 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pre_stressSystem"
         mc:Ignorable="d"
-        Title="头像编辑" Height="760" Width="1200
-        " WindowStartupLocation="CenterScreen"
+        Title="头像编辑" Height="652.5" Width="734" WindowStartupLocation="CenterScreen"
          ResizeMode="NoResize"  Loaded="Window_Loaded" >
-    <Grid >
-        <Grid Name="ImageComparePanel" Width="600" Margin="300,80,300,95">
+    <Grid Background="#FF8B8484"  >
+        <Grid Name="ImageComparePanel"  Width="300" Height="400" Margin="217,53,217,172">
             <Grid.Resources>
                 <TransformGroup x:Key="ImageCompareResources">
                     <ScaleTransform />
@@ -22,24 +21,15 @@
                MouseLeftButtonDown="MasterImage_MouseLeftButtonDown"
                MouseLeftButtonUp="MasterImage_MouseLeftButtonUp"
                MouseMove="MasterImage_MouseMove"
-               MouseWheel="MasterImage_MouseWheel">
+               MouseWheel="MasterImage_MouseWheel" Height="400" Width="300">
 
                     <Image RenderOptions.BitmapScalingMode="NearestNeighbor"
                x:Name="MasterImage" Stretch="Uniform"
-               RenderTransform="{StaticResource ImageCompareResources}" DataContext="{Binding}" />
+               RenderTransform="{StaticResource ImageCompareResources}" DataContext="{Binding}" Margin="0,-10,0,10" />
                 </ContentControl>
             </ScrollViewer>
         </Grid>
-        <Button x:Name="button_save" Margin="409,690,668,10" Content="保存" FontSize="15" Click="button_save_Click"/>
-        <Button x:Name="button_cancel" Margin="560,687,517,11" Content="取消"  FontSize="15" Click="button_cancel_Click" RenderTransformOrigin="0.5,0.5">
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Button.RenderTransform>
-        </Button>
+        <Button x:Name="button_save" Margin="257,528,401,46" Content="保存" FontSize="15" Click="button_save_Click"  />
+        <Button x:Name="button_cancel" Margin="392,527,267,46" Content="取消"  FontSize="15" Click="button_cancel_Click"  />
     </Grid>
 </Window>

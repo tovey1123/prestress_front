@@ -184,17 +184,21 @@ namespace Pre_stressSystem
             #region 裁剪图片
 
             //目标效果,即界面选取框相对于界面的坐标以及宽高，界面像素600*600
-            double x1 = 125;
-            double y1 = 125;
-            double width1 = 350;
-            double height1 = 350;
+            // double x1 = 125;
+            double x1 = 0;
+            //double y1 = 125;
+            double y1 = 90;
+            //double width1 = 350;
+            double width1 = 300;
+            //double height1 = 350;
+            double height1 = 400;
 
             //界面呈现效果
             TransformGroup group = ImageComparePanel.FindResource("ImageCompareResources") as TransformGroup;
             TranslateTransform transform1 = group.Children[1] as TranslateTransform;
             ScaleTransform transform = group.Children[0] as ScaleTransform;
             double x2 = transform1.X;
-            double y2 = transform1.Y + 75;//75是图片偏移量，通过qq截图工具比划得出
+            double y2 = transform1.Y+75;//75是图片偏移量，通过qq截图工具比划得出
             double scaleX = transform.ScaleX;
             double scaleY = transform.ScaleY;
 
@@ -222,7 +226,24 @@ namespace Pre_stressSystem
                 // b.Save(@"D:\imagecutor.jpg");
                 // string savePath = "pack://application:,,,/picture/" + GlobalVariable.userNumber.ToString() + ".jpg";
                 string savePath = str2 +"\\"+ GlobalVariable.userNumber.ToString() + ".jpg";
-                b.Save(@savePath);
+
+                if (File.Exists(savePath))
+                {
+                    string savePath2 = str2 + "\\" + GlobalVariable.userNumber.ToString() + "_temp" + ".jpg";
+                    b.Save(@savePath2);
+                    //File.Delete(savePath);
+                    //File.Replace(GlobalVariable.userNumber.ToString() + "_temp" + ".jpg",
+                    //   GlobalVariable.userNumber.ToString() + ".jpg",
+                    //   "backup");
+                }
+                else
+                {
+                    b.Save(@savePath);
+                }
+                
+               // userPage.refreshpic(savePath);
+                GlobalVariable.editPictureDone = "1";
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -234,6 +255,7 @@ namespace Pre_stressSystem
 
         private void button_cancel_Click(object sender, RoutedEventArgs e)
         {
+            GlobalVariable.editPictureDone = "2";
             this.Close();
         }
     }
@@ -263,7 +285,7 @@ namespace Pre_stressSystem
 
             x1 = ic.Width;
             y1 = ic.Height;
-            width = height = (ic.Width - 100) / 2;
+            width = height = 0;//(ic.Width - 200) / 2;//ic.width-100/2
             dc.DrawRectangle(new SolidColorBrush(), new Pen(scb, width), new Rect(0, 0, x1, y1));
         }
 
