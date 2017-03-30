@@ -11,6 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Timers;
+using System.Windows.Threading;
+
 
 namespace Pre_stressSystem
 {
@@ -27,13 +30,23 @@ namespace Pre_stressSystem
 
         public mainPage()
         {
-            InitializeComponent();
-            String datetime= System.DateTime.Now.ToString("yyyy/MM/dd");
-            user_name.Text = datetime+" "+ "当前用户为：" + GlobalVariable.userName;
+            InitializeComponent();           
             ShowDetect();
+            LaunchTimer();
         }
 
-
+        private void SetDateTime(object sender, EventArgs e)
+        {
+            String date = System.DateTime.Now.ToString("yyyy.MM.dd ");
+            String time = DateTime.Now.ToLongTimeString();
+            user_name.Text = date + time + " " + "当前用户为：" + GlobalVariable.userName;
+        }
+        private void LaunchTimer()
+        {
+            DispatcherTimer innerTimer = new DispatcherTimer(TimeSpan.FromSeconds(1.0),
+                    DispatcherPriority.Loaded, new EventHandler(this.SetDateTime), this.Dispatcher);
+            innerTimer.Start();
+        }
         private void logout_MouseUp(object sender, MouseButtonEventArgs e)
         {
             //clear data 

@@ -32,7 +32,7 @@
                                 <BeginStoryboard>
                                     <Storyboard RepeatBehavior="Forever" FillBehavior="Stop">
                                         <DoubleAnimation Storyboard.TargetProperty="RenderTransform.X"
-                                                From="0"  To="-480" Duration="0:0:8" AutoReverse="True">
+                                                From="0"  To="-380" Duration="0:0:8" AutoReverse="True">
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
