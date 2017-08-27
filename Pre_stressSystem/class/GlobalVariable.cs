@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.IO.Ports;
 
 namespace Pre_stressSystem
 {
@@ -14,5 +15,6 @@ namespace Pre_stressSystem
     static public Window g_mainWindow;
     static public Frame g_Framemain;
     static public string editPictureDone = "0";
+    static public SerialPort sp = new SerialPort();
     }
 }

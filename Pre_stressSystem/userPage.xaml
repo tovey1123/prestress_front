@@ -21,7 +21,7 @@
             </Canvas.Background>
             <Label x:Name="label" Content="员工信息管理" Canvas.Left="513" Canvas.Top="27" Height="72" Width="372" FontSize="56" FontFamily="KaiTi"/>
 
-            <Grid x:Name="Grid_info" Height="396" Canvas.Left="241" Canvas.Top="84" Width="924" IsHitTestVisible="False" Opacity="0.66">
+            <Grid x:Name="Grid_info" Height="396" Canvas.Left="241" Canvas.Top="84" Width="924" IsHitTestVisible="False" Opacity="0.8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="19*"/>
                     <ColumnDefinition Width="289*"/>
