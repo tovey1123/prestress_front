@@ -16,7 +16,7 @@
             </Canvas.Background>
             <Label x:Name="detectPrestress" Content="预应力检测" Canvas.Left="559" Canvas.Top="26" Height="90" Width="289" FontSize="53"/>
             <Label x:Name="COM" Content="串口号:" Canvas.Left="112" Canvas.Top="211" Height="35" Width="66" FontSize="18"/>
-            <ComboBox x:Name="COMList" Canvas.Left="185" Canvas.Top="216" Width="87" Height="20" >
+            <ComboBox x:Name="COMList" Canvas.Left="185" Canvas.Top="216" Width="65" Height="20" >
                 <ComboBoxItem Content="COM1" IsSelected="True"/>
                 <ComboBoxItem Content="COM2"/>
                 <ComboBoxItem Content="COM3"/>
@@ -24,9 +24,9 @@
                 <ComboBoxItem Content="COM5"/>
                 <ComboBoxItem Content="COM6"/>
             </ComboBox>
-            <Button x:Name="autoSelectCOM" Content="自动检测串口" Canvas.Left="185" Canvas.Top="243" Width="87" Click="autoSelectCOM_Click" Height="20"/>
+            <Button x:Name="autoSelectCOM" Content="自动检测" Canvas.Left="185" Canvas.Top="243" Width="65" Click="autoSelectCOM_Click" Height="20" FontSize="11.5"/>
             <Label x:Name="BaudRate" Content="波特率:" Canvas.Left="112" Canvas.Top="267" FontSize="18" Width="66" Height="35"/>
-            <ComboBox x:Name="BaudRateList" Canvas.Left="185" Canvas.Top="274" Width="87" Height="20">
+            <ComboBox x:Name="BaudRateList" Canvas.Left="185" Canvas.Top="274" Width="65" Height="20">
                 <ComboBoxItem Content="1200"/>
                 <ComboBoxItem Content="2400"/>
                 <ComboBoxItem Content="4800"/>
@@ -34,9 +34,15 @@
                 <ComboBoxItem Content="19200"/>
                 <ComboBoxItem Content="38400" IsSelected="True"/>
             </ComboBox>
+            <Label x:Name="DataBit" Content="数据位:" Canvas.Left="112" Canvas.Top="303" FontSize="18" Width="66" Height="35"/>
+            <ComboBox x:Name="DataBitList" Canvas.Left="185" Canvas.Top="310" Width="65" Height="20">
+                <ComboBoxItem Content="6"/>
+                <ComboBoxItem Content="7"/> >
+                <ComboBoxItem Content="8" IsSelected="True"/>
+            </ComboBox>
             <Button x:Name="btn_open_close" Content="打开串口" Canvas.Left="112" Canvas.Top="362" Width="75" Click="button_Click"/>
             <Button x:Name="btn_clear" Content="清空数据" Width="75" Canvas.Left="195" Canvas.Top="362" Click="btn_clear_Click"/>
-            <TextBlock x:Name="txtReceive" Height="80" Canvas.Left="110" TextWrapping="Wrap"  Canvas.Top="405" Width="170" Background="#FFFFF7F7"/>
+            <TextBlock x:Name="txtReceive" Height="80" Canvas.Left="110" TextWrapping="Wrap"  Canvas.Top="405" Width="170" Background="#FFFFF7F7" Text="02303031323334303537360D0A03"/>
             <Separator Height="10" Canvas.Left="122" Margin="0" Canvas.Top="330" Width="412" RenderTransformOrigin="0.5,0.5">
                 <Separator.RenderTransform>
                     <TransformGroup>
@@ -47,7 +53,7 @@
                     </TransformGroup>
                 </Separator.RenderTransform>
             </Separator>
-            <Button x:Name="btn_analysis" Content="分析数据" Canvas.Left="704" Canvas.Top="480" Width="80" FontSize="14" FontFamily="KaiTi"/>
+            <Button x:Name="btn_analysis" Content="分析数据" Canvas.Left="704" Canvas.Top="480" Width="80" FontSize="14" FontFamily="KaiTi" Click="btn_analysis_Click"/>
             <Button x:Name="btn_save" Content="保存数据" Canvas.Left="842" Canvas.Top="480" Width="80" FontSize="14" FontFamily="KaiTi"/>
             <Label x:Name="sensor_ID" Content="传感器ID:" Canvas.Left="417" Canvas.Top="203" FontSize="20"/>
             <TextBlock x:Name="txt_ID" TextWrapping="Wrap" Text="" Canvas.Left="537" Canvas.Top="205" Height="27" Width="140" Foreground="Black" Background="White"/>

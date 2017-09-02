@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\
 Pre_stressSystem
 none
 false
 DEBUG;TRACE
-D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\App.xaml
+D:\prestress\prestress_front\Pre_stressSystem\App.xaml
 10-1231801411
 
 18-1214589723
-21407686626
+211992498077
 detectPage.xaml;linehistoryPage.xaml;loginPage.xaml;mainPage.xaml;MainWindow.xaml;piceditWindow.xaml;registWindow.xaml;sensorhistoryPage.xaml;sensorPage.xaml;userPage.xaml;
 
 False

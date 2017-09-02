@@ -65,6 +65,7 @@ namespace Pre_stressSystem
                     sp.Parity = Parity.None;
                     sp.StopBits = StopBits.One;
                     sp.ReadBufferSize = 1024;
+                    sp.DataBits = 8;
                     sp.Open();
                     spIsOpen = true;
                     sp.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(data_received);
@@ -115,11 +116,7 @@ namespace Pre_stressSystem
                 String temp = null;
                 for (int i = 0; i < buf.Length; i++)
                 {
-                    temp = Convert.ToString(buf[i], 16).ToUpper();
-                    if (temp.Length == 1)
-                    {
-                        temp = "0" + temp;
-                    }
+                    temp = Convert.ToString(buf[i], 2).PadLeft(8, '0');
                     result += temp;
                 }
                 interfaceUpdateHandle = new HandleInterfaceUpdateDelagate(UpdateTextBox);//实例化委托对象
@@ -218,9 +215,29 @@ namespace Pre_stressSystem
             txtReceive.Text = "";
         }
 
+        private void btn_analysis_Click(object sender, RoutedEventArgs e)
+        {
+           Boolean validity= checkValidity();
+        }
+        private Boolean checkValidity() {
+            String rcv = txtReceive.Text;
+            if (rcv == null || rcv == "")
+            {
+                return false;
+            }
+            if(rcv.Length != 112)
+            {
+                return false;
+            }
+            String Sensor_ID = rcv.Substring(9, 48);
+            String Sensor_ID = rcv.Substring(9, 48);
 
 
-//-------------------------------------------------------------------------------------------------------------------------------
+            return true;
+        }
+
+
+        //-------------------------------------------------------------------------------------------------------------------------------
         //public bool ReceiveCompleted { get; set; }
 
         //void ComRec()//接收线程，窗口初始化中就开始启动运行  

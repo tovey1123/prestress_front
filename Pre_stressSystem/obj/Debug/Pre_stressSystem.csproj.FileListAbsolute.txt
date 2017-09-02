@@ -31,3 +31,35 @@ D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\registW
 D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\piceditWindow.g.cs
 D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\piceditWindow.baml
 D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem.exe
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem.pdb
+D:\prestress\prestress_front\Pre_stressSystem\bin\Debug\Pre_stressSystem.exe
+D:\prestress\prestress_front\Pre_stressSystem\bin\Debug\Pre_stressSystem.pdb
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem.csprojResolveAssemblyReference.cache
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\detectPage.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\linehistoryPage.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\loginPage.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\mainPage.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\MainWindow.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\piceditWindow.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\registWindow.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\sensorhistoryPage.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\sensorPage.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\userPage.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\App.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem_MarkupCompile.cache
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem_MarkupCompile.lref
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\detectPage.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\linehistoryPage.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\loginPage.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\mainPage.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\MainWindow.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\piceditWindow.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\registWindow.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\sensorhistoryPage.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\sensorPage.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\userPage.baml
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem.g.resources
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem.Properties.Resources.resources
+D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem.csproj.GenerateResource.Cache
