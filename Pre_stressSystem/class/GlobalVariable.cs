@@ -16,5 +16,13 @@ namespace Pre_stressSystem
     static public Frame g_Framemain;
     static public string editPictureDone = "0";
     static public SerialPort sp = new SerialPort();
+    static public Boolean hasHandle = false;
+    static public void clearData()
+        {
+            userName = "";
+            userNumber = null;
+            sp.Close();
+
+        }
     }
 }

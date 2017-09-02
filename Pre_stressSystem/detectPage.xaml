@@ -42,7 +42,7 @@
             </ComboBox>
             <Button x:Name="btn_open_close" Content="打开串口" Canvas.Left="112" Canvas.Top="362" Width="75" Click="button_Click"/>
             <Button x:Name="btn_clear" Content="清空数据" Width="75" Canvas.Left="195" Canvas.Top="362" Click="btn_clear_Click"/>
-            <TextBlock x:Name="txtReceive" Height="80" Canvas.Left="110" TextWrapping="Wrap"  Canvas.Top="405" Width="170" Background="#FFFFF7F7" Text="02303031323334303537360D0A03"/>
+            <TextBlock x:Name="txtReceive" Height="130" Canvas.Left="72"  Canvas.Top="391" Width="234" Background="#FFFFF7F7" FontSize="13" TextWrapping="Wrap" />
             <Separator Height="10" Canvas.Left="122" Margin="0" Canvas.Top="330" Width="412" RenderTransformOrigin="0.5,0.5">
                 <Separator.RenderTransform>
                     <TransformGroup>

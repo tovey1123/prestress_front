@@ -25,7 +25,7 @@ namespace Pre_stressSystem
 
         public static void getLoginResult(MySqlCommand mySqlCommand)
         {
-            cleardata();           
+            clearData();           
             MySqlDataReader reader = mySqlCommand.ExecuteReader();
             
             try
@@ -52,7 +52,7 @@ namespace Pre_stressSystem
 
         public static void getUserInfo(MySqlCommand mySqlCommand)
         {
-            cleardata();
+            clearData();
             MySqlDataReader reader = mySqlCommand.ExecuteReader();
 
             try
@@ -97,7 +97,7 @@ namespace Pre_stressSystem
             }
         }
 
-        public static void cleardata()
+        public static void clearData()
         {
             input.Clear();
             userInfo.Clear();

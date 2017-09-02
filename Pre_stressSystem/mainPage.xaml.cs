@@ -49,14 +49,22 @@ namespace Pre_stressSystem
         }
         private void logout_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            //clear data 
-            GlobalVariable.userName = "";
-            GlobalVariable.userNumber = null;
-            connecttoMysql.cleardata();
-            this.function_frame.Content = null;
-            GlobalVariable.sp.Close();
-            //jump to loginpage
-            this.NavigationService.Navigate(new loginPage(GlobalVariable.g_Framemain));
+            System.Windows.Forms.Application.Restart();
+            Application.Current.Shutdown();
+            ////clear frame
+            //this.function_frame.Content = null;
+
+            ////clear Global data 
+            //GlobalVariable.clearData();
+           
+            ////close database connection
+            //connecttoMysql.clearData();
+
+            ////clear all pages
+            ////clearPages();
+
+            ////jump to loginpage
+            //this.NavigationService.Navigate(new loginPage(GlobalVariable.g_Framemain));
         }
 
 
@@ -132,5 +140,15 @@ namespace Pre_stressSystem
             }
             else this.function_frame.Content = up;
         }
+    //    private void clearPages()
+    //    {
+
+    //     dp = null;
+    //     sp = null;
+    //     shp = null;
+    //     lhp = null;
+    //     up = null;
+    //}
+
     }
 }

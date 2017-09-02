@@ -17,14 +17,18 @@ namespace Pre_stressSystem
     {
         private string[] ports;
         private bool spIsOpen = false;
-        private SerialPort sp = GlobalVariable.sp;
-        Queue recQueue = new Queue();
-        delegate void HandleInterfaceUpdateDelagate(string text);//委托；此为重点
+        private SerialPort sp = GlobalVariable.sp; 
+        delegate void HandleInterfaceUpdateDelagate(string[] text);//委托；此为重点
         HandleInterfaceUpdateDelagate interfaceUpdateHandle;
         public detectPage()
         {          
             InitializeComponent();
-           // init();
+            if (!GlobalVariable.hasHandle)
+            {
+                sp.DataReceived += new SerialDataReceivedEventHandler(data_received);
+                GlobalVariable.hasHandle = true;
+           }
+            
         }
         //private void init() {
         //    sp.DataReceived += new SerialDataReceivedEventHandler(ComReceive);
@@ -34,6 +38,7 @@ namespace Pre_stressSystem
 
         private void autoSelectCOM_Click(object sender, RoutedEventArgs e)
         {
+         
             ports = SerialPort.GetPortNames();
             if (ports.Length > 0)
             {
@@ -51,10 +56,12 @@ namespace Pre_stressSystem
         private void setPortClosed()
         {
             spIsOpen = false;
+            btn_open_close.Content = "打开串口";
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+           
 
             if (!spIsOpen)
             {
@@ -68,7 +75,7 @@ namespace Pre_stressSystem
                     sp.DataBits = 8;
                     sp.Open();
                     spIsOpen = true;
-                    sp.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(data_received);
+                   
                 }
                 catch (Exception exception)
                 {
@@ -96,13 +103,12 @@ namespace Pre_stressSystem
                         return;
                     }
                 }
-                btn_open_close.Content = "打开串口";
                 setPortClosed();
                 BaudRateList.IsEnabled = true;
             }
 
         }
-        private void data_received(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        private void data_received(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort serialPort1 = sender as SerialPort;
             try
@@ -116,11 +122,13 @@ namespace Pre_stressSystem
                 String temp = null;
                 for (int i = 0; i < buf.Length; i++)
                 {
-                    temp = Convert.ToString(buf[i], 2).PadLeft(8, '0');
+                    temp = Convert.ToString(buf[i], 16).PadLeft(2, '0').ToUpper();
                     result += temp;
                 }
                 interfaceUpdateHandle = new HandleInterfaceUpdateDelagate(UpdateTextBox);//实例化委托对象
-                Dispatcher.Invoke(interfaceUpdateHandle, result);              
+               // Dispatcher.Invoke(interfaceUpdateHandle, result);
+                String[] param = { Encoding.ASCII.GetString(buf), result };
+                Dispatcher.Invoke(interfaceUpdateHandle, new string[][] { param });
             }
             catch (Exception e2)
             {
@@ -129,17 +137,17 @@ namespace Pre_stressSystem
             }
         }
 
-        private void ReceiveData(SerialPort serialPort)
-        {
-            //同步阻塞接收数据线程
-            Thread threadReceive = new Thread(new ParameterizedThreadStart(SynReceiveData));
-            threadReceive.Start(serialPort);
+        //private void ReceiveData(SerialPort serialPort)
+        //{
+        //    //同步阻塞接收数据线程
+        //    Thread threadReceive = new Thread(new ParameterizedThreadStart(SynReceiveData));
+        //    threadReceive.Start(serialPort);
            
 
-            //也可用异步接收数据线程
-            //Thread threadReceiveSub = new Thread(new ParameterizedThreadStart(AsyReceiveData));
-            //threadReceiveSub.Start(serialPort);
-        }
+        //    //也可用异步接收数据线程
+        //    //Thread threadReceiveSub = new Thread(new ParameterizedThreadStart(AsyReceiveData));
+        //    //threadReceiveSub.Start(serialPort);
+        //}
 
         //发送二进制数据
         //private void SendBytesData(SerialPort serialPort)
@@ -150,37 +158,37 @@ namespace Pre_stressSystem
         //}
 
         //同步阻塞读取
-        private void SynReceiveData(object serialPortobj)
-        {
+        //private void SynReceiveData(object serialPortobj)
+        //{
            
-            SerialPort serialPort = (SerialPort)serialPortobj;
-            System.Threading.Thread.Sleep(0);
-            serialPort.ReadTimeout = 6000;
-            try
-            {
-                int n = serialPort.BytesToRead;//先记录下来，避免某种原因，人为的原因，操作几次之间时间长，缓存不一致  
-                byte[] buf = new byte[n];//声明一个临时数组存储当前来的串口数据  
-                //received_count += n;//增加接收计数  
-                serialPort.Read(buf, 0, n);//读取缓冲数据  
-                //因为要访问ui资源，所以需要使用invoke方式同步ui
-                interfaceUpdateHandle = new HandleInterfaceUpdateDelagate(UpdateTextBox);//实例化委托对象
-             //   MessageBox.Show("4:"+ sp.IsOpen.ToString());
-                Dispatcher.Invoke(interfaceUpdateHandle, new string[] { Encoding.ASCII.GetString(buf) });
-               // MessageBox.Show("5:" + sp.IsOpen.ToString());
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-                //处理超时错误
-            }
+        //    SerialPort serialPort = (SerialPort)serialPortobj;
+        //    System.Threading.Thread.Sleep(0);
+        //    serialPort.ReadTimeout = 6000;
+        //    try
+        //    {
+        //        int n = serialPort.BytesToRead;//先记录下来，避免某种原因，人为的原因，操作几次之间时间长，缓存不一致  
+        //        byte[] buf = new byte[n];//声明一个临时数组存储当前来的串口数据  
+        //        //received_count += n;//增加接收计数  
+        //        serialPort.Read(buf, 0, n);//读取缓冲数据  
+        //        //因为要访问ui资源，所以需要使用invoke方式同步ui
+        //        interfaceUpdateHandle = new HandleInterfaceUpdateDelagate(UpdateTextBox);//实例化委托对象
+        //     //   MessageBox.Show("4:"+ sp.IsOpen.ToString());
+        //        Dispatcher.Invoke(interfaceUpdateHandle, new string[] { Encoding.ASCII.GetString(buf) });
+        //       // MessageBox.Show("5:" + sp.IsOpen.ToString());
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show(e.Message);
+        //        //处理超时错误
+        //    }
 
-            serialPort.Close();
+        //    serialPort.Close();
 
-        }
+        //}
 
-        private void UpdateTextBox(string text)
+        private void UpdateTextBox(string[] text)
         {
-            txtReceive.Text = text;
+            txtReceive.Text = "ASCII码:\n"+ text[0]+"\n"+"十六进制:\n" + text[1];
         }
 
         //异步读取
@@ -230,7 +238,7 @@ namespace Pre_stressSystem
                 return false;
             }
             String Sensor_ID = rcv.Substring(9, 48);
-            String Sensor_ID = rcv.Substring(9, 48);
+          //  String Sensor_ID = rcv.Substring(9, 48);
 
 
             return true;
