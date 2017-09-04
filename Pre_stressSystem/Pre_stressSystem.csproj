@@ -53,6 +53,10 @@
     <Reference Include="MySql.Data">
       <HintPath>C:\Windows\SysWOW64\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -80,6 +84,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="class\connecttoMysql.cs" />
+    <Compile Include="class\InitFile.cs" />
     <Compile Include="class\MyConvert.cs" />
     <Compile Include="class\PicturePath.cs" />
     <Compile Include="detectPage.xaml.cs">
