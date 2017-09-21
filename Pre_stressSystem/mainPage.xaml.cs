@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Timers;
 using System.Windows.Threading;
+using System.IO;
+using System.Management;
 
 
 namespace Pre_stressSystem
@@ -30,10 +24,75 @@ namespace Pre_stressSystem
 
         public mainPage()
         {
-            InitializeComponent();           
-            ShowDetect();
+            InitializeComponent();
             LaunchTimer();
+            setPortrait();
+            InitInfo();
+
         }
+        private void InitInfo() {
+            //获取本机IP地址
+
+            string ServerIp = null;
+            ManagementClass mcNetworkAdapterConfig = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            ManagementObjectCollection moc_NetworkAdapterConfig = mcNetworkAdapterConfig.GetInstances();
+            foreach (ManagementObject mo in moc_NetworkAdapterConfig)
+            {
+                string mServiceName = mo["ServiceName"] as string;
+
+                //过滤非真实的网卡  
+                if (!(bool)mo["IPEnabled"])
+                { continue; }
+                if (mServiceName.ToLower().Contains("vmnetadapter")
+                 || mServiceName.ToLower().Contains("ppoe")
+                 || mServiceName.ToLower().Contains("bthpan")
+                 || mServiceName.ToLower().Contains("tapvpn")
+                 || mServiceName.ToLower().Contains("ndisip")
+                 || mServiceName.ToLower().Contains("sinforvnic"))
+                { continue; }
+
+
+                //bool mDHCPEnabled = (bool)mo["IPEnabled"];//是否开启了DHCP  
+                //string mCaption = mo["Caption"] as string;  
+                //string mMACAddress = mo["MACAddress"] as string; 
+                // foreach (IPAddress addr in mo["IPAddress"])
+                //{ if (addr.AddressFamily.ToString() == "InterNetwork")
+
+                string[] mIPAddress = mo["IPAddress"] as string[];
+                // }
+                //string[] mIPSubnet = mo["IPSubnet"] as string[];  
+                //string[] mDefaultIPGateway = mo["DefaultIPGateway"] as string[];  
+                //string[] mDNSServerSearchOrder = mo["DNSServerSearchOrder"] as string[];  
+
+                //Console.WriteLine(mDHCPEnabled);  
+                //Console.WriteLine(mCaption);  
+                //Console.WriteLine(mMACAddress);  
+                //PrintArray(mIPAddress);  
+                //PrintArray(mIPSubnet);  
+                //PrintArray(mDefaultIPGateway);  
+                //PrintArray(mDNSServerSearchOrder);  
+
+                if (mIPAddress != null)
+                {
+
+                    foreach (string ip in mIPAddress)
+                    {
+
+                        if (ip != "0.0.0.0")
+                        {
+                            //iniFileReader.WriteValue("Login", "IpAddress", ip);
+                            ServerIp = ip;
+                            MessageBox.Show(ServerIp);
+                            break;
+                        }
+                    }
+                }
+                mo.Dispose();
+            }
+        }
+    
+
+
 
         private void SetDateTime(object sender, EventArgs e)
         {
@@ -70,23 +129,29 @@ namespace Pre_stressSystem
 
         private void logout_MouseEnter(object sender, MouseEventArgs e)
         {
-            logout.Opacity = 0.5;
+            Logout.Background = new SolidColorBrush(Color.FromRgb(255, 100, 0));
+           
         }
 
         private void logout_MouseLeave(object sender, MouseEventArgs e)
         {
-            logout.Opacity = 1;
+            Logout.Background = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+            //Logout.Opacity = 1;
         }
 
+        
 
-        private void ShowDetect()
-        {
-            if (dp == null)
-            {
-                dp = new detectPage();
-                this.function_frame.Content = dp;
-            }
-            else this.function_frame.Content = dp;
+        //private void ShowDetect()
+        //{
+        //    if (dp == null)
+        //    {
+        //        dp = new detectPage();
+        //        this.function_frame.Content = dp;
+        //    }
+        //    else this.function_frame.Content = dp;
+        //}
+        private void homePage_Click(object sender, RoutedEventArgs e) {
+            this.function_frame.Content = null;
         }
 
         private void dectct_Click(object sender, RoutedEventArgs e)
@@ -140,15 +205,42 @@ namespace Pre_stressSystem
             }
             else this.function_frame.Content = up;
         }
-    //    private void clearPages()
-    //    {
 
-    //     dp = null;
-    //     sp = null;
-    //     shp = null;
-    //     lhp = null;
-    //     up = null;
-    //}
+        private void func_hover(object sender, RoutedEventArgs e) {
+           // Mouse.
+        }
+
+        //    private void clearPages()
+        //    {
+
+        //     dp = null;
+        //     sp = null;
+        //     shp = null;
+        //     lhp = null;
+        //     up = null;
+        //}
+        string savePath = Environment.CurrentDirectory + "\\" + GlobalVariable.userNumber.ToString() + ".jpg";
+        private void setPortrait() {
+            if (File.Exists(savePath))
+            {
+                //image.Source = new BitmapImage(new Uri(savePath, UriKind.RelativeOrAbsolute));
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                using (Stream ms = new MemoryStream(File.ReadAllBytes(savePath)))
+                {
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                    portrait.Background = new ImageBrush(bitmap);
+                    
+                    // bitmap.Freeze();
+                }
+
+
+            }
+        }
+
+
 
     }
 }

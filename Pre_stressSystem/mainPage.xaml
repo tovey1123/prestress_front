@@ -1,6 +1,7 @@
 ﻿<Page x:Class="Pre_stressSystem.mainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:w="clr-namespace:WeatherReaderMVC;assembly=WeatherReaderMVC"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Pre_stressSystem"
@@ -15,12 +16,12 @@
 
 
             <DockPanel  x:Name="toolBar2" Height="37" Width="1366" HorizontalAlignment="Right" Background="#FFFDF9F9" Opacity="0.9">
-                <Button Name="dectct" Width="100" Height="35" BorderBrush="#FF151414" Content="预应力检测" FontSize="15" Margin="0,0,0,1" VerticalAlignment="Bottom"  Click="dectct_Click" />
+                <!--<Button Name="dectct" Width="100" Height="35" BorderBrush="#FF151414" Content="预应力检测" FontSize="15" Margin="0,0,0,1" VerticalAlignment="Bottom"  Click="dectct_Click" />
                 <Button Name="sensor" Width="100" Height="35" BorderBrush="#FF151414" Content="传感器管理" FontSize="15" Margin="0,0,0,0" Click="sensor_Click" />
                 <Button Name="sensor_history" Width="115" Height="35" BorderBrush="#FF151414" Content="传感器数据查询" FontSize="15" Margin="0,0,0,0" Click="sensor_history_Click" />
                 <Button Name="line_history" Width="100" Height="35" BorderBrush="#FF151414" Content="线路数据查询" FontSize="15" Margin="0,0,0,0" Click="line_history_Click" />
-                <Button Name="user_managment" Width="100" Height="35" BorderBrush="#FF151414" Content="用户管理" FontSize="15" Margin="0,0,0,0" Click="user_managment_Click"/>
-                <Image Name="logout" Source="picture/log-out.png" Margin="0,0,5,0" HorizontalAlignment="Right" DockPanel.Dock="Right" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave" Height="37" VerticalAlignment="Bottom" />
+                <Button Name="user_managment" Width="100" Height="35" BorderBrush="#FF151414" Content="用户管理" FontSize="15" Margin="0,0,0,0" Click="user_managment_Click"/>-->
+                <!--<Image Name="logout" Source="picture/log-out.png" Margin="0,0,5,0" HorizontalAlignment="Right" DockPanel.Dock="Right" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave" Height="37" VerticalAlignment="Top" />-->
                 <TextBlock Name="user_name" Margin="0,0,15,0" FontSize="18" FontFamily="KaiTi"  HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" Opacity="1">
                     <TextBlock.RenderTransform>
                         <TranslateTransform>
@@ -32,7 +33,7 @@
                                 <BeginStoryboard>
                                     <Storyboard RepeatBehavior="Forever" FillBehavior="Stop">
                                         <DoubleAnimation Storyboard.TargetProperty="RenderTransform.X"
-                                                From="0"  To="-380" Duration="0:0:8" AutoReverse="True">
+                                                From="0"  To="-1280" Duration="0:0:8" AutoReverse="False">
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -42,7 +43,48 @@
 
                 </TextBlock>
             </DockPanel>
-            <Frame x:Name="function_frame" Content="" Height="731" Canvas.Top="37" Width="1366" />
+            <!--<WrapPanel Height="731" Canvas.Left="0" Canvas.Top="37" Width="100"/>-->
+
+            <Frame x:Name="function_frame" Content="" Height="731" Canvas.Top="37" Width="1216" Canvas.Left="150" />
+            <Border Name="bg" BorderBrush="White" Height="731" Canvas.Top="37" Width="150" Background="#FF1870C7" Opacity="0.4">
+            </Border>
+            <Grid Name="leftBar" Height="731" Canvas.Top="37" Width="150">
+                <Border Name="portrait"  BorderThickness="1" Margin="0,0,0,578" Width="120" Height="120" CornerRadius="90">
+                    <Border.Background>
+                        <ImageBrush ImageSource="picture/HeadIcon.png" Stretch="Uniform"/>
+                    </Border.Background>
+                </Border>
+                <Border Name="Logout" Width="100" Height="30" Margin="25,167,25,534" CornerRadius="10" Background="Red">
+                    <Label Content="注销登录" Foreground="#FFFDFDFD" FontSize="15" Margin="13,0,4,0" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave"/>
+                </Border>
+                <Border Name="homePage" Width="150" Height="55" Margin="0,219,0,457" BorderThickness="0,1,0,0.5" BorderBrush="White" MouseUp="homePage_Click" MouseEnter="func_hover" ForceCursor="True">
+                    <Label Content="首页" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+                </Border>
+                <Border Name="detect" Width="150" Height="55" Margin="0,274,0,402" BorderThickness="0,0.5" BorderBrush="White" MouseUp="dectct_Click">
+                    <Label Content="预应力检测" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+                </Border>
+                <Border Name="sensor" Width="150" Height="55" Margin="0,329,0,347" BorderThickness="0,0.5" BorderBrush="White" MouseUp="sensor_Click">
+                    <Label Content="传感器管理" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+                </Border>
+                <Border Name="sensor_history" Width="150" Height="55" Margin="0,384,0,292" BorderThickness="0,0.5" BorderBrush="White" MouseUp="sensor_history_Click">
+                    <Label Content="传感器数据查询" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+                </Border>
+                <Border Name="line_history" Width="150" Height="55" Margin="0,439,0,237" BorderThickness="0,0.5" BorderBrush="White" MouseUp="line_history_Click">
+                    <Label Content="线路数据查询" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+                </Border>
+                <Border Name="user_management" Width="150" Height="55" Margin="0,494,0,182" BorderThickness="0,0.5,0,1" BorderBrush="White" MouseUp="user_managment_Click">
+                    <Label Content="用户管理" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+                </Border>
+
+            </Grid>
+            <!--<Grid>
+                <w:WeatherReaderUI MouseLeftButtonDown="WeatherReaderUI_MouseLeftButtonDown" />
+                <Image Source="/WpfWeatherReporter;component/Images/Close.png" 
+               MouseLeftButtonDown="Image_MouseLeftButtonDown"
+               Width="19" Height="19" Margin="253,63,7,132" ToolTip="Close" />
+            </Grid>-->
+
+
             <!--<Grid Height="602" Canvas.Left="252" Canvas.Top="114" Width="846" >
                 <Border Name="border_detect"  HorizontalAlignment="Left" Height="376" Width="376" Margin="10,28,0,0" VerticalAlignment="Top" Background="#FF283DCA" Opacity="0.9" />
                 <Border Name="border_sensor"  HorizontalAlignment="Left" Height="137" Margin="400,28,0,0" VerticalAlignment="Top" Width="446" Background="#FF1DFF00" Opacity="0.85"/>

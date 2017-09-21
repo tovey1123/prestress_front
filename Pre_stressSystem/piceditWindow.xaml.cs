@@ -197,8 +197,8 @@ namespace Pre_stressSystem
             TransformGroup group = ImageComparePanel.FindResource("ImageCompareResources") as TransformGroup;
             TranslateTransform transform1 = group.Children[1] as TranslateTransform;
             ScaleTransform transform = group.Children[0] as ScaleTransform;
-            double x2 = transform1.X;
-            double y2 = transform1.Y+75;//75是图片偏移量，通过qq截图工具比划得出
+            double x2 = transform1.X+20;
+            double y2 = transform1.Y+120;//75是图片偏移量，通过qq截图工具比划得出
             double scaleX = transform.ScaleX;
             double scaleY = transform.ScaleY;
 
