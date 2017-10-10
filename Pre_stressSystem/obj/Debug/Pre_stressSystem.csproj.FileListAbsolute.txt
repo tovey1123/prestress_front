@@ -63,3 +63,5 @@ D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\userPage.baml
 D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem.g.resources
 D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem.Properties.Resources.resources
 D:\prestress\prestress_front\Pre_stressSystem\obj\Debug\Pre_stressSystem.csproj.GenerateResource.Cache
+D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\Weather_preview.g.cs
+D:\Visual Studio 2015\MyCode\Pre_stressSystem\Pre_stressSystem\obj\Debug\Weather_preview.baml

@@ -6,6 +6,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using MySql.Data.MySqlClient;
 using System.Security.Cryptography;
+using System.Management;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Net;
+using System.IO;
 
 
 namespace Pre_stressSystem
@@ -17,12 +22,13 @@ namespace Pre_stressSystem
     {
 
         private Frame m_parent = null;
+        private JObject weather = null;
         public loginPage(Frame parent)
         {
             this.m_parent = parent;
             InitializeComponent();
             this.textBox_username.Focus();
-            LoadIni();  //加载初始化信息--账号,密码,版本信息等
+            LoadIni();  //加载初始化信息--账号,密码,版本信息,并且提前获取天气信息
 
         }
 
@@ -66,7 +72,7 @@ namespace Pre_stressSystem
                     {
 
                         writeIntoIniFile();
-                        m_parent.Content = new mainPage();
+                        m_parent.Content = new mainPage(weather);
 
                     }
                 }
@@ -131,6 +137,8 @@ namespace Pre_stressSystem
         //加载配置信息
         private void LoadIni()
         {
+            //GetIP();
+            weather = getWeather();
             InitFile initFileReader = new InitFile(System.Environment.CurrentDirectory + "\\InitFile.ini");
             this.textBox_username.Text = initFileReader.ReadValue("Login", "user");
             Boolean isSelected = false;
@@ -195,6 +203,130 @@ namespace Pre_stressSystem
             return Encoding.UTF8.GetString(cipherbytes);
         }
 
+
+        private void GetIP()
+        {
+            //获取本机IP地址
+
+            string ServerIp = null;
+            ManagementClass mcNetworkAdapterConfig = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            ManagementObjectCollection moc_NetworkAdapterConfig = mcNetworkAdapterConfig.GetInstances();
+            foreach (ManagementObject mo in moc_NetworkAdapterConfig)
+            {
+                string mServiceName = mo["ServiceName"] as string;
+
+                //过滤非真实的网卡  
+                if (!(bool)mo["IPEnabled"])
+                { continue; }
+                if (mServiceName.ToLower().Contains("vmnetadapter")
+                 || mServiceName.ToLower().Contains("ppoe")
+                 || mServiceName.ToLower().Contains("bthpan")
+                 || mServiceName.ToLower().Contains("tapvpn")
+                 || mServiceName.ToLower().Contains("ndisip")
+                 || mServiceName.ToLower().Contains("sinforvnic"))
+                { continue; }
+
+
+                //bool mDHCPEnabled = (bool)mo["IPEnabled"];//是否开启了DHCP  
+                //string mCaption = mo["Caption"] as string;  
+                //string mMACAddress = mo["MACAddress"] as string; 
+                // foreach (IPAddress addr in mo["IPAddress"])
+                //{ if (addr.AddressFamily.ToString() == "InterNetwork")
+
+                string[] mIPAddress = mo["IPAddress"] as string[];
+                // }
+                //string[] mIPSubnet = mo["IPSubnet"] as string[];  
+                //string[] mDefaultIPGateway = mo["DefaultIPGateway"] as string[];  
+                //string[] mDNSServerSearchOrder = mo["DNSServerSearchOrder"] as string[];  
+
+                //Console.WriteLine(mDHCPEnabled);  
+                //Console.WriteLine(mCaption);  
+                //Console.WriteLine(mMACAddress);  
+                //PrintArray(mIPAddress);  
+                //PrintArray(mIPSubnet);  
+                //PrintArray(mDefaultIPGateway);  
+                //PrintArray(mDNSServerSearchOrder);  
+
+                if (mIPAddress != null)
+                {
+
+                    foreach (string ip in mIPAddress)
+                    {
+
+                        if (ip != "0.0.0.0")
+                        {
+                            //iniFileReader.WriteValue("Login", "IpAddress", ip);
+                            ServerIp = ip;
+                            //MessageBox.Show(ServerIp);
+                            //getWeather(ServerIp);
+                            break;
+                        }
+                    }
+                }
+                mo.Dispose();
+            }
+        }
+
+        private JObject getWeather()
+        {
+            string location = getLocation();
+            string weather_URI = "http://wthrcdn.etouch.cn/weather_mini?city=" + location;
+            JObject jo = (JObject)JsonConvert.DeserializeObject(GetWebResponseString(weather_URI, UTF8Encoding.UTF8, true));
+            return jo;
+
+        }
+
+        private string getLocation()
+        {
+            string IPLocation_URI = "http://api.map.baidu.com/location/ip?ak=jeiS1mDguIqIp9TBdrWLMSotBYSSZnWZ&coor=bd09ll";
+            JObject jo = (JObject)JsonConvert.DeserializeObject(GetWebResponseString(IPLocation_URI, Encoding.UTF8, false));
+            if (jo["status"].ToString() != "0")
+            {
+                return "status_error";
+            }
+            else
+            {
+                #region  根据经纬度获取的位置信息
+                //string lat = jo["content"]["point"]["y"].ToString(); //30.9299
+                //string lng = jo["content"]["point"]["x"].ToString(); //120.1234
+                //string Geocoding_URI = "http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location="+lat+","+lng+ "&output=json&pois=1&ak=jeiS1mDguIqIp9TBdrWLMSotBYSSZnWZ";
+                //string tmp = GetWebResponseString(Geocoding_URI, Encoding.UTF8);
+                //int startIndex = tmp.IndexOf("(");
+                //int endIndex = tmp.LastIndexOf(")");
+                //string result = tmp.Substring(startIndex + 1, endIndex - startIndex - 1);
+                //JObject jo2 = (JObject)JsonConvert.DeserializeObject(result);
+                //if (jo2["status"].ToString() != "0")
+                //{
+                //    return jo["content"]["address_detail"]["city"].ToString();  //无法精确得到县级以下位置，则返回市
+                //}
+                //else
+                //{
+                //    string formatted_address = jo2["result"]["formatted_address"].ToString();
+                //    return  formatted_address; 
+                //}
+                #endregion
+                if (jo["content"]["address_detail"]["district"].ToString() != "")
+                {
+                    return jo["content"]["address_detail"]["district"].ToString();
+                }
+                else
+                {
+                    return jo["content"]["address_detail"]["city"].ToString();
+                }
+
+            }
+        }
+
+        private string GetWebResponseString(string strUrl, Encoding encode, bool Decompress)
+        {
+            Uri uri = new Uri(strUrl);
+            WebRequest webreq = WebRequest.Create(uri);
+            Stream s = Decompress ? new System.IO.Compression.GZipStream(webreq.GetResponse().GetResponseStream(), System.IO.Compression.CompressionMode.Decompress)
+                                 : webreq.GetResponse().GetResponseStream();
+            StreamReader sr = new StreamReader(s, encode);
+            string all = sr.ReadToEnd();         //读取网站返回的数据
+            return all;
+        }
 
 
     }

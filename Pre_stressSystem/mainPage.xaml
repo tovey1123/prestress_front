@@ -1,27 +1,46 @@
 ﻿<Page x:Class="Pre_stressSystem.mainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:w="clr-namespace:WeatherReaderMVC;assembly=WeatherReaderMVC"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Pre_stressSystem"
       mc:Ignorable="d" 
       Title="mainPage">
+    <Page.Resources>
+        <DataTemplate x:Key="weatherTemplate">
+            <Border BorderBrush="White" BorderThickness="1,0,0,0" HorizontalAlignment="Left" Height="337" Margin="0,0,0,0" VerticalAlignment="Top" Width="115" >
+                <Grid Margin="0,0,-2,0">
+                    <Image x:Name="image" Margin="24,74,28,200" Source="{Binding Path=icoPath}"/>
+                    <TextBlock Text="{Binding Path=week}" Margin="36,21,30,294" Foreground="White" FontSize="15" FontFamily="DengXian" />
+                    <TextBlock Text="{Binding Path=date}" Margin="44,48,22,268" Foreground="White" FontSize="15" FontFamily="DengXian" />
+                    <TextBlock Text="{Binding Path=type}" Margin="-2,137,2,173" Foreground="White" FontSize="22" FontFamily="KaiTi" TextAlignment="Center" />
+                    <Label Content="最高温度:" Margin="4,164,43,151" Foreground="White" FontSize="11" FontFamily="DengXian" />
+                    <TextBlock Name="high" Text="{Binding Path=high}"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="51,187,22,132" />
+                    <Label Content="最低温度:" Margin="4,205,43,106" Foreground="White" FontSize="11" FontFamily="DengXian" />
+                    <TextBlock Name="low" Text="{Binding Path=low}"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="51,223,22,94" />
+                    <Label Content="风向:" Margin="4,237,72,76" Foreground="White" FontSize="11" FontFamily="DengXian" />
+                    <TextBlock Name="direction" Text="{Binding Path=direction}"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="29,265,21,54" />
+                    <Label Content="风力:" Margin="4,279,72,34" Foreground="White" FontSize="11" FontFamily="DengXian" />
+                    <TextBlock Name="lever" Text="{Binding Path=lever}"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="39,298,30,18" />
+                </Grid>
+            </Border>
+
+        </DataTemplate>
+    </Page.Resources>
 
     <Viewbox Stretch="Fill">
-        <Canvas Height="768" Width="1366">
-            <Canvas.Background>
-                <ImageBrush ImageSource="picture/train_2.jpg"/>
-            </Canvas.Background>
+        <Canvas Height="768" Width="1366" Background="#FF0D59B4">
 
 
-            <DockPanel  x:Name="toolBar2" Height="37" Width="1366" HorizontalAlignment="Right" Background="#FFFDF9F9" Opacity="0.9">
-                <!--<Button Name="dectct" Width="100" Height="35" BorderBrush="#FF151414" Content="预应力检测" FontSize="15" Margin="0,0,0,1" VerticalAlignment="Bottom"  Click="dectct_Click" />
+            <!--<DockPanel  x:Name="toolBar2" Height="37" Width="1366" HorizontalAlignment="Right" Background="#FFFDF9F9" Opacity="0.9">
+                -->
+            <!--<Button Name="dectct" Width="100" Height="35" BorderBrush="#FF151414" Content="预应力检测" FontSize="15" Margin="0,0,0,1" VerticalAlignment="Bottom"  Click="dectct_Click" />
                 <Button Name="sensor" Width="100" Height="35" BorderBrush="#FF151414" Content="传感器管理" FontSize="15" Margin="0,0,0,0" Click="sensor_Click" />
                 <Button Name="sensor_history" Width="115" Height="35" BorderBrush="#FF151414" Content="传感器数据查询" FontSize="15" Margin="0,0,0,0" Click="sensor_history_Click" />
                 <Button Name="line_history" Width="100" Height="35" BorderBrush="#FF151414" Content="线路数据查询" FontSize="15" Margin="0,0,0,0" Click="line_history_Click" />
                 <Button Name="user_managment" Width="100" Height="35" BorderBrush="#FF151414" Content="用户管理" FontSize="15" Margin="0,0,0,0" Click="user_managment_Click"/>-->
-                <!--<Image Name="logout" Source="picture/log-out.png" Margin="0,0,5,0" HorizontalAlignment="Right" DockPanel.Dock="Right" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave" Height="37" VerticalAlignment="Top" />-->
+            <!--<Image Name="logout" Source="picture/log-out.png" Margin="0,0,5,0" HorizontalAlignment="Right" DockPanel.Dock="Right" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave" Height="37" VerticalAlignment="Top" />-->
+            <!--
                 <TextBlock Name="user_name" Margin="0,0,15,0" FontSize="18" FontFamily="KaiTi"  HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" Opacity="1">
                     <TextBlock.RenderTransform>
                         <TranslateTransform>
@@ -42,11 +61,11 @@
                     </TextBlock.Triggers>
 
                 </TextBlock>
-            </DockPanel>
+            </DockPanel>-->
             <!--<WrapPanel Height="731" Canvas.Left="0" Canvas.Top="37" Width="100"/>-->
 
-            <Frame x:Name="function_frame" Content="" Height="731" Canvas.Top="37" Width="1216" Canvas.Left="150" />
-            <Border Name="bg" BorderBrush="White" Height="731" Canvas.Top="37" Width="150" Background="#FF1870C7" Opacity="0.4">
+            <Frame x:Name="function_frame" Content="" Height="767" Canvas.Top="1" Width="1216" Canvas.Left="150" />
+            <Border Name="bg" BorderBrush="White" Height="767" Canvas.Top="1" Width="150" Background="#FF1870C7" Opacity="0.4">
             </Border>
             <Grid Name="leftBar" Height="731" Canvas.Top="37" Width="150">
                 <Border Name="portrait"  BorderThickness="1" Margin="0,0,0,578" Width="120" Height="120" CornerRadius="90">
@@ -74,6 +93,87 @@
                 </Border>
                 <Border Name="user_management" Width="150" Height="55" Margin="0,494,0,182" BorderThickness="0,0.5,0,1" BorderBrush="White" MouseUp="user_managment_Click">
                     <Label Content="用户管理" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+                </Border>
+            </Grid>
+            
+            <Grid Name="bg2"       Height="575" Canvas.Left="330" Canvas.Top="54" Width="822" Background="#FF084FCB" Opacity="0.5">
+            </Grid>
+            <Grid Name="weather_p" Height="575" Canvas.Left="330" Canvas.Top="54" Width="822" >
+                <Border BorderBrush="White" BorderThickness="0,0,0,2" HorizontalAlignment="Left" Height="125" VerticalAlignment="Top" Width="812">
+                    <Grid Name="top">
+                        <TextBlock Name="greet" Text="早上好" FontSize="35" Foreground="White" Margin="6,0,683,83" FontFamily="STXinwei"/>
+                        <TextBlock Name="user_name" Text="王志文" FontSize="35" Foreground="White" Margin="140,0,549,83" FontFamily="STXinwei"/>
+                        <TextBlock Name="welcome_word" Text="欢迎使用大型预应力预制件管理系统，现在是" Foreground="White" FontSize="23" Margin="80,58,272,33"/>
+                        <TextBlock Name="date_time" Text="2017-10-15 19:09:55" Foreground="White" FontSize="23" Margin="546,60,28,31"/>
+                    </Grid>
+
+                </Border>
+                <DockPanel HorizontalAlignment="Left" Height="340" LastChildFill="False" Margin="0,125,0,0" VerticalAlignment="Top" Width="822">
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" IsEnabled="False" Height="340">
+                        <Grid Name="forecast">
+                            <WrapPanel HorizontalAlignment="Left">
+                                <Grid Name="today" Height="340" Width="200">
+                                    <Image x:Name="ico_today" HorizontalAlignment="Left" Height="100" Margin="47,3,0,0" VerticalAlignment="Top" Width="100" Source="picture/weatherico/na.png"/>
+                                    <TextBlock x:Name="tmp" HorizontalAlignment="Left" Margin="54,96,0,0" TextWrapping="Wrap" Text="?" VerticalAlignment="Top" Height="63" TextAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="50" Width="69"/>
+                                    <Label Content="最高温度:" Margin="43,194,89,121" Foreground="White" FontSize="12" FontFamily="DengXian" />
+                                    <TextBlock Name="high" Text="/"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="114,212,48,107" TextAlignment="Center" />
+                                    <Label Content="最低温度:" Margin="43,231,89,80" Foreground="White" FontSize="12" FontFamily="DengXian" />
+                                    <TextBlock Name="low" Text="/"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="113,247,48,72" TextAlignment="Center" />
+                                    <Label Content="风向:" Margin="43,265,111,48" Foreground="White" FontSize="12" FontFamily="DengXian" />
+                                    <TextBlock Name="direction" Text="/"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="95,283,33,41" TextAlignment="Center" />
+                                    <Label Content="风力:" Margin="43,299,111,14" Foreground="White" FontSize="12" FontFamily="DengXian" />
+                                    <TextBlock Name="lever" Text="/"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="106,313,42,7" TextAlignment="Center" />
+                                    <Label x:Name="C" Content="℃" HorizontalAlignment="Left" Margin="118,99,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="18" FontWeight="Bold"/>
+                                    <Label x:Name="shishi" Content="（实时）" HorizontalAlignment="Left" Margin="117,126,0,0" VerticalAlignment="Top" Foreground="White" Height="33" Width="73" FontSize="16"/>
+                                    <TextBlock x:Name="type" HorizontalAlignment="Left" Margin="26,161,0,0" TextWrapping="Wrap" Text="天气接口有误" VerticalAlignment="Top" Foreground="White" FontSize="18" TextAlignment="Center" Width="148" FontWeight="Bold"/>
+
+                                </Grid>
+                                <ListBox Name="lstRes" HorizontalAlignment="Center" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{Binding}">
+                                    <ListBox.Template>
+                                        <ControlTemplate TargetType="{x:Type ListBox}">
+                                            <WrapPanel Orientation="Vertical" IsItemsHost="True" ScrollViewer.CanContentScroll="True" />
+                                        </ControlTemplate>
+                                    </ListBox.Template>
+
+                                    <!-- 设置ListBoxItem样式 -->
+                                    <ListBox.ItemContainerStyle >
+
+                                        <Style TargetType="ListBoxItem">
+                                            <!-- 设置控件模板 -->
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border Background="{TemplateBinding Background}" >
+                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+                                            <!-- 设置触发器 -->
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="true">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+
+
+                                </ListBox>
+                            </WrapPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </DockPanel>
+                <Border BorderBrush="White" BorderThickness="0,2,0,0" HorizontalAlignment="Left" Height="110" Margin="0,465,0,0" VerticalAlignment="Top" Width="822">
+                    <TextBlock Name="tip" Text="温馨提示：" Foreground="#FFF4FF10" FontSize="30" FontFamily="KaiTi"  MaxWidth="822" TextWrapping="Wrap"/>
                 </Border>
 
             </Grid>

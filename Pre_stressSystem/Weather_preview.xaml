@@ -1,0 +1,30 @@
+﻿<Page x:Class="Pre_stressSystem.Weather_preview"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Pre_stressSystem"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="500"
+      Title="Weather_preview">
+
+    <Grid>
+        <Border BorderBrush="White" BorderThickness="0,0,2,0" HorizontalAlignment="Left" Height="337" Margin="49,48,0,0" VerticalAlignment="Top" Width="115" Background="#FF0E7AD4">
+            <Grid Margin="0,0,-2,0">
+                <Image x:Name="image" Margin="24,74,28,200" Source="picture/weatherico/晴.png"/>
+                <TextBlock Text="周一分" Margin="36,21,30,294" Foreground="White" FontSize="15" FontFamily="DengXian" />
+                <TextBlock Text="10月9日" Margin="27,48,22,268" Foreground="White" FontSize="15" FontFamily="DengXian" />
+                <TextBlock Text="晴" Margin="-2,137,2,173" Foreground="White" FontSize="22" FontFamily="KaiTi" TextAlignment="Center" />
+                <Label Content="最高温度:" Margin="4,164,43,151" Foreground="White" FontSize="11" FontFamily="DengXian" />
+                <TextBlock Name="high" Text="23℃"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="51,187,22,132" />
+                <Label Content="最低温度:" Margin="4,205,43,106" Foreground="White" FontSize="11" FontFamily="DengXian" />
+                <TextBlock Name="low" Text="13℃"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="51,223,22,94" />
+                <Label Content="风向:" Margin="4,238,72,75" Foreground="White" FontSize="11" FontFamily="DengXian" />
+                <TextBlock Name="direction" Text="direction"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="29,265,21,54" />
+                <Label Content="风力:" Margin="4,279,72,34" Foreground="White" FontSize="11" FontFamily="DengXian" />
+                <TextBlock Name="lever" Text="3级"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="39,298,10,10" />
+            </Grid>
+        </Border>
+
+    </Grid>
+</Page>

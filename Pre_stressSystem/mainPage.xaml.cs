@@ -6,7 +6,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.IO;
+//using mshtml;
 using System.Management;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Net;
+using System.Text;
+using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 
 namespace Pre_stressSystem
@@ -21,76 +28,19 @@ namespace Pre_stressSystem
         public sensorhistoryPage shp = null;
         public linehistoryPage lhp = null;
         public userPage up = null;
+        private JObject weather = null;
+        private ObservableCollection<WeatherInfo> weatherList = null;
 
-        public mainPage()
+        public mainPage(JObject weatherJo)
         {
+            weather = weatherJo;
             InitializeComponent();
             LaunchTimer();
             setPortrait();
-            InitInfo();
+            setWeather(weather);
 
         }
-        private void InitInfo() {
-            //获取本机IP地址
 
-            string ServerIp = null;
-            ManagementClass mcNetworkAdapterConfig = new ManagementClass("Win32_NetworkAdapterConfiguration");
-            ManagementObjectCollection moc_NetworkAdapterConfig = mcNetworkAdapterConfig.GetInstances();
-            foreach (ManagementObject mo in moc_NetworkAdapterConfig)
-            {
-                string mServiceName = mo["ServiceName"] as string;
-
-                //过滤非真实的网卡  
-                if (!(bool)mo["IPEnabled"])
-                { continue; }
-                if (mServiceName.ToLower().Contains("vmnetadapter")
-                 || mServiceName.ToLower().Contains("ppoe")
-                 || mServiceName.ToLower().Contains("bthpan")
-                 || mServiceName.ToLower().Contains("tapvpn")
-                 || mServiceName.ToLower().Contains("ndisip")
-                 || mServiceName.ToLower().Contains("sinforvnic"))
-                { continue; }
-
-
-                //bool mDHCPEnabled = (bool)mo["IPEnabled"];//是否开启了DHCP  
-                //string mCaption = mo["Caption"] as string;  
-                //string mMACAddress = mo["MACAddress"] as string; 
-                // foreach (IPAddress addr in mo["IPAddress"])
-                //{ if (addr.AddressFamily.ToString() == "InterNetwork")
-
-                string[] mIPAddress = mo["IPAddress"] as string[];
-                // }
-                //string[] mIPSubnet = mo["IPSubnet"] as string[];  
-                //string[] mDefaultIPGateway = mo["DefaultIPGateway"] as string[];  
-                //string[] mDNSServerSearchOrder = mo["DNSServerSearchOrder"] as string[];  
-
-                //Console.WriteLine(mDHCPEnabled);  
-                //Console.WriteLine(mCaption);  
-                //Console.WriteLine(mMACAddress);  
-                //PrintArray(mIPAddress);  
-                //PrintArray(mIPSubnet);  
-                //PrintArray(mDefaultIPGateway);  
-                //PrintArray(mDNSServerSearchOrder);  
-
-                if (mIPAddress != null)
-                {
-
-                    foreach (string ip in mIPAddress)
-                    {
-
-                        if (ip != "0.0.0.0")
-                        {
-                            //iniFileReader.WriteValue("Login", "IpAddress", ip);
-                            ServerIp = ip;
-                            MessageBox.Show(ServerIp);
-                            break;
-                        }
-                    }
-                }
-                mo.Dispose();
-            }
-        }
-    
 
 
 
@@ -98,7 +48,8 @@ namespace Pre_stressSystem
         {
             String date = System.DateTime.Now.ToString("yyyy.MM.dd ");
             String time = DateTime.Now.ToLongTimeString();
-            user_name.Text = date + time + " " + "当前用户为：" + GlobalVariable.userName;
+            user_name.Text = GlobalVariable.userName;
+            date_time.Text = date + time;
         }
         private void LaunchTimer()
         {
@@ -115,7 +66,7 @@ namespace Pre_stressSystem
 
             ////clear Global data 
             //GlobalVariable.clearData();
-           
+
             ////close database connection
             //connecttoMysql.clearData();
 
@@ -130,7 +81,7 @@ namespace Pre_stressSystem
         private void logout_MouseEnter(object sender, MouseEventArgs e)
         {
             Logout.Background = new SolidColorBrush(Color.FromRgb(255, 100, 0));
-           
+
         }
 
         private void logout_MouseLeave(object sender, MouseEventArgs e)
@@ -139,29 +90,23 @@ namespace Pre_stressSystem
             //Logout.Opacity = 1;
         }
 
-        
 
-        //private void ShowDetect()
-        //{
-        //    if (dp == null)
-        //    {
-        //        dp = new detectPage();
-        //        this.function_frame.Content = dp;
-        //    }
-        //    else this.function_frame.Content = dp;
-        //}
         private void homePage_Click(object sender, RoutedEventArgs e) {
             this.function_frame.Content = null;
+            this.bg2.Visibility = Visibility.Visible;
+            this.weather_p.Visibility = Visibility.Visible;
         }
 
         private void dectct_Click(object sender, RoutedEventArgs e)
         {
-            if(dp==null)
+            if (dp == null)
             {
-                 dp= new detectPage();
-                 this.function_frame.Content = dp;
+                dp = new detectPage();
+                this.function_frame.Content = dp;
             }
             else this.function_frame.Content = dp;
+            this.bg2.Visibility = Visibility.Collapsed;
+            this.weather_p.Visibility = Visibility.Collapsed;
 
 
         }
@@ -174,6 +119,8 @@ namespace Pre_stressSystem
                 this.function_frame.Content = sp;
             }
             else this.function_frame.Content = sp;
+            this.bg2.Visibility = Visibility.Collapsed;
+            this.weather_p.Visibility = Visibility.Collapsed;
         }
 
         private void sensor_history_Click(object sender, RoutedEventArgs e)
@@ -184,6 +131,8 @@ namespace Pre_stressSystem
                 this.function_frame.Content = shp;
             }
             else this.function_frame.Content = shp;
+            this.bg2.Visibility = Visibility.Collapsed;
+            this.weather_p.Visibility = Visibility.Collapsed;
         }
 
         private void line_history_Click(object sender, RoutedEventArgs e)
@@ -194,6 +143,8 @@ namespace Pre_stressSystem
                 this.function_frame.Content = lhp;
             }
             else this.function_frame.Content = lhp;
+            this.bg2.Visibility = Visibility.Collapsed;
+            this.weather_p.Visibility = Visibility.Collapsed;
         }
 
         private void user_managment_Click(object sender, RoutedEventArgs e)
@@ -204,21 +155,14 @@ namespace Pre_stressSystem
                 this.function_frame.Content = up;
             }
             else this.function_frame.Content = up;
+            this.bg2.Visibility = Visibility.Collapsed;
+            this.weather_p.Visibility = Visibility.Collapsed;
         }
 
         private void func_hover(object sender, RoutedEventArgs e) {
-           // Mouse.
+            // Mouse.
         }
 
-        //    private void clearPages()
-        //    {
-
-        //     dp = null;
-        //     sp = null;
-        //     shp = null;
-        //     lhp = null;
-        //     up = null;
-        //}
         string savePath = Environment.CurrentDirectory + "\\" + GlobalVariable.userNumber.ToString() + ".jpg";
         private void setPortrait() {
             if (File.Exists(savePath))
@@ -232,7 +176,7 @@ namespace Pre_stressSystem
                     bitmap.StreamSource = ms;
                     bitmap.EndInit();
                     portrait.Background = new ImageBrush(bitmap);
-                    
+
                     // bitmap.Freeze();
                 }
 
@@ -241,6 +185,170 @@ namespace Pre_stressSystem
         }
 
 
+        private void setWeather(JObject jo)
+        {
+
+            string month = System.DateTime.Now.ToString("MM");
+            int i = 1;
+            if (this.weatherList == null)
+            {
+                this.weatherList = new ObservableCollection<WeatherInfo>();
+            }
+            else
+            {
+                this.weatherList.Clear();
+            }
+
+            if (jo["desc"].ToString() != "OK")
+            {
+                setTodayWeather(null,"error");
+            }
+            else {
+                foreach (var item in jo["data"]["forecast"])
+                {
+                    if (i == 1)
+                    {
+                        setTodayWeather(item,null);
+                    }
+                    else
+                    {
+                        var ls = new WeatherInfo();
+                        string temp_date = item["date"].ToString();
+                        int index = temp_date.IndexOf("日");
+                        ls.date = temp_date.Substring(0, index+1);
+                        ls.week = temp_date.Substring(index + 1, 3);
+                        ls.high = item["high"].ToString().Substring(2);
+                        ls.low = item["low"].ToString().Substring(2);
+                        ls.direction = item["fengxiang"].ToString();
+                        ls.type = item["type"].ToString();
+                        ls.lever = item["fengli"].ToString().Length == 0 ? "/" : getLever(item["fengli"].ToString());
+                        ls.icoPath = getIcoPath(item["type"].ToString());
+                        this.weatherList.Add(ls);
+                    }
+                    i++;
+                }
+            }
+            lstRes.ItemTemplate = (DataTemplate)this.FindResource("weatherTemplate");
+            lstRes.ItemsSource = this.weatherList;
+            extraProcess(jo);
+           
+        }
+        private void extraProcess(JObject jo)
+        {
+            string hour = DateTime.Now.ToString("HH");
+            this.tmp.Text = jo["data"]["wendu"].ToString();
+            this.tip.Text = jo["data"]["ganmao"].ToString();
+
+        }
+
+        private string getLever(string fengji) {
+            Regex re = new Regex(@"((\d+-)?\d+级)");
+            Match match = re.Match(fengji);
+            return match.Groups[1].ToString();
+
+        }
+
+        private string  getIcoPath(string type) {
+            string pre = "picture/weatherico/";
+            if (type.Contains("转")) {
+                int index = type.IndexOf("转");
+                type = type.Substring(index + 1);
+            }
+            switch (type)
+            {
+                case "晴": return pre+"晴.png";
+                case "多云": return pre + "多云.png";
+                case "阴": return pre + "阴天.png";
+                case "小雨": return pre + "小雨.png";
+                case "阵雨": return pre + "阵雨.png";
+                case "中雨": return pre + "中雨.png";
+                case "大雨": return pre + "大雨.png";
+                case "暴雨": return pre + "暴雨.png";
+                case "雷阵雨": return pre + "雷阵雨.png";
+                case "小雪": return pre + "小雪.png";
+                case "阵雪": return pre + "阵雪.png";
+                case "中雪": return pre + "中雪.png";
+                case "大雪": return pre + "大雪.png";
+                case "暴雪": return pre + "暴雪.png";
+                case "雨夹雪": return pre + "雨夹雪.png";
+                case "雷阵雨并伴有冰雹": return pre + "雷阵雨并伴有冰雹.png";
+                case "冰雹": return pre + "冰雹.png";
+                case "雾": return pre + "雾霾.png";
+                case "霾": return pre + "雾霾.png";
+                case "沙尘暴": return pre + "沙城暴.png";
+                default: return pre + "na.png";
+
+            }
+        }
+
+
+        private string getLocation()
+        {
+            string IPLocation_URI = "http://api.map.baidu.com/location/ip?ak=jeiS1mDguIqIp9TBdrWLMSotBYSSZnWZ&coor=bd09ll";
+            JObject jo = (JObject)JsonConvert.DeserializeObject(GetWebResponseString(IPLocation_URI, Encoding.UTF8, false));
+            if (jo["status"].ToString() != "0")
+            {
+                return "status_error";
+            }
+            else {
+                #region  根据经纬度获取的位置信息
+                //string lat = jo["content"]["point"]["y"].ToString(); //30.9299
+                //string lng = jo["content"]["point"]["x"].ToString(); //120.1234
+                //string Geocoding_URI = "http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location="+lat+","+lng+ "&output=json&pois=1&ak=jeiS1mDguIqIp9TBdrWLMSotBYSSZnWZ";
+                //string tmp = GetWebResponseString(Geocoding_URI, Encoding.UTF8);
+                //int startIndex = tmp.IndexOf("(");
+                //int endIndex = tmp.LastIndexOf(")");
+                //string result = tmp.Substring(startIndex + 1, endIndex - startIndex - 1);
+                //JObject jo2 = (JObject)JsonConvert.DeserializeObject(result);
+                //if (jo2["status"].ToString() != "0")
+                //{
+                //    return jo["content"]["address_detail"]["city"].ToString();  //无法精确得到县级以下位置，则返回市
+                //}
+                //else
+                //{
+                //    string formatted_address = jo2["result"]["formatted_address"].ToString();
+                //    return  formatted_address; 
+                //}
+                #endregion
+                if (jo["content"]["address_detail"]["district"].ToString() != "")
+                {
+                    return jo["content"]["address_detail"]["district"].ToString();
+                }
+                else
+                {
+                    return jo["content"]["address_detail"]["city"].ToString();
+                }
+
+            }
+        }
+
+        private string GetWebResponseString(string strUrl, Encoding encode, bool Decompress) {
+            Uri uri = new Uri(strUrl);
+            WebRequest webreq = WebRequest.Create(uri);
+            Stream s = Decompress ? new System.IO.Compression.GZipStream(webreq.GetResponse().GetResponseStream(), System.IO.Compression.CompressionMode.Decompress)
+                                 : webreq.GetResponse().GetResponseStream();
+            StreamReader sr = new StreamReader(s, encode);
+            string all = sr.ReadToEnd();         //读取网站返回的数据
+            return all;
+        }
+
+        private void setTodayWeather(JToken item,string status)
+        {
+            if (status == "error")
+            {
+
+            }
+            else
+            {
+                //var item = jo["data"]["forecast"].Next;
+                this.high.Text = item["high"].ToString().Substring(2);
+                this.low.Text = item["low"].ToString().Substring(2);
+                this.direction.Text = item["fengxiang"].ToString();
+                this.type.Text = item["type"].ToString();
+                this.lever.Text = item["fengli"].ToString().Length == 0 ? "/" : getLever(item["fengli"].ToString());
+                this.ico_today.Source = new BitmapImage(new Uri(getIcoPath(item["type"].ToString()), UriKind.RelativeOrAbsolute)); 
+            }
+        }
 
     }
 }

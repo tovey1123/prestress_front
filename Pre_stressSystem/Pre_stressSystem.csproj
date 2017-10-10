@@ -50,7 +50,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualC" />
-    <Reference Include="MySql.Data">
+    <Reference Include="MySql.Data, Version=5.2.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Windows\SysWOW64\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -74,10 +75,6 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="UIAutomationProvider" />
-    <Reference Include="WeatherReaderMVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\WeatherReaderMVC.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -92,6 +89,7 @@
     <Compile Include="class\InitFile.cs" />
     <Compile Include="class\MyConvert.cs" />
     <Compile Include="class\PicturePath.cs" />
+    <Compile Include="class\WeatherInfo.cs" />
     <Compile Include="detectPage.xaml.cs">
       <DependentUpon>detectPage.xaml</DependentUpon>
     </Compile>
@@ -112,6 +110,9 @@
     </Compile>
     <Compile Include="userPage.xaml.cs">
       <DependentUpon>userPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Weather_preview.xaml.cs">
+      <DependentUpon>Weather_preview.xaml</DependentUpon>
     </Compile>
     <Page Include="detectPage.xaml">
       <SubType>Designer</SubType>
@@ -165,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="userPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Weather_preview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -242,6 +247,38 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="picture\HeadIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="picture\weatherico\29.png" />
+    <Resource Include="picture\weatherico\30.png" />
+    <Resource Include="picture\weatherico\31.png" />
+    <Resource Include="picture\weatherico\32.png" />
+    <Resource Include="picture\weatherico\33.png" />
+    <Resource Include="picture\weatherico\34.png" />
+    <Resource Include="picture\weatherico\35.png" />
+    <Resource Include="picture\weatherico\36.png" />
+    <Resource Include="picture\weatherico\na.png" />
+    <Resource Include="picture\weatherico\中雨.png" />
+    <Resource Include="picture\weatherico\中雪.png" />
+    <Resource Include="picture\weatherico\冰雹.png" />
+    <Resource Include="picture\weatherico\多云.png" />
+    <Resource Include="picture\weatherico\大雨.png" />
+    <Resource Include="picture\weatherico\大雪.png" />
+    <Resource Include="picture\weatherico\小雨.png" />
+    <Resource Include="picture\weatherico\小雪.png" />
+    <Resource Include="picture\weatherico\晴.png" />
+    <Resource Include="picture\weatherico\暴雨.png" />
+    <Resource Include="picture\weatherico\暴雪.png" />
+    <Resource Include="picture\weatherico\沙尘暴.png" />
+    <Resource Include="picture\weatherico\阴天.png" />
+    <Resource Include="picture\weatherico\阵雪.png" />
+    <Resource Include="picture\weatherico\雨夹雪.png" />
+    <Resource Include="picture\weatherico\雷阵雨.png" />
+    <Resource Include="picture\weatherico\雷阵雨并伴有冰雹.png" />
+    <Resource Include="picture\weatherico\雾霾.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="picture\weatherico\阵雨.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,9 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Pre_stressSystem"
       mc:Ignorable="d" 
-      Title="detectPage" Background="#FFE7E8EC">
+      Title="detectPage" Background="#FFE7E8EC" Opacity="0.85">
     <Viewbox Stretch="Fill">
-        <Canvas Height="768" Width="1366" Opacity="0.925">
+        <Canvas Height="768" Width="1366" >
             <Canvas.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
