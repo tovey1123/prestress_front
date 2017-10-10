@@ -280,6 +280,21 @@
   <ItemGroup>
     <Resource Include="picture\weatherico\阵雨.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="picture\weatherico\blue.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="picture\weatherico\timg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="picture\weatherico\railway1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="picture\weatherico\railway2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="picture\weatherico\railway.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

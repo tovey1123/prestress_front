@@ -29,8 +29,11 @@
     </Page.Resources>
 
     <Viewbox Stretch="Fill">
-        <Canvas Height="768" Width="1366" Background="#FF0D59B4">
-
+        <Canvas Height="768" Width="1366">
+            <Canvas.Background>
+                <ImageBrush ImageSource="picture/weatherico/blue.jpg"/>
+            </Canvas.Background>
+            <TextBlock Name="date_time" Text="2017年10月15日 19:09:55" Foreground="White" FontSize="20" Canvas.Left="1116" Canvas.Top="3" FontStyle="Italic" Width="248"/>
 
             <!--<DockPanel  x:Name="toolBar2" Height="37" Width="1366" HorizontalAlignment="Right" Background="#FFFDF9F9" Opacity="0.9">
                 -->
@@ -76,8 +79,8 @@
                 <Border Name="Logout" Width="100" Height="30" Margin="25,167,25,534" CornerRadius="10" Background="Red">
                     <Label Content="注销登录" Foreground="#FFFDFDFD" FontSize="15" Margin="13,0,4,0" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave"/>
                 </Border>
-                <Border Name="homePage" Width="150" Height="55" Margin="0,219,0,457" BorderThickness="0,1,0,0.5" BorderBrush="White" MouseUp="homePage_Click" MouseEnter="func_hover" ForceCursor="True">
-                    <Label Content="首页" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+                <Border Name="homePage" Width="150" Height="55" Margin="0,219,0,457" BorderThickness="0,1,0,0.5" BorderBrush="White" MouseUp="homePage_Click" MouseEnter="func_hover" ForceCursor="True" Background="#FF546E58">
+                    <Label Content="首 页" Width="150" Height="55" Foreground="White" FontSize="20"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
                 </Border>
                 <Border Name="detect" Width="150" Height="55" Margin="0,274,0,402" BorderThickness="0,0.5" BorderBrush="White" MouseUp="dectct_Click">
                     <Label Content="预应力检测" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" />
@@ -95,16 +98,15 @@
                     <Label Content="用户管理" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
                 </Border>
             </Grid>
-            
-            <Grid Name="bg2"       Height="575" Canvas.Left="330" Canvas.Top="54" Width="822" Background="#FF084FCB" Opacity="0.5">
+            <Grid Name="bg2"       Height="575" Canvas.Left="398" Canvas.Top="54" Width="690" Background="#FF084FCB" Opacity="0.5">
             </Grid>
-            <Grid Name="weather_p" Height="575" Canvas.Left="330" Canvas.Top="54" Width="822" >
-                <Border BorderBrush="White" BorderThickness="0,0,0,2" HorizontalAlignment="Left" Height="125" VerticalAlignment="Top" Width="812">
+            <Grid Name="weather_p" Height="575" Canvas.Left="396" Canvas.Top="54" Width="690" >
+                <Border BorderBrush="White" BorderThickness="0,0,0,2" HorizontalAlignment="Left" Height="125" VerticalAlignment="Top" Width="690">
                     <Grid Name="top">
-                        <TextBlock Name="greet" Text="早上好" FontSize="35" Foreground="White" Margin="6,0,683,83" FontFamily="STXinwei"/>
-                        <TextBlock Name="user_name" Text="王志文" FontSize="35" Foreground="White" Margin="140,0,549,83" FontFamily="STXinwei"/>
-                        <TextBlock Name="welcome_word" Text="欢迎使用大型预应力预制件管理系统，现在是" Foreground="White" FontSize="23" Margin="80,58,272,33"/>
-                        <TextBlock Name="date_time" Text="2017-10-15 19:09:55" Foreground="White" FontSize="23" Margin="546,60,28,31"/>
+                        <TextBlock Name="greet" Text="凌晨好:" FontSize="30" Foreground="White" Margin="14,2,555,81" FontFamily="MingLiU_HKSCS"/>
+                        <TextBlock Name="user_name" Text="王志文" FontSize="35" Foreground="White" Margin="114,4,432,79" FontFamily="STXinwei"/>
+                        <Label Name="welcome_word" Content="欢迎使用大型预应力预制件管理系统" Foreground="White" FontSize="25" Margin="144,44,103,38"/>
+                        <TextBlock x:Name="city" Margin="636,96,-2,6" Foreground="White" FontSize="14" FontStyle="Oblique" ><Run Text="北京市"/></TextBlock>
                     </Grid>
 
                 </Border>
@@ -172,7 +174,7 @@
                         </Grid>
                     </ScrollViewer>
                 </DockPanel>
-                <Border BorderBrush="White" BorderThickness="0,2,0,0" HorizontalAlignment="Left" Height="110" Margin="0,465,0,0" VerticalAlignment="Top" Width="822">
+                <Border BorderBrush="White" BorderThickness="0,2,0,0" HorizontalAlignment="Left" Height="110" Margin="0,465,0,0" VerticalAlignment="Top" Width="690">
                     <TextBlock Name="tip" Text="温馨提示：" Foreground="#FFF4FF10" FontSize="30" FontFamily="KaiTi"  MaxWidth="822" TextWrapping="Wrap"/>
                 </Border>
 

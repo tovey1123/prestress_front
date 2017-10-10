@@ -5,15 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Pre_stressSystem"
       mc:Ignorable="d" 
-      Title="detectPage" Background="#FFE7E8EC" Opacity="0.85">
+      Title="detectPage">
     <Viewbox Stretch="Fill">
         <Canvas Height="768" Width="1366" >
-            <Canvas.Background>
+            <!--<Canvas.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
                     <GradientStop Color="#FFD3D1D1"/>
                 </LinearGradientBrush>
-            </Canvas.Background>
+            </Canvas.Background>-->
             <Label x:Name="detectPrestress" Content="预应力检测" Canvas.Left="559" Canvas.Top="26" Height="90" Width="289" FontSize="53"/>
             <Label x:Name="COM" Content="串口号:" Canvas.Left="112" Canvas.Top="211" Height="35" Width="66" FontSize="18"/>
             <ComboBox x:Name="COMList" Canvas.Left="185" Canvas.Top="216" Width="65" Height="20" >

@@ -30,6 +30,7 @@ namespace Pre_stressSystem
         public userPage up = null;
         private JObject weather = null;
         private ObservableCollection<WeatherInfo> weatherList = null;
+        int Selected = 1;
 
         public mainPage(JObject weatherJo)
         {
@@ -46,7 +47,7 @@ namespace Pre_stressSystem
 
         private void SetDateTime(object sender, EventArgs e)
         {
-            String date = System.DateTime.Now.ToString("yyyy.MM.dd ");
+            String date = System.DateTime.Now.ToString("yyyy年MM月dd日 ");
             String time = DateTime.Now.ToLongTimeString();
             user_name.Text = GlobalVariable.userName;
             date_time.Text = date + time;
@@ -95,6 +96,7 @@ namespace Pre_stressSystem
             this.function_frame.Content = null;
             this.bg2.Visibility = Visibility.Visible;
             this.weather_p.Visibility = Visibility.Visible;
+            select(1);
         }
 
         private void dectct_Click(object sender, RoutedEventArgs e)
@@ -107,7 +109,8 @@ namespace Pre_stressSystem
             else this.function_frame.Content = dp;
             this.bg2.Visibility = Visibility.Collapsed;
             this.weather_p.Visibility = Visibility.Collapsed;
-
+            // (sender as Border).Background = new SolidColorBrush(Colors.OrangeRed);
+            select(2);
 
         }
 
@@ -121,6 +124,7 @@ namespace Pre_stressSystem
             else this.function_frame.Content = sp;
             this.bg2.Visibility = Visibility.Collapsed;
             this.weather_p.Visibility = Visibility.Collapsed;
+            select(3);
         }
 
         private void sensor_history_Click(object sender, RoutedEventArgs e)
@@ -133,6 +137,7 @@ namespace Pre_stressSystem
             else this.function_frame.Content = shp;
             this.bg2.Visibility = Visibility.Collapsed;
             this.weather_p.Visibility = Visibility.Collapsed;
+            select(4);
         }
 
         private void line_history_Click(object sender, RoutedEventArgs e)
@@ -145,6 +150,7 @@ namespace Pre_stressSystem
             else this.function_frame.Content = lhp;
             this.bg2.Visibility = Visibility.Collapsed;
             this.weather_p.Visibility = Visibility.Collapsed;
+            select(5);
         }
 
         private void user_managment_Click(object sender, RoutedEventArgs e)
@@ -157,8 +163,61 @@ namespace Pre_stressSystem
             else this.function_frame.Content = up;
             this.bg2.Visibility = Visibility.Collapsed;
             this.weather_p.Visibility = Visibility.Collapsed;
+            select(6);
         }
 
+        private void select(int newSelected) {
+            if(newSelected != Selected)
+            {
+                switch (Selected)
+                {
+                    case 1:
+                        this.homePage.Background =null;
+                        break;
+                    case 2:
+                        this.detect.Background = null;
+                        break;
+                    case 3:
+                        this.sensor.Background = null;
+                        break;
+                    case 4:
+                        this.sensor_history.Background = null; 
+                        break;
+                    case 5:
+                        this.line_history.Background = null;
+                        break;
+                    case 6:
+                        this.user_management.Background = null;
+                        break;
+                }
+                switch (newSelected)
+                {
+                    case 1:
+                        this.homePage.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
+                        break;
+                    case 2:
+                        this.detect.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
+                        break;
+                    case 3:
+                        this.sensor.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
+                        break;
+                    case 4:
+                        this.sensor_history.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
+                        break;
+                    case 5:
+                        this.line_history.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
+                        break;
+                    case 6:
+                        this.user_management.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
+                        break;
+                }
+
+                Selected = newSelected;
+
+            }
+            
+
+        }
         private void func_hover(object sender, RoutedEventArgs e) {
             // Mouse.
         }
@@ -187,7 +246,7 @@ namespace Pre_stressSystem
 
         private void setWeather(JObject jo)
         {
-
+            this.city.TextDecorations = TextDecorations.Underline;
             string month = System.DateTime.Now.ToString("MM");
             int i = 1;
             if (this.weatherList == null)
@@ -235,11 +294,36 @@ namespace Pre_stressSystem
         }
         private void extraProcess(JObject jo)
         {
-            string hour = DateTime.Now.ToString("HH");
+            int hour = Convert.ToInt32(DateTime.Now.ToString("HH"));
+            if ( hour < 6)
+            {
+                this.greet.Text = "凌晨好:";
+            }
+            else if (hour >= 6 && hour < 9)
+            {
+                this.greet.Text = "早上好:";
+            }
+            else if (hour >= 9 && hour < 11)
+            {
+                this.greet.Text = "上午好:";
+            }
+            else if (hour >= 11 && hour < 14)
+            {
+                this.greet.Text = "中午好:";
+            }
+            else if (hour >= 14 && hour < 18)
+            {
+                this.greet.Text = "下午好:";
+            }
+            else if (hour >= 18 )
+            {
+                this.greet.Text = "晚上好:";
+            }
             this.tmp.Text = jo["data"]["wendu"].ToString();
-            this.tip.Text = jo["data"]["ganmao"].ToString();
-
+            this.tip.Text = "温馨提示："+jo["data"]["ganmao"].ToString();
+            this.city.Text = jo["data"]["city"].ToString();
         }
+        
 
         private string getLever(string fengji) {
             Regex re = new Regex(@"((\d+-)?\d+级)");
@@ -349,6 +433,7 @@ namespace Pre_stressSystem
                 this.ico_today.Source = new BitmapImage(new Uri(getIcoPath(item["type"].ToString()), UriKind.RelativeOrAbsolute)); 
             }
         }
+
 
     }
 }

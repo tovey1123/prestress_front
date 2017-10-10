@@ -8,7 +8,7 @@
       Title="sensorhistoryPage">
 
     <Viewbox Stretch="Fill">
-        <Canvas Height="768" Width="1366" Background="#FFEEB46F">
+        <Canvas Height="768" Width="1366" >
             <Label x:Name="label" Content="传感器数据查询" Canvas.Left="484" Canvas.Top="143" Height="90" Width="418" FontSize="53"/>
             <TextBox x:Name="textBox" Height="41" Canvas.Left="497" TextWrapping="Wrap" Canvas.Top="255" Width="329" FontSize="22"/>
         </Canvas>
