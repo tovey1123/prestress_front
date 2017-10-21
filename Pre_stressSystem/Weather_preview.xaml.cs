@@ -23,5 +23,15 @@ namespace Pre_stressSystem
         {
             InitializeComponent();
         }
+
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (sender as Grid).Background = new SolidColorBrush(Colors.LightBlue);
+        }
+
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            (sender as Grid).Background = new SolidColorBrush(Colors.White);
+        }
     }
 }

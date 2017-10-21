@@ -25,6 +25,22 @@
                 <TextBlock Name="lever" Text="3级"  Foreground="White" FontSize="13" FontFamily="Kartika" Margin="39,298,10,10" />
             </Grid>
         </Border>
-
+        <ListBox x:Name="listBox" Height="221" Canvas.Left="121" Canvas.Top="418" Width="205" Margin="230,63,65,216"/>
+        <Button x:Name="button" Content="001234/京沪线/正常/正常" HorizontalAlignment="Left" Margin="230,324,0,0" VerticalAlignment="Top" Width="205" Height="23"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="19" Margin="230,366,0,0" VerticalAlignment="Top" Width="205" Background="#FFA8A5A5"/>
+        <Border>
+            <Grid Name="gd" HorizontalAlignment="Left" Height="27"  VerticalAlignment="Top" Width="250" Background="White" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave"  >
+                <DockPanel >
+                    <Label Name="sensor_id" Content="ADSFGH" Height="22" Margin="10,0,0,0" />
+                    <Label  Content="/" Margin="-5,0"/>
+                    <Label Name="railway_name" Content="qwer"/>
+                    <Label  Content="/"  Margin="-5,0"/>
+                    <Label Name="stress_state" Content="正常" />
+                    <Label  Content="/"  Margin="-5,0"/>
+                    <Label Name="sensor_state" Content="正常" />
+                </DockPanel>
+            </Grid>
+        </Border>
+       
     </Grid>
 </Page>

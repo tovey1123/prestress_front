@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MySql.Data.MySqlClient;
 
 namespace Pre_stressSystem
@@ -11,9 +9,7 @@ namespace Pre_stressSystem
 
     {
         public static bool hasSearched = false;
-        public  static  Dictionary<int, KeyValuePair<string ,string>> input = new Dictionary<int, KeyValuePair<string, string>>();
-       // private static Dictionary<string, object>[] info;
-        public static Dictionary<string,object> userInfo = new Dictionary<string, object>();
+        public  static  Dictionary<int, KeyValuePair<string ,string>> input = new Dictionary<int, KeyValuePair<string, string>>();       
 
         public static MySqlConnection getMySqlCon()
         {
@@ -23,48 +19,65 @@ namespace Pre_stressSystem
             return mysql;
         }
 
-        public static void getLoginResult(MySqlCommand mySqlCommand)
+        public static void getLoginResult()
         {
-            clearData();           
+            clearData();
+            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            string order = "select * from user_tb";
+            MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);
             MySqlDataReader reader = mySqlCommand.ExecuteReader();
             
             try
             {
                 while (reader.Read()) //read by lows
                 {
-                    string id= reader.GetString(reader.GetOrdinal("employee_ID"));
-                    int number = reader.GetInt32(reader.GetOrdinal("employee_Number"));
+                    //test
+
+                    int a = reader.GetOrdinal("employee_name"); //1
+                    int g = reader.GetOrdinal("gender");//3
+                    int b = reader.Depth; //===0
+                    int c = reader.FieldCount; //11
+                    Type d= reader.GetFieldType(1); //string
+                    Type d2 = reader.GetFieldType(0);//Uint32
+                    Type d3 = reader.GetFieldType(3);//string
+                    string e = reader.GetName(1); //employee_id
+                    object f = reader.GetValue(1);//王志文 tovey ....
+                    Type ff = f.GetType();                   
+                    //end test
+
+                    string name= reader.GetString(reader.GetOrdinal("employee_name"));
+                    int id = reader.GetInt32(reader.GetOrdinal("employee_id"));
                     string pwd = reader.GetString(reader.GetOrdinal("employee_pwd"));
-                    KeyValuePair<string, string> namepwd = new KeyValuePair<string, string>(id,pwd);
-                    input.Add(number, namepwd);
+                    KeyValuePair<string, string> namepwd = new KeyValuePair<string, string>(name,pwd);
+                    input.Add(id, namepwd);
                 }
                 hasSearched = true;
             }
             catch (Exception e)
             {
-                MessageBox.Show("数据库查询失败！" + e.ToString());
+                MessageBox.Show("登陆失败！" + e.Message);
             }
             finally
             {
                 reader.Close();
+                mysql.Close();
             }
+            
         }
 
-        public static void getUserInfo(MySqlCommand mySqlCommand)
+        public static Dictionary<string, object> getUserInfo()
         {
-            clearData();
-            MySqlDataReader reader = mySqlCommand.ExecuteReader();
-
+            Dictionary<string, object> userInfo = new Dictionary<string, object>();
+            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            string order = "select * from user_tb where employee_id=" + GlobalVariable.userNumber.ToString();
+            MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);
             try
             {
+                MySqlDataReader reader = mySqlCommand.ExecuteReader();
                 while (reader.Read()) //read by lows
                 {
-                    int number = reader.GetInt32(reader.GetOrdinal("employee_Number"));
-                    //if (number!= GlobalVariable.userNumber)
-                    //{
-                    //    continue;
-                    //}
-                    string name = reader.GetString(reader.GetOrdinal("employee_ID"));             
+                    int number = reader.GetInt32(reader.GetOrdinal("employee_id"));
+                    string name = reader.GetString(reader.GetOrdinal("employee_name"));             
                     string pwd = reader.GetString(reader.GetOrdinal("employee_pwd"));
                     string gender = reader.IsDBNull(reader.GetOrdinal("gender")) ? null : reader.GetString(reader.GetOrdinal("gender"));
                     string phone = reader.IsDBNull(reader.GetOrdinal("phone")) ? null : reader.GetString(reader.GetOrdinal("phone"));
@@ -83,24 +96,122 @@ namespace Pre_stressSystem
                     userInfo.Add("Email", Email);
                     userInfo.Add("lever", lever);
                     userInfo.Add("address", address);
-                    break;
+                  //  break;
                 }
+                return userInfo;
 
             }
             catch (Exception e)
             {
-                MessageBox.Show("数据库查询失败！" + e.ToString());
+                MessageBox.Show("数据库查询失败！" + e.Message);
+                return null;
             }
             finally
             {
-                reader.Close();
+                
+                mysql.Close();
             }
         }
 
         public static void clearData()
         {
             input.Clear();
-            userInfo.Clear();
         }
+
+        public static List<Dictionary<string, object>> query(string order)
+        {
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            Dictionary<string, object> userInfo = new Dictionary<string, object>();
+            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);         
+            try
+            {
+                MySqlDataReader reader = mySqlCommand.ExecuteReader();
+                while (reader.Read()) //read by lows
+                {
+                    Dictionary<string, object> dic = new Dictionary<string, object>();
+                    int col = reader.FieldCount; //11
+                    for (int i = 0; i < col; i++)
+                    {
+                        dic.Add(reader.GetName(i), reader.GetValue(i));
+                    }
+                    list.Add(dic);
+                    dic = null;
+                }
+                return list ;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("访问数据库出错!"+e.Message);
+                return list;
+            }
+            finally
+            {
+                mysql.Close();
+
+            }
+            
+        }
+
+        public static bool insert(string order)
+        {
+            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            MySqlCommand SqlCommand= new MySqlCommand(order, mysql);
+            try
+            {
+                SqlCommand.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("插入数据失败！" + ex.Message);
+                return false;
+            }
+            finally
+            {
+                mysql.Close();
+            }
+        }
+
+        public static bool update(string order)
+        {
+            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            MySqlCommand SqlCommand = new MySqlCommand(order, mysql);
+            try
+            {
+                SqlCommand.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("更新数据失败！" + ex.Message);
+                return false;
+            }
+            finally
+            {
+                mysql.Close();
+            }
+        }
+
+        public static bool delete(string order)
+        {
+            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            MySqlCommand SqlCommand = new MySqlCommand(order, mysql);
+            try
+            {
+                SqlCommand.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("删除数据失败！" + ex.Message);
+                return false;
+            }
+            finally
+            {
+                mysql.Close();
+            }
+        }
+
     }
 }

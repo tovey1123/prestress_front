@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MySql.Data.MySqlClient;
 using System.Security.Cryptography;
 using System.Management;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Net;
 using System.IO;
+using System.Runtime.InteropServices;
 
 
 namespace Pre_stressSystem
@@ -28,7 +28,14 @@ namespace Pre_stressSystem
             this.m_parent = parent;
             InitializeComponent();
             this.textBox_username.Focus();
-            LoadIni();  //加载初始化信息--账号,密码,版本信息,并且提前获取天气信息
+            if (isConnected2Intnet())
+            {
+                LoadIni();  //加载初始化信息--账号,密码,版本信息,并且提前获取天气信息
+            }
+            else
+            {
+                MessageBox.Show("请检查网络");
+            }
 
         }
 
@@ -37,17 +44,8 @@ namespace Pre_stressSystem
         //login_click
         private void button_login_Click(object sender, RoutedEventArgs e)
         {
-            //if(!connecttoMysql.hasSearched)
 
-            #region connect to mysql
-
-                MySqlConnection mysql = connecttoMysql.getMySqlCon();
-                string order = "select * from user_tb";
-                MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);
-                connecttoMysql.getLoginResult(mySqlCommand);
-
-            #endregion
-            
+            connecttoMysql.getLoginResult();
 
             #region check login
 
@@ -57,7 +55,7 @@ namespace Pre_stressSystem
             }
             else
             {
-                if (!checknumber())
+                if (!checkID())
                 {
                     MessageBox.Show("用户名不存在！");
                 }
@@ -79,7 +77,6 @@ namespace Pre_stressSystem
             }
             #endregion
             connecttoMysql.input.Clear();
-            mysql.Close();
         }
 
         //press "Enter", the same as login_click
@@ -96,7 +93,7 @@ namespace Pre_stressSystem
 
  
         //检查工号是不是存在
-        private Boolean checknumber()
+        private Boolean checkID()
         {
             bool numberExist = false;
             
@@ -257,7 +254,7 @@ namespace Pre_stressSystem
                         {
                             //iniFileReader.WriteValue("Login", "IpAddress", ip);
                             ServerIp = ip;
-                            //MessageBox.Show(ServerIp);
+                            MessageBox.Show(ServerIp);
                             //getWeather(ServerIp);
                             break;
                         }
@@ -319,15 +316,36 @@ namespace Pre_stressSystem
 
         private string GetWebResponseString(string strUrl, Encoding encode, bool Decompress)
         {
-            Uri uri = new Uri(strUrl);
-            WebRequest webreq = WebRequest.Create(uri);
-            Stream s = Decompress ? new System.IO.Compression.GZipStream(webreq.GetResponse().GetResponseStream(), System.IO.Compression.CompressionMode.Decompress)
-                                 : webreq.GetResponse().GetResponseStream();
-            StreamReader sr = new StreamReader(s, encode);
-            string all = sr.ReadToEnd();         //读取网站返回的数据
-            return all;
+               Uri uri = new Uri(strUrl);
+               WebRequest webreq = WebRequest.Create(uri);
+               Stream s = Decompress ? new System.IO.Compression.GZipStream(webreq.GetResponse().GetResponseStream(), System.IO.Compression.CompressionMode.Decompress)
+                                     : webreq.GetResponse().GetResponseStream();
+               StreamReader sr = new StreamReader(s, encode);
+               string all = sr.ReadToEnd();         //读取网站返回的数据
+               return all;         
         }
 
+        [DllImport("wininet")]
+        private static extern bool InternetGetConnectedState(out int connectionDescription, int reservedValue);
+
+        private  bool isConnected2Intnet()
+        {
+            int i = 0;
+
+            if (InternetGetConnectedState(out i, 0))
+
+            {
+                //已联网
+                return true;
+            }
+            else
+
+            {
+                //未联网
+                return false;
+            }
+
+        }
 
     }
 }

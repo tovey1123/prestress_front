@@ -11,7 +11,7 @@ namespace Pre_stressSystem
     class GlobalVariable
 {
     static public String userName;
-    static public int? userNumber;   //可空值型int
+    static public int? userNumber;   //可空值型int ,工号：即ID
     static public Window g_mainWindow;
     static public Frame g_Framemain;
     static public string editPictureDone = "0";
@@ -22,7 +22,6 @@ namespace Pre_stressSystem
             userName = "";
             userNumber = null;
             sp.Close();
-
         }
     }
 }

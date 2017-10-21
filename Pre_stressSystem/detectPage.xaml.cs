@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.IO.Ports;
-using System.Threading;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Windows.Media;
 using System.Collections;
+using MySql.Data.MySqlClient;
 
 namespace Pre_stressSystem
 {
@@ -17,32 +18,32 @@ namespace Pre_stressSystem
     {
         private string[] ports;
         private bool spIsOpen = false;
-        private SerialPort sp = GlobalVariable.sp; 
-        delegate void HandleInterfaceUpdateDelagate(string[] text);//委托；此为重点
+        private SerialPort sp = GlobalVariable.sp;
+        delegate void HandleInterfaceUpdateDelagate(string text);//委托；此为重点
         HandleInterfaceUpdateDelagate interfaceUpdateHandle;
+        string rcv = null;
+        string stress_state = null;
+        double data_value;
+        string ID;
+
         public detectPage()
-        {          
+        {
             InitializeComponent();
             if (!GlobalVariable.hasHandle)
             {
                 sp.DataReceived += new SerialDataReceivedEventHandler(data_received);
                 GlobalVariable.hasHandle = true;
-           }
-            
+            }
+
         }
-        //private void init() {
-        //    sp.DataReceived += new SerialDataReceivedEventHandler(ComReceive);
-        //    Thread _ComRec = new Thread(new ThreadStart(ComRec)); //查询串口接收数据线程声明  
-        //    _ComRec.Start();//启动线程 
-        //}
 
         private void autoSelectCOM_Click(object sender, RoutedEventArgs e)
         {
-         
+
             ports = SerialPort.GetPortNames();
             if (ports.Length > 0)
             {
-                if (!COMList.Items.Contains(ports[ports.Length-1]))
+                if (!COMList.Items.Contains(ports[ports.Length - 1]))
                 {
                     COMList.Items.Add(ports[ports.Length - 1]);
                 }
@@ -56,12 +57,11 @@ namespace Pre_stressSystem
         private void setPortClosed()
         {
             spIsOpen = false;
-            btn_open_close.Content = "打开串口";
+            label_open_close.Content = "打开串口";
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void openCOM(object sender, RoutedEventArgs e)
         {
-           
 
             if (!spIsOpen)
             {
@@ -75,17 +75,17 @@ namespace Pre_stressSystem
                     sp.DataBits = 8;
                     sp.Open();
                     spIsOpen = true;
-                   
+
                 }
                 catch (Exception exception)
                 {
                     setPortClosed();
-                    MessageBox.Show("Error happened when open port:" + exception.Message);
+                    MessageBox.Show(exception.Message);
                     return;
                 }
-                btn_open_close.Content = "关闭串口";
+                label_open_close.Content = "关闭串口";
                 BaudRateList.IsEnabled = false;
-            }else
+            } else
             {
                 try
                 {
@@ -113,22 +113,25 @@ namespace Pre_stressSystem
             SerialPort serialPort1 = sender as SerialPort;
             try
             {
+                rcv = null;
                 int n = serialPort1.BytesToRead;//先记录下来，避免某种原因，人为的原因，操作几次之间时间长，缓存不一致  
                 byte[] buf = new byte[n];//声明一个临时数组存储当前来的串口数据  
                 //received_count += n;//增加接收计数  
                 serialPort1.Read(buf, 0, n);//读取缓冲数据  
                                             //因为要访问ui资源，所以需要使用invoke方式同步ui
-                String result = null;
-                String temp = null;
-                for (int i = 0; i < buf.Length; i++)
-                {
-                    temp = Convert.ToString(buf[i], 16).PadLeft(2, '0').ToUpper();
-                    result += temp;
-                }
+                string ascii = Encoding.ASCII.GetString(buf);
+                Regex re = new Regex(@"\u0002(\S+)\r\n\u0003");
+                Match match = re.Match(ascii);
+                rcv = match.Groups[1].ToString() == "" ? ascii : match.Groups[1].ToString();
+
+                // foreach (char x in ascii) {
+                //     data += Convert.ToString(Convert.ToInt32(x), 16).PadLeft(2, '0').ToUpper(); ;
+                //}
+
                 interfaceUpdateHandle = new HandleInterfaceUpdateDelagate(UpdateTextBox);//实例化委托对象
-               // Dispatcher.Invoke(interfaceUpdateHandle, result);
-                String[] param = { Encoding.ASCII.GetString(buf), result };
-                Dispatcher.Invoke(interfaceUpdateHandle, new string[][] { param });
+                Dispatcher.Invoke(interfaceUpdateHandle, ascii);
+                //String param =  data ;
+                //Dispatcher.Invoke(interfaceUpdateHandle, new string[] { param });
             }
             catch (Exception e2)
             {
@@ -142,7 +145,7 @@ namespace Pre_stressSystem
         //    //同步阻塞接收数据线程
         //    Thread threadReceive = new Thread(new ParameterizedThreadStart(SynReceiveData));
         //    threadReceive.Start(serialPort);
-           
+
 
         //    //也可用异步接收数据线程
         //    //Thread threadReceiveSub = new Thread(new ParameterizedThreadStart(AsyReceiveData));
@@ -160,7 +163,7 @@ namespace Pre_stressSystem
         //同步阻塞读取
         //private void SynReceiveData(object serialPortobj)
         //{
-           
+
         //    SerialPort serialPort = (SerialPort)serialPortobj;
         //    System.Threading.Thread.Sleep(0);
         //    serialPort.ReadTimeout = 6000;
@@ -186,9 +189,10 @@ namespace Pre_stressSystem
 
         //}
 
-        private void UpdateTextBox(string[] text)
+        private void UpdateTextBox(string text)
         {
-            txtReceive.Text = "ASCII码:\n"+ text[0]+"\n"+"十六进制:\n" + text[1];
+            //txtReceive.Text = "ASCII码:\n"+ text[0]+"\n"+"十六进制:\n" + text[1];
+            txtReceive.Text = text;
         }
 
         //异步读取
@@ -208,7 +212,7 @@ namespace Pre_stressSystem
                     result += Convert.ToString(buf[1], 16);
                 }
                 interfaceUpdateHandle = new HandleInterfaceUpdateDelagate(UpdateTextBox);//实例化委托对象
-                Dispatcher.Invoke(interfaceUpdateHandle,result);
+                Dispatcher.Invoke(interfaceUpdateHandle, result);
             }
             catch (Exception e)
             {
@@ -223,27 +227,98 @@ namespace Pre_stressSystem
             txtReceive.Text = "";
         }
 
-        private void btn_analysis_Click(object sender, RoutedEventArgs e)
+        private void bd_analysis_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        { if (rcv == null) {
+            }
+            else if (rcv.Length != 10)
+            {
+                MessageBox.Show("数据格式不正确");
+            }
+            else
+            {
+
+                ID = this.txt_ID.Text = rcv.Substring(0, 6);
+                string data = this.txt_data.Text = rcv.Substring(6, 4);
+                string order = "select * from sensor_tb where sensor_id='" + ID + "'";
+
+                List<Dictionary<string, object>> ls = connecttoMysql.query(order);
+                if (ls.Count == 0)
+                {
+                    MessageBox.Show("没有相应的传感器ID记录，请检查数据", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                Dictionary<string, object> dic = ls[0];
+                this.txt_railway.Text = dic["railway_name"].ToString();
+                this.txt_location.Text = dic["sensor_location"].ToString();
+                string param = this.txt_param.Text = dic["conver_radio"].ToString();
+                this.sensor_status.Text = dic["sensor_state"].ToString();
+                data_value = calc(data, param);
+                this.txt_prestress.Text = data_value.ToString("0.0")+" kN";
+                if (data_value <= 120 && data_value >= 100)
+                {
+                    stress_state = this.stress_status.Text = "正常";
+                }
+                else if (data_value < 100 && data_value >= 85)
+                {
+                    stress_state = this.stress_status.Text = "偏小";
+                    stress_status.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else if (data_value < 120 && data_value >= 140)
+                {
+                    stress_state = this.stress_status.Text = "偏大";
+                    stress_status.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    stress_state = this.stress_status.Text = "失效";
+                    stress_status.Foreground = new SolidColorBrush(Colors.Red);
+                }
+            }
+        }
+
+        //计算预应力值，暂时以最简单的线性关系实现
+        private double calc(string data, string param)
         {
-           Boolean validity= checkValidity();
-        }
-        private Boolean checkValidity() {
-            String rcv = txtReceive.Text;
-            if (rcv == null || rcv == "")
-            {
-                return false;
-            }
-            if(rcv.Length != 112)
-            {
-                return false;
-            }
-            String Sensor_ID = rcv.Substring(9, 48);
-          //  String Sensor_ID = rcv.Substring(9, 48);
-
-
-            return true;
+            int data_10 = Convert.ToInt32(data, 16);
+            return data_10* Convert.ToDouble(param)/1000;  
         }
 
+
+        private void bd_save_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            //string insert_order = "insert into sensor_data_tb (data_value,sensor_id,user_id,date) values("+data_value+",'"+ID+"',"+GlobalVariable.userNumber+",'"+ DateTime.Now.ToString("yyyy-MM-dd") +"')";
+            string insert_order = string.Format("insert into sensor_data_tb (data_value,sensor_id,user_id,date) values({0},'{1}',{2},'{3}')",data_value, ID, GlobalVariable.userNumber, DateTime.Now.ToString("yyyy-MM-dd"));
+            bool re = connecttoMysql.insert(insert_order);
+            //string update_order = "update sensor_tb set stress_stat = '" + stress_state +"',stress_recent=" + data_value+" where sensor_id = '" + ID+"'";
+            string update_order = string.Format("update sensor_tb set stress_state = '{0}',stress_recent = {1} where sensor_id = '{2}'",stress_state,data_value,ID);
+            bool  re2= connecttoMysql.update(update_order);
+            if (re && re2)
+            {
+                MessageBox.Show("数据保存成功");
+                txt_ID.Text = "";
+                txt_data.Text = "";
+                txt_location.Text = "";
+                txt_param.Text = "";
+                txt_prestress.Text = "";
+                txt_railway.Text = "";
+                sensor_status.Text = "";
+                stress_status.Text = "";
+            }
+        }
+
+        #region 按钮的进入退出效果
+        private void btn_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+            (sender as Border).Opacity = 1;
+        }
+        private void btn_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            (sender as Border).Opacity = 0.8;
+        }
+
+
+        #endregion
 
         //-------------------------------------------------------------------------------------------------------------------------------
         //public bool ReceiveCompleted { get; set; }

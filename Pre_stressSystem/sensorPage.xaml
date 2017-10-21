@@ -1,16 +1,179 @@
-﻿<Page x:Class="Pre_stressSystem.sensorPage"
+﻿<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Pre_stressSystem"
+      xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Pre_stressSystem.sensorPage"
       mc:Ignorable="d" 
       Title="sensorPage">
+    <Page.Resources>
+        <DataTemplate x:Key="sensorTemplate">
+            <Border BorderBrush="Black" BorderThickness="1,0,0,1">
+                <Grid Name="gd" HorizontalAlignment="Left" Height="27"  VerticalAlignment="Top" Width="250" Background="White" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseUp="Grid_MouseUp" >
+                    <DockPanel Margin="10,0,0,0" >
+                        <Label Name="sensor_id" Content="{Binding Path=sensor_id}" />
+                        <Label  Content="/" Margin="-5,0"/>
+                        <Label Name="railway_name" Content="{Binding Path=railway_name}"/>
+                        <Label  Content="/"  Margin="-5,0"/>
+                        <Label Name="stress_state" Content="{Binding Path=stress_state}" />
+                        <Label  Content="/"  Margin="-5,0"/>
+                        <Label Name="sensor_state" Content="{Binding Path=sensor_state}" />
+                    </DockPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
+
 
     <Viewbox Stretch="Fill">
         <Canvas Height="768" Width="1366" >
-            <Label x:Name="label" Content="传感器管理" Canvas.Left="484" Canvas.Top="143" Height="90" Width="418" FontSize="53"/>
-            <TextBox x:Name="textBox" Height="41" Canvas.Left="497" TextWrapping="Wrap" Canvas.Top="255" Width="329" FontSize="22"/>
+            <Label x:Name="label" Content="传感器管理" Canvas.Left="550" Height="74" Width="308" FontSize="53" Canvas.Top="74" Foreground="White"/>
+            <Separator Height="10" Canvas.Left="264" Margin="0" Canvas.Top="418" Width="450" RenderTransformOrigin="0.5,0.5">
+                <Separator.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-90"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Separator.RenderTransform>
+            </Separator>
+
+            <Label x:Name="select_key" Content="查询条件:" Canvas.Left="129" Canvas.Top="260" Height="41" Width="120" FontSize="25"/>
+            <ComboBox x:Name="ComboBox_select_key" Canvas.Left="254" Canvas.Top="263" Width="120" Height="25" SelectedIndex="0" FontSize="16">
+                <System:String>传感器ID</System:String>
+                <System:String>线路名</System:String>
+                <System:String>传感器状态</System:String>
+                <System:String>预应力状态</System:String>
+            </ComboBox>
+            <Label x:Name="select_value" Content="查询内容:" Canvas.Left="129" Canvas.Top="300" Height="43" Width="110" FontSize="25
+"/>
+            <TextBox x:Name="txt_select_value" Height="25" Canvas.Left="254" TextWrapping="Wrap" Text="" Canvas.Top="310" Width="120" FontSize="15" TextAlignment="Center"/>
+            <Border x:Name="bd_query" BorderThickness="0" Height="35" Canvas.Left="143" Canvas.Top="347" Width="96"  MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" MouseUp="bd_query_MouseUp"  >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="查询" Margin="28,2,23,0" Height="30" VerticalAlignment="Top" FontSize="16" />
+            </Border>
+            <Border x:Name="bd_clear" BorderThickness="0" Height="35" Canvas.Left="281" Canvas.Top="347" Width="96"  MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" MouseUp="bd_clear_MouseUp" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="清空" Margin="27,2,24,0" Height="30" VerticalAlignment="Top" FontSize="16" />
+            </Border>
+            <Button x:Name="btn_list" Content="显示所有传感器" Canvas.Left="137" Canvas.Top="392" Width="250" Height="25" FontSize="18" Click="btn_list_Click" />
+            <Border Canvas.Left="137" Canvas.Top="453" BorderBrush="#FF6E6B6B" BorderThickness="1" >
+                <ScrollViewer x:Name="scroll"  VerticalScrollBarVisibility="Auto" Height="220" MaxHeight="220" MinHeight="220" Width="250"  >
+                    <ListBox Name="sensor_list"  Canvas.Left="121" Canvas.Top="418" Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding}" >
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="{x:Type ListBox}">
+                                <WrapPanel Orientation="Vertical" IsItemsHost="True" ScrollViewer.CanContentScroll="True" />
+                            </ControlTemplate>
+                        </ListBox.Template>
+
+                        <!-- 设置ListBoxItem样式 -->
+                        <ListBox.ItemContainerStyle >
+
+                            <Style TargetType="ListBoxItem">
+                                <!-- 设置控件模板 -->
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border Background="{TemplateBinding Background}" >
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+                                <!-- 设置触发器 -->
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </ScrollViewer>
+            </Border>
+            <Label x:Name="list" Content="传感器列表" Canvas.Left="130" Canvas.Top="416" FontSize="20" Width="119" Height="37"/>
+            <Label Content="(ID/线路/预应力状态/传感器状态)" Canvas.Top="420" Canvas.Left="236" FontSize="14"/>
+            <Separator Height="8" Canvas.Left="596" Margin="0" Canvas.Top="511" Width="746" RenderTransformOrigin="0.5,0.5">
+                <Separator.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-179.874"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Separator.RenderTransform>
+            </Separator>
+            <Label x:Name="sensor_manage" Content="传感器操作" Canvas.Left="500" Canvas.Top="497" FontSize="18"/>
+            <Border x:Name="add" BorderThickness="0" Height="42" Canvas.Left="695" Canvas.Top="568" Width="86"  MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" MouseUp="add_MouseUp" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="添加" Margin="24,6,20,0" Height="34" VerticalAlignment="Top" FontSize="15" />
+            </Border>
+            <Border x:Name="update" BorderThickness="0" Height="42" Canvas.Left="838" Canvas.Top="568" Width="86"  MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" MouseUp="update_MouseUp" IsEnabled="False" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="修改" Margin="22,4,22,0" Height="34" VerticalAlignment="Top" FontSize="15" />
+            </Border>
+            <Border x:Name="delete" BorderThickness="0" Height="42" Canvas.Left="976" Canvas.Top="568" Width="86"  MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" MouseUp="delete_MouseUp" IsEnabled="False" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="删除" Margin="22,6,22,0" Height="34" VerticalAlignment="Top" FontSize="15" />
+            </Border>
+            <Border x:Name="save" BorderThickness="0" Height="42" Canvas.Left="768" Canvas.Top="568" Width="86"  MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" MouseUp="save_MouseUp" Visibility="Collapsed" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="保存" Margin="22,6,22,0" Height="34" VerticalAlignment="Top" FontSize="15" />
+            </Border>
+            <Border x:Name="cancel" BorderThickness="0" Height="42" Canvas.Left="906" Canvas.Top="568" Width="86"  MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" MouseUp="cancel_MouseUp" Visibility="Collapsed" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="取消" Margin="22,6,22,0" Height="34" VerticalAlignment="Top" FontSize="15" />
+            </Border>
+            <Label x:Name="sensor_id" Content="传感器ID:" Canvas.Left="523" Canvas.Top="245" FontSize="21"/>
+            <TextBox x:Name="txt_sensor_id" TextWrapping="Wrap"  Canvas.Left="665" Canvas.Top="246" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <Label x:Name="railway_name" Content="线路名称:" Canvas.Left="799" Canvas.Top="246" FontSize="18"/>
+            <TextBox x:Name="txt_railway_name" TextWrapping="Wrap"  Canvas.Left="906" Canvas.Top="247" Height="27" Width="120" Foreground="Black" Background="White" FontSize="16" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <Label x:Name="sensor_location" Content="传感器位置:" Canvas.Left="1033" Canvas.Top="246" FontSize="18"/>
+            <TextBox x:Name="txt_sensor_location" TextWrapping="Wrap"  Canvas.Left="1145" Canvas.Top="247" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <Label x:Name="stress_init" Content="预应力初始值:" Canvas.Left="522" Canvas.Top="339" FontSize="16" Width="110"/>
+            <TextBox x:Name="txt_stress_init" TextWrapping="Wrap" Canvas.Left="665" Canvas.Top="340" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <Label x:Name="stress_recent" Content="预应力最新值:" Canvas.Left="790" Canvas.Top="342" FontSize="16" Width="110" />
+            <TextBox x:Name="txt_stress_recent" TextWrapping="Wrap"  Canvas.Left="906" Canvas.Top="343" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <Label x:Name="conver_radio" Content="转换系数:" Canvas.Left="1044" Canvas.Top="337" FontSize="21"/>
+            <TextBox x:Name="txt_conver_radio" TextWrapping="Wrap"  Canvas.Left="1147" Canvas.Top="342" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <Label x:Name="stress_status" Content="预应力状态:" Canvas.Left="522" Canvas.Top="430" FontSize="18"/>
+            <ComboBox x:Name="comboBox_stress_status" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Height="27" Canvas.Left="665" Canvas.Top="436" HorizontalContentAlignment="Center" FontSize="18" IsEnabled="False" >
+                <System:String>正常</System:String>
+                <System:String>偏大</System:String>
+                <System:String>偏小</System:String>
+                <System:String>失效</System:String>
+            </ComboBox>
+            <Label x:Name="sensor_status" Content="传感器状态:" Canvas.Left="790" Canvas.Top="434" FontSize="18"/>
+            <ComboBox x:Name="comboBox_sensor_status" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Height="27" Canvas.Left="906" Canvas.Top="436" HorizontalContentAlignment="Center" FontSize="18" IsEnabled="False">
+                <System:String>正常</System:String>
+                <System:String>失效</System:String>
+            </ComboBox>
+            <Label x:Name="gong" Content="共        条记录" Canvas.Left="295" Canvas.Top="678" FontSize="14"/>
+            <TextBlock x:Name="count" Canvas.Left="314" TextWrapping="Wrap" Text="" Canvas.Top="685" Width="30" TextAlignment="Center"/>
         </Canvas>
     </Viewbox>
 </Page>

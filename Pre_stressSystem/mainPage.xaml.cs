@@ -6,8 +6,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.IO;
-//using mshtml;
-using System.Management;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Net;
@@ -31,6 +29,9 @@ namespace Pre_stressSystem
         private JObject weather = null;
         private ObservableCollection<WeatherInfo> weatherList = null;
         int Selected = 1;
+        int today_high;
+        int today_low;
+        string today_type;
 
         public mainPage(JObject weatherJo)
         {
@@ -49,33 +50,20 @@ namespace Pre_stressSystem
         {
             String date = System.DateTime.Now.ToString("yyyy年MM月dd日 ");
             String time = DateTime.Now.ToLongTimeString();
-            user_name.Text = GlobalVariable.userName;
-            date_time.Text = date + time;
+            String info = "   接下来这里可以动态滚动公司的的通知、公告等";
+            date_time_info.Text = date + time +info;
         }
         private void LaunchTimer()
         {
             DispatcherTimer innerTimer = new DispatcherTimer(TimeSpan.FromSeconds(1.0),
-                    DispatcherPriority.Loaded, new EventHandler(this.SetDateTime), this.Dispatcher);
+            DispatcherPriority.Loaded, new EventHandler(this.SetDateTime), this.Dispatcher);
             innerTimer.Start();
         }
         private void logout_MouseUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Forms.Application.Restart();
             Application.Current.Shutdown();
-            ////clear frame
-            //this.function_frame.Content = null;
 
-            ////clear Global data 
-            //GlobalVariable.clearData();
-
-            ////close database connection
-            //connecttoMysql.clearData();
-
-            ////clear all pages
-            ////clearPages();
-
-            ////jump to loginpage
-            //this.NavigationService.Navigate(new loginPage(GlobalVariable.g_Framemain));
         }
 
 
@@ -109,7 +97,6 @@ namespace Pre_stressSystem
             else this.function_frame.Content = dp;
             this.bg2.Visibility = Visibility.Collapsed;
             this.weather_p.Visibility = Visibility.Collapsed;
-            // (sender as Border).Background = new SolidColorBrush(Colors.OrangeRed);
             select(2);
 
         }
@@ -218,12 +205,11 @@ namespace Pre_stressSystem
             
 
         }
-        private void func_hover(object sender, RoutedEventArgs e) {
-            // Mouse.
-        }
+
 
         string savePath = Environment.CurrentDirectory + "\\" + GlobalVariable.userNumber.ToString() + ".jpg";
         private void setPortrait() {
+            user_name.Text = GlobalVariable.userName;
             if (File.Exists(savePath))
             {
                 //image.Source = new BitmapImage(new Uri(savePath, UriKind.RelativeOrAbsolute));
@@ -235,7 +221,6 @@ namespace Pre_stressSystem
                     bitmap.StreamSource = ms;
                     bitmap.EndInit();
                     portrait.Background = new ImageBrush(bitmap);
-
                     // bitmap.Freeze();
                 }
 
@@ -246,52 +231,56 @@ namespace Pre_stressSystem
 
         private void setWeather(JObject jo)
         {
-            this.city.TextDecorations = TextDecorations.Underline;
-            string month = System.DateTime.Now.ToString("MM");
-            int i = 1;
-            if (this.weatherList == null)
+            if (jo != null)
             {
-                this.weatherList = new ObservableCollection<WeatherInfo>();
-            }
-            else
-            {
-                this.weatherList.Clear();
-            }
-
-            if (jo["desc"].ToString() != "OK")
-            {
-                setTodayWeather(null,"error");
-            }
-            else {
-                foreach (var item in jo["data"]["forecast"])
+                this.city.TextDecorations = TextDecorations.Underline;
+                string month = System.DateTime.Now.ToString("MM");
+                int i = 1;
+                if (this.weatherList == null)
                 {
-                    if (i == 1)
-                    {
-                        setTodayWeather(item,null);
-                    }
-                    else
-                    {
-                        var ls = new WeatherInfo();
-                        string temp_date = item["date"].ToString();
-                        int index = temp_date.IndexOf("日");
-                        ls.date = temp_date.Substring(0, index+1);
-                        ls.week = temp_date.Substring(index + 1, 3);
-                        ls.high = item["high"].ToString().Substring(2);
-                        ls.low = item["low"].ToString().Substring(2);
-                        ls.direction = item["fengxiang"].ToString();
-                        ls.type = item["type"].ToString();
-                        ls.lever = item["fengli"].ToString().Length == 0 ? "/" : getLever(item["fengli"].ToString());
-                        ls.icoPath = getIcoPath(item["type"].ToString());
-                        this.weatherList.Add(ls);
-                    }
-                    i++;
+                    this.weatherList = new ObservableCollection<WeatherInfo>();
                 }
+                else
+                {
+                    this.weatherList.Clear();
+                }
+
+                if (jo["desc"].ToString() != "OK")
+                {
+                    setTodayWeather(null, "error");
+                }
+                else
+                {
+                    foreach (var item in jo["data"]["forecast"])
+                    {
+                        if (i == 1)
+                        {
+                            setTodayWeather(item, null);
+                        }
+                        else
+                        {
+                            var ls = new WeatherInfo();
+                            string temp_date = item["date"].ToString();
+                            int index = temp_date.IndexOf("日");
+                            ls.date = temp_date.Substring(0, index + 1);
+                            ls.week = temp_date.Substring(index + 1, 3);
+                            ls.high = item["high"].ToString().Substring(2);
+                            ls.low = item["low"].ToString().Substring(2);
+                            ls.direction = item["fengxiang"].ToString();
+                            ls.type = item["type"].ToString();
+                            ls.lever = item["fengli"].ToString().Length == 0 ? "/" : getLever(item["fengli"].ToString());
+                            ls.icoPath = getIcoPath(item["type"].ToString());
+                            this.weatherList.Add(ls);
+                        }
+                        i++;
+                    }
+                }
+                lstRes.ItemTemplate = (DataTemplate)this.FindResource("weatherTemplate");
+                lstRes.ItemsSource = this.weatherList;
+                extraProcess(jo);
             }
-            lstRes.ItemTemplate = (DataTemplate)this.FindResource("weatherTemplate");
-            lstRes.ItemsSource = this.weatherList;
-            extraProcess(jo);
-           
         }
+
         private void extraProcess(JObject jo)
         {
             int hour = Convert.ToInt32(DateTime.Now.ToString("HH"));
@@ -320,8 +309,74 @@ namespace Pre_stressSystem
                 this.greet.Text = "晚上好:";
             }
             this.tmp.Text = jo["data"]["wendu"].ToString();
-            this.tip.Text = "温馨提示："+jo["data"]["ganmao"].ToString();
+           
             this.city.Text = jo["data"]["city"].ToString();
+            if (today_type == "晴")
+            {
+                if (today_high >= 35)
+                {
+                    this.tip.Text = "温馨提示：天气炎热，室外作业请做好防晒、防暑降温工作。";
+                }
+                else if (today_high > 28 && today_high < 35)
+                {
+                    this.tip.Text = "温馨提示：中午时分天气较热，室外作业请做好防晒工作。";
+                }
+                else if(today_low<2)
+                {
+                    this.tip.Text = "温馨提示：天气寒冷，室外作业请做好保暖工作；正午时分依然注意防晒。";
+                }else
+                {
+                    this.tip.Text = "温馨提示：" + jo["data"]["ganmao"].ToString();
+                }
+                if(today_high - today_low >= 10)
+                {
+                    this.tip.Text += "昼夜温差较大，请及时增减衣物";
+                }
+
+            }
+            else if (today_type.Contains("雨") || today_type.Contains("雪") || today_type.Contains("冰雹"))
+            {
+                if (today_low < 2)
+                {
+                    this.tip.Text = "温馨提示：天气寒冷，室外作业请注意抗寒、防水、防滑。";
+                }
+                else if (today_low >= 2 && today_low <= 10)
+                {
+                    this.tip.Text = "温馨提示：近期有降水，且气温较低，室外作业请注意保暖防水。";
+                }
+                else
+                {
+                    this.tip.Text = "温馨提示：近期有降水，室外作业请备好雨具。";
+                    this.tip.Text += jo["data"]["ganmao"].ToString();
+                }
+                if (today_high - today_low >= 10)
+                {
+                    this.tip.Text += "昼夜温差较大，请及时增减衣物";
+                }
+            }
+            else if (today_type == "多云" || today_type == "阴")
+            {
+                if (today_high >= 35)
+                {
+                    this.tip.Text = "温馨提示：天气炎热，室外作业请做好防暑降温工作。";
+                }
+                else if (today_high > 28 && today_high < 35)
+                {
+                    this.tip.Text = "温馨提示：中午时分天气较热，室外作业请做好防晒工作。";
+                }
+                else if (today_low < 2)
+                {
+                    this.tip.Text = "温馨提示：天气寒冷，室外作业请做好保暖工作。";
+                }
+                else
+                {
+                    this.tip.Text = "温馨提示：" + jo["data"]["ganmao"].ToString();
+                }
+                if (today_high - today_low >= 10)
+                {
+                    this.tip.Text += "昼夜温差较大，请及时增减衣物";
+                }
+            }
         }
         
 
@@ -416,7 +471,7 @@ namespace Pre_stressSystem
             return all;
         }
 
-        private void setTodayWeather(JToken item,string status)
+        private void setTodayWeather(JToken item, string status)
         {
             if (status == "error")
             {
@@ -428,12 +483,13 @@ namespace Pre_stressSystem
                 this.high.Text = item["high"].ToString().Substring(2);
                 this.low.Text = item["low"].ToString().Substring(2);
                 this.direction.Text = item["fengxiang"].ToString();
-                this.type.Text = item["type"].ToString();
+                this.type.Text = today_type = item["type"].ToString();
                 this.lever.Text = item["fengli"].ToString().Length == 0 ? "/" : getLever(item["fengli"].ToString());
-                this.ico_today.Source = new BitmapImage(new Uri(getIcoPath(item["type"].ToString()), UriKind.RelativeOrAbsolute)); 
+                this.ico_today.Source = new BitmapImage(new Uri(getIcoPath(item["type"].ToString()), UriKind.RelativeOrAbsolute));
+                today_high = Convert.ToInt32(this.high.Text.Substring(0, this.high.Text.Length - 1));
+                today_low = Convert.ToInt32(this.low.Text.Substring(0, this.low.Text.Length - 1));
             }
         }
-
 
     }
 }

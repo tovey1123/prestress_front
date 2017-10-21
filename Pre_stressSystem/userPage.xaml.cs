@@ -59,11 +59,7 @@ namespace Pre_stressSystem
         Dictionary<string, object> userInfo = null;
         private void getUserInfo()
         {
-            MySqlConnection mysql = connecttoMysql.getMySqlCon();
-            string order = "select * from user_tb where employee_Number="+ GlobalVariable.userNumber.ToString();
-            MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);
-            connecttoMysql.getUserInfo(mySqlCommand);
-            userInfo = connecttoMysql.userInfo;
+            userInfo = connecttoMysql.getUserInfo();
         }
 
         private void showInfo()
@@ -105,8 +101,8 @@ namespace Pre_stressSystem
                         string department = (textBox_department.Text.Length == 0) ? "NULL" : "'" + textBox_department.Text + "'";
                         string address = (textBox_address.Text.Length == 0) ? "NULL" : "'" + textBox_address.Text + "'";
                         string lever = (textBox_lever.Text.Length == 0) ? "NULL" : "'" + textBox_lever.Text + "'";
-                        string order2 = "update user_tb  set employee_Number=" + number + "," 
-                        + "employee_ID=" +name + ","
+                        string order2 = "update user_tb  set employee_id=" + number + "," 
+                        + "employee_name=" +name + ","
                         + "gender="  + gender + "," 
                         +"phone="+ phone + "," 
                         +"birthday="+ birthday + "," 
@@ -114,7 +110,7 @@ namespace Pre_stressSystem
                         + "Email=" + email + ","
                         + "address=" + address + "," 
                         +"lever="+lever 
-                        + " where employee_Number="+ GlobalVariable.userNumber;
+                        + " where employee_id="+ GlobalVariable.userNumber;
                         MySqlCommand SqlCommandUpdate = new MySqlCommand(order2, mysql);
                         try
                         {

@@ -89,6 +89,7 @@
     <Compile Include="class\InitFile.cs" />
     <Compile Include="class\MyConvert.cs" />
     <Compile Include="class\PicturePath.cs" />
+    <Compile Include="class\SensorInfo.cs" />
     <Compile Include="class\WeatherInfo.cs" />
     <Compile Include="detectPage.xaml.cs">
       <DependentUpon>detectPage.xaml</DependentUpon>
@@ -199,6 +200,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="picture\button.png" />
     <Resource Include="picture\exit.png" />
   </ItemGroup>
   <ItemGroup>
@@ -281,19 +283,7 @@
     <Resource Include="picture\weatherico\阵雨.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="picture\weatherico\blue.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="picture\weatherico\timg.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="picture\weatherico\railway1.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="picture\weatherico\railway2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="picture\weatherico\railway.jpg" />
+    <Resource Include="picture\blue.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

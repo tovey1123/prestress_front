@@ -31,18 +31,28 @@
     <Viewbox Stretch="Fill">
         <Canvas Height="768" Width="1366">
             <Canvas.Background>
-                <ImageBrush ImageSource="picture/weatherico/blue.jpg"/>
+                <ImageBrush ImageSource="picture/blue.jpg"/>
             </Canvas.Background>
-            <TextBlock Name="date_time" Text="2017年10月15日 19:09:55" Foreground="White" FontSize="20" Canvas.Left="1116" Canvas.Top="3" FontStyle="Italic" Width="248"/>
+            <TextBlock Name="date_time_info" Text="2017年10月15日 19:09:55" Foreground="White" FontSize="20" Canvas.Left="1200" Canvas.Top="3" FontStyle="Italic" >
+                <TextBlock.RenderTransform>
+                    <TranslateTransform>
+                    </TranslateTransform>
+                </TextBlock.RenderTransform>
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Window.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever" FillBehavior="Stop">
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.X"
+                                                     From="0"  To="-1900" Duration="0:0:14" AutoReverse="False">                                    
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
 
-            <!--<DockPanel  x:Name="toolBar2" Height="37" Width="1366" HorizontalAlignment="Right" Background="#FFFDF9F9" Opacity="0.9">
-                -->
-            <!--<Button Name="dectct" Width="100" Height="35" BorderBrush="#FF151414" Content="预应力检测" FontSize="15" Margin="0,0,0,1" VerticalAlignment="Bottom"  Click="dectct_Click" />
-                <Button Name="sensor" Width="100" Height="35" BorderBrush="#FF151414" Content="传感器管理" FontSize="15" Margin="0,0,0,0" Click="sensor_Click" />
-                <Button Name="sensor_history" Width="115" Height="35" BorderBrush="#FF151414" Content="传感器数据查询" FontSize="15" Margin="0,0,0,0" Click="sensor_history_Click" />
-                <Button Name="line_history" Width="100" Height="35" BorderBrush="#FF151414" Content="线路数据查询" FontSize="15" Margin="0,0,0,0" Click="line_history_Click" />
-                <Button Name="user_managment" Width="100" Height="35" BorderBrush="#FF151414" Content="用户管理" FontSize="15" Margin="0,0,0,0" Click="user_managment_Click"/>-->
-            <!--<Image Name="logout" Source="picture/log-out.png" Margin="0,0,5,0" HorizontalAlignment="Right" DockPanel.Dock="Right" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave" Height="37" VerticalAlignment="Top" />-->
             <!--
                 <TextBlock Name="user_name" Margin="0,0,15,0" FontSize="18" FontFamily="KaiTi"  HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" Opacity="1">
                     <TextBlock.RenderTransform>
@@ -79,7 +89,7 @@
                 <Border Name="Logout" Width="100" Height="30" Margin="25,167,25,534" CornerRadius="10" Background="Red">
                     <Label Content="注销登录" Foreground="#FFFDFDFD" FontSize="15" Margin="13,0,4,0" MouseUp="logout_MouseUp" MouseEnter="logout_MouseEnter" MouseLeave="logout_MouseLeave"/>
                 </Border>
-                <Border Name="homePage" Width="150" Height="55" Margin="0,219,0,457" BorderThickness="0,1,0,0.5" BorderBrush="White" MouseUp="homePage_Click" MouseEnter="func_hover" ForceCursor="True" Background="#FF546E58">
+                <Border Name="homePage" Width="150" Height="55" Margin="0,219,0,457" BorderThickness="0,1,0,0.5" BorderBrush="White" MouseUp="homePage_Click"  ForceCursor="True" Background="#FF546E58">
                     <Label Content="首 页" Width="150" Height="55" Foreground="White" FontSize="20"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
                 </Border>
                 <Border Name="detect" Width="150" Height="55" Margin="0,274,0,402" BorderThickness="0,0.5" BorderBrush="White" MouseUp="dectct_Click">
@@ -98,20 +108,20 @@
                     <Label Content="用户管理" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
                 </Border>
             </Grid>
-            <Grid Name="bg2"       Height="575" Canvas.Left="398" Canvas.Top="54" Width="690" Background="#FF084FCB" Opacity="0.5">
+            <Grid Name="bg2"       Height="575" Canvas.Left="398" Canvas.Top="108" Width="690" Background="#FF084FCB" Opacity="0.5">
             </Grid>
-            <Grid Name="weather_p" Height="575" Canvas.Left="396" Canvas.Top="54" Width="690" >
+            <Grid Name="weather_p" Height="575" Canvas.Left="396" Canvas.Top="108" Width="690" >
                 <Border BorderBrush="White" BorderThickness="0,0,0,2" HorizontalAlignment="Left" Height="125" VerticalAlignment="Top" Width="690">
                     <Grid Name="top">
                         <TextBlock Name="greet" Text="凌晨好:" FontSize="30" Foreground="White" Margin="14,2,555,81" FontFamily="MingLiU_HKSCS"/>
-                        <TextBlock Name="user_name" Text="王志文" FontSize="35" Foreground="White" Margin="114,4,432,79" FontFamily="STXinwei"/>
+                        <TextBlock Name="user_name" Text="" FontSize="35" Foreground="White" Margin="114,4,432,79" FontFamily="STXinwei"/>
                         <Label Name="welcome_word" Content="欢迎使用大型预应力预制件管理系统" Foreground="White" FontSize="25" Margin="144,44,103,38"/>
                         <TextBlock x:Name="city" Margin="636,96,-2,6" Foreground="White" FontSize="14" FontStyle="Oblique" ><Run Text="北京市"/></TextBlock>
                     </Grid>
 
                 </Border>
                 <DockPanel HorizontalAlignment="Left" Height="340" LastChildFill="False" Margin="0,125,0,0" VerticalAlignment="Top" Width="822">
-                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" IsEnabled="False" Height="340">
+                    <ScrollViewer  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" IsEnabled="False" Height="340">
                         <Grid Name="forecast">
                             <WrapPanel HorizontalAlignment="Left">
                                 <Grid Name="today" Height="340" Width="200">

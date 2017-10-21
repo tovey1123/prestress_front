@@ -14,9 +14,9 @@
                     <GradientStop Color="#FFD3D1D1"/>
                 </LinearGradientBrush>
             </Canvas.Background>-->
-            <Label x:Name="detectPrestress" Content="预应力检测" Canvas.Left="559" Canvas.Top="26" Height="90" Width="289" FontSize="53"/>
-            <Label x:Name="COM" Content="串口号:" Canvas.Left="112" Canvas.Top="211" Height="35" Width="66" FontSize="18"/>
-            <ComboBox x:Name="COMList" Canvas.Left="185" Canvas.Top="216" Width="65" Height="20" >
+            <Label x:Name="detectPrestress" Content="预应力检测" Canvas.Left="550" Canvas.Top="74" Height="90" Width="289" FontSize="53" Foreground="White"/>
+            <Label x:Name="COM" Content="串口号:" Canvas.Left="129" Canvas.Top="260" Height="41" Width="90" FontSize="25"/>
+            <ComboBox x:Name="COMList" Canvas.Left="231" Canvas.Top="266" Width="120" Height="27" FontSize="14" >
                 <ComboBoxItem Content="COM1" IsSelected="True"/>
                 <ComboBoxItem Content="COM2"/>
                 <ComboBoxItem Content="COM3"/>
@@ -24,9 +24,9 @@
                 <ComboBoxItem Content="COM5"/>
                 <ComboBoxItem Content="COM6"/>
             </ComboBox>
-            <Button x:Name="autoSelectCOM" Content="自动检测" Canvas.Left="185" Canvas.Top="243" Width="65" Click="autoSelectCOM_Click" Height="20" FontSize="11.5"/>
-            <Label x:Name="BaudRate" Content="波特率:" Canvas.Left="112" Canvas.Top="267" FontSize="18" Width="66" Height="35"/>
-            <ComboBox x:Name="BaudRateList" Canvas.Left="185" Canvas.Top="274" Width="65" Height="20">
+            <Button x:Name="autoSelectCOM" Content="自动检测" Canvas.Left="231" Canvas.Top="301" Width="120" Click="autoSelectCOM_Click" Height="27" FontSize="14"/>
+            <Label x:Name="BaudRate" Content="波特率:" Canvas.Left="129" Canvas.Top="335" FontSize="25" Width="90" Height="41"/>
+            <ComboBox x:Name="BaudRateList" Canvas.Left="231" Canvas.Top="348" Width="120" Height="27" FontSize="14">
                 <ComboBoxItem Content="1200"/>
                 <ComboBoxItem Content="2400"/>
                 <ComboBoxItem Content="4800"/>
@@ -34,16 +34,14 @@
                 <ComboBoxItem Content="19200"/>
                 <ComboBoxItem Content="38400" IsSelected="True"/>
             </ComboBox>
-            <Label x:Name="DataBit" Content="数据位:" Canvas.Left="112" Canvas.Top="303" FontSize="18" Width="66" Height="35"/>
-            <ComboBox x:Name="DataBitList" Canvas.Left="185" Canvas.Top="310" Width="65" Height="20">
+            <Label x:Name="DataBit" Content="数据位:" Canvas.Left="129" Canvas.Top="385" FontSize="25" Width="90" Height="41"/>
+            <ComboBox x:Name="DataBitList" Canvas.Left="231" Canvas.Top="397" Width="120" Height="27" FontSize="16">
                 <ComboBoxItem Content="6"/>
                 <ComboBoxItem Content="7"/> >
                 <ComboBoxItem Content="8" IsSelected="True"/>
             </ComboBox>
-            <Button x:Name="btn_open_close" Content="打开串口" Canvas.Left="112" Canvas.Top="362" Width="75" Click="button_Click"/>
-            <Button x:Name="btn_clear" Content="清空数据" Width="75" Canvas.Left="195" Canvas.Top="362" Click="btn_clear_Click"/>
-            <TextBlock x:Name="txtReceive" Height="130" Canvas.Left="72"  Canvas.Top="391" Width="234" Background="#FFFFF7F7" FontSize="13" TextWrapping="Wrap" />
-            <Separator Height="10" Canvas.Left="122" Margin="0" Canvas.Top="330" Width="412" RenderTransformOrigin="0.5,0.5">
+            <TextBlock x:Name="txtReceive" Height="91" Canvas.Left="128"  Canvas.Top="527" Width="227" Background="#FFFFF7F7" FontSize="16" TextWrapping="Wrap" />
+            <Separator Height="10" Canvas.Left="264" Margin="0" Canvas.Top="418" Width="450" RenderTransformOrigin="0.5,0.5">
                 <Separator.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -53,22 +51,49 @@
                     </TransformGroup>
                 </Separator.RenderTransform>
             </Separator>
-            <Button x:Name="btn_analysis" Content="分析数据" Canvas.Left="704" Canvas.Top="480" Width="80" FontSize="14" FontFamily="KaiTi" Click="btn_analysis_Click"/>
-            <Button x:Name="btn_save" Content="保存数据" Canvas.Left="842" Canvas.Top="480" Width="80" FontSize="14" FontFamily="KaiTi"/>
-            <Label x:Name="sensor_ID" Content="传感器ID:" Canvas.Left="417" Canvas.Top="203" FontSize="20"/>
-            <TextBlock x:Name="txt_ID" TextWrapping="Wrap" Text="" Canvas.Left="537" Canvas.Top="205" Height="27" Width="140" Foreground="Black" Background="White"/>
-            <Label x:Name="sensor_data" Content="预应力数据:" Canvas.Left="417" Canvas.Top="303" FontSize="20"/>
-            <TextBlock x:Name="txt_data" TextWrapping="Wrap" Text="" Canvas.Left="537" Canvas.Top="305" Height="27" Width="140" Foreground="Black" Background="White"/>
-            <Label x:Name="sensor_param" Content="有效性:" Canvas.Left="1024" Canvas.Top="201" FontSize="20" Width="80"/>
-            <TextBlock x:Name="txt_isvalid" TextWrapping="Wrap" Text="" Canvas.Left="1120" Canvas.Top="205" Height="27" Width="140" Foreground="Black" Background="White"/>
-            <Label x:Name="location" Content="传感器位置:" Canvas.Left="714" Canvas.Top="201" FontSize="20"/>
-            <TextBlock x:Name="txt_location" TextWrapping="Wrap" Text="" Canvas.Left="849" Canvas.Top="205" Height="27" Width="140" Foreground="Black" Background="White"/>
-            <Label x:Name="param" Content="转换系数:" Canvas.Left="713" Canvas.Top="303" Width="96" FontSize="20"/>
-            <TextBlock x:Name="txt_param" TextWrapping="Wrap" Text="" Canvas.Left="847" Canvas.Top="305" Height="27" Width="140" Foreground="Black" Background="White"/>
-            <Label x:Name="prestress" Content="预应力值:" Canvas.Left="1021" Canvas.Top="303" Width="97" FontSize="20"/>
-            <TextBlock x:Name="txt_prestress" TextWrapping="Wrap" Text="" Canvas.Left="1120" Canvas.Top="305" Height="27" Width="140" Foreground="Black" Background="White"/>
-            <Label x:Name="status" Content="预应力状态:" Canvas.Left="420" Canvas.Top="387" FontSize="20"/>
-            <TextBlock x:Name="txt_status" TextWrapping="Wrap" Text="" Canvas.Left="538" Canvas.Top="391" Height="27" Width="140" Foreground="Black" Background="White"/>
+            <!--<Button x:Name="btn_analysis" Content="分析数据" Canvas.Left="722" Canvas.Top="528" Width="80" FontSize="14" FontFamily="KaiTi" Click="btn_analysis_Click"/>
+            <Button x:Name="btn_save" Content="保存数据" Canvas.Left="860" Canvas.Top="528" Width="80" FontSize="14" FontFamily="KaiTi"/>-->
+            <Label x:Name="sensor_id" Content="传感器ID:" Canvas.Left="523" Canvas.Top="245" FontSize="21"/>
+            <TextBlock x:Name="txt_ID" TextWrapping="Wrap" Text="" Canvas.Left="665" Canvas.Top="246" Height="27" Width="120" Foreground="Black" Background="White" FontSize="13" TextAlignment="Center"/>
+            <Label x:Name="railway_name" Content="线路名称:" Canvas.Left="799" Canvas.Top="246" FontSize="18"/>
+            <TextBlock x:Name="txt_railway" TextWrapping="Wrap" Text="" Canvas.Left="906" Canvas.Top="247" Height="27" Width="120" Foreground="Black" Background="White" FontSize="13" TextAlignment="Center"/>
+            <Label x:Name="sensor_data" Content="预应力数据:" Canvas.Left="522" Canvas.Top="339" FontSize="16" Width="110"/>
+            <TextBlock x:Name="txt_data" TextWrapping="Wrap" Text="" Canvas.Left="665" Canvas.Top="340" Height="27" Width="120" Foreground="Black" Background="White" FontSize="13" TextAlignment="Center"/>
+
+            <Label x:Name="sensor_location" Content="传感器位置:" Canvas.Left="1033" Canvas.Top="246" FontSize="18"/>
+            <TextBlock x:Name="txt_location" TextWrapping="Wrap" Text="" Canvas.Left="1145" Canvas.Top="247" Height="27" Width="120" Foreground="Black" Background="White" FontSize="13" TextAlignment="Center"/>
+            <Label x:Name="param" Content="转换系数:" Canvas.Left="802" Canvas.Top="340" FontSize="18" Width="95" />
+            <TextBlock x:Name="txt_param" TextWrapping="Wrap" Text="" Canvas.Left="906" Canvas.Top="345" Height="25" Width="120" Foreground="Black" Background="White" FontSize="15" TextAlignment="Center"/>
+            <Label x:Name="prestress" Content="预应力值:" Canvas.Left="1044" Canvas.Top="337" FontSize="21"/>
+            <TextBlock x:Name="txt_prestress" TextWrapping="Wrap" Text="" Canvas.Left="1147" Canvas.Top="342" Height="27" Width="120" Foreground="Black" Background="White" FontSize="13" TextAlignment="Center"/>
+            <Label x:Name="status" Content="预应力状态:" Canvas.Left="522" Canvas.Top="430" FontSize="18"/>
+            <TextBlock x:Name="stress_status" TextWrapping="Wrap" Text="" Width="120" Height="27" Canvas.Left="665" Canvas.Top="436"  Foreground="Black" Background="White" FontSize="15" TextAlignment="Center"/>
+            <Label x:Name="sensorstatus" Content="传感器状态:" Canvas.Left="790" Canvas.Top="434" FontSize="18"/>
+            <TextBlock x:Name="sensor_status" TextWrapping="Wrap" Text="" Width="120" Height="27" Canvas.Left="906" Canvas.Top="436" Foreground="Black" Background="White" TextAlignment="Center" FontSize="15"/>
+            <Border Name="bd_analysis" BorderThickness="0" Height="35" Canvas.Left="689" Canvas.Top="565" Width="96" MouseUp="bd_analysis_MouseUp" MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="分析数据" Margin="19,4,14,6" />
+            </Border>
+            <Border Name="bd_save" BorderThickness="0" Height="35" Canvas.Left="859" Canvas.Top="565" Width="96" Opacity="0.8" MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" MouseUp="bd_save_MouseUp" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="保存数据" Margin="20,4,0,6" HorizontalAlignment="Left" Width="68" />
+            </Border>
+            <Border x:Name="btn_open_close" BorderThickness="0" Height="35" Canvas.Left="133" Canvas.Top="453" Width="86" MouseUp="openCOM" MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Name="label_open_close" Content="打开串口" Margin="15,4,10,6" />
+            </Border>
+            <Border x:Name="bd_save_Copy" BorderThickness="0" Height="35" Canvas.Left="268" Canvas.Top="451" Width="87" Opacity="0.8" MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" MouseUp="btn_clear_Click" >
+                <Border.Background>
+                    <ImageBrush ImageSource="picture/button.png"/>
+                </Border.Background>
+                <Label Content="清空数据" Margin="14,4,0,6" HorizontalAlignment="Left" Width="68" />
+            </Border>
 
         </Canvas>
     </Viewbox>
