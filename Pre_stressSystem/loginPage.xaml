@@ -6,19 +6,22 @@
       xmlns:local="clr-namespace:Pre_stressSystem"
       mc:Ignorable="d" 
       Title="loginPage" KeyDown="page_KeyDown">
+    <Page.Background>
+        <ImageBrush ImageSource="picture/cover.png"/>
+    </Page.Background>
 
     <Viewbox Name="viewboxlogin" Stretch="Fill" >
         <Canvas Name="canvaslogin" Height="768" Width="1366" RenderTransformOrigin="0.488,0.599" >
-            <Canvas.Background>
-                <ImageBrush ImageSource="picture/cover.png"/>
-            </Canvas.Background>
+            <!--<Canvas.Background>
+                <ImageBrush ImageSource="/Pre_stressSystem;component/picture/cover.png"/>
+            </Canvas.Background>-->
             <Grid Height="294" Canvas.Left="540" Canvas.Top="352" Width="308" RenderTransformOrigin="0.497,0.648" IsHitTestVisible="True">
                 <Label x:Name="label_usrename" Content="用户：" Canvas.Left="548" Canvas.Top="452" Height="33" Width="79" BorderBrush="#FF0E0D0D" BorderThickness="0,0,0,0" FontSize="20" FontFamily="KaiTi" Margin="10,94,220,167"/>
                 <Label x:Name="label_password" Content="密码：" Canvas.Left="548" Canvas.Top="524" Height="33" Width="79" BorderBrush="#FF0E0D0D" BorderThickness="0,0,0,0" FontSize="20" FontFamily="KaiTi" Margin="10,145,220,116"/>
                 <TextBox x:Name="textBox_username" Height="24" Canvas.Left="56" TextWrapping="Wrap" Canvas.Top="464" Width="136" FontSize="19" FontFamily="Times New Roman" Margin="84,101,89,169"/>
                 <PasswordBox x:Name="passwordBox" Canvas.Left="656" Canvas.Top="34" Width="136" Height="24" Margin="84,149,89,121" FontSize="16" IsManipulationEnabled="True"/>
                 <Button x:Name="button_login" Content="登 陆" Canvas.Left="291" Canvas.Top="627" Width="104" Height="37" FontSize="19" Margin="83,204,122,53" Click="button_login_Click" Cursor="Hand"  />
-                <Label x:Name="label_regsit" Content="注册" Margin="206,207,51,55" FontSize="17" BorderThickness="0,0,0,1" BorderBrush="Black" MouseUp="label_regsit_MouseUp" Cursor="Hand" />
+                <Label x:Name="label_regsit" Content="注册" Margin="206,207,57,55" FontSize="17" BorderThickness="0,0,0,1" BorderBrush="Black" MouseUp="label_regsit_MouseUp" Cursor="Hand" Padding="5,5,5,0" VerticalContentAlignment="Bottom" />
                 <CheckBox x:Name="savePassword" Content="记住密码" Canvas.Left="772" Canvas.Top="614" Margin="229,156,-11,116"/>
             </Grid>
 

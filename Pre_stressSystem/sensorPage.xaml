@@ -3,7 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Pre_stressSystem"
+      xmlns:winforms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+      xmlns:local="clr-namespace:Pre_stressSystem"    
       xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Pre_stressSystem.sensorPage"
       mc:Ignorable="d" 
       Title="sensorPage">
@@ -149,17 +150,17 @@
                 <Label Content="取消" Margin="22,6,22,0" Height="34" VerticalAlignment="Top" FontSize="15" />
             </Border>
             <Label x:Name="sensor_id" Content="传感器ID:" Canvas.Left="523" Canvas.Top="245" FontSize="21"/>
-            <TextBox x:Name="txt_sensor_id" TextWrapping="Wrap"  Canvas.Left="665" Canvas.Top="246" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-            <Label x:Name="railway_name" Content="线路名称:" Canvas.Left="799" Canvas.Top="246" FontSize="18"/>
+            <TextBox x:Name="txt_sensor_id" TextWrapping="Wrap"  Canvas.Left="665" Canvas.Top="245" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <Label x:Name="railway_name" Content="线路名称:" Canvas.Left="799" Canvas.Top="245" FontSize="18"/>
             <TextBox x:Name="txt_railway_name" TextWrapping="Wrap"  Canvas.Left="906" Canvas.Top="247" Height="27" Width="120" Foreground="Black" Background="White" FontSize="16" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
-            <Label x:Name="sensor_location" Content="传感器位置:" Canvas.Left="1033" Canvas.Top="246" FontSize="18"/>
-            <TextBox x:Name="txt_sensor_location" TextWrapping="Wrap"  Canvas.Left="1145" Canvas.Top="247" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <Label x:Name="sensor_SN" Content="传感器编号:" Canvas.Left="1033" Canvas.Top="245" FontSize="18"/>
+            <TextBox x:Name="txt_SN" TextWrapping="Wrap"  Canvas.Left="1145" Canvas.Top="245" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <Label x:Name="stress_init" Content="预应力初始值:" Canvas.Left="522" Canvas.Top="339" FontSize="16" Width="110"/>
             <TextBox x:Name="txt_stress_init" TextWrapping="Wrap" Canvas.Left="665" Canvas.Top="340" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <Label x:Name="stress_recent" Content="预应力最新值:" Canvas.Left="790" Canvas.Top="342" FontSize="16" Width="110" />
             <TextBox x:Name="txt_stress_recent" TextWrapping="Wrap"  Canvas.Left="906" Canvas.Top="343" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <Label x:Name="conver_radio" Content="转换系数:" Canvas.Left="1044" Canvas.Top="337" FontSize="21"/>
-            <TextBox x:Name="txt_conver_radio" TextWrapping="Wrap"  Canvas.Left="1147" Canvas.Top="342" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+            <TextBox x:Name="txt_conver_radio" TextWrapping="Wrap"  Canvas.Left="1145" Canvas.Top="342" Height="27" Width="120" Foreground="Black" Background="White" FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <Label x:Name="stress_status" Content="预应力状态:" Canvas.Left="522" Canvas.Top="430" FontSize="18"/>
             <ComboBox x:Name="comboBox_stress_status" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Height="27" Canvas.Left="665" Canvas.Top="436" HorizontalContentAlignment="Center" FontSize="18" IsEnabled="False" >
                 <System:String>正常</System:String>
@@ -172,8 +173,18 @@
                 <System:String>正常</System:String>
                 <System:String>失效</System:String>
             </ComboBox>
+            <Label x:Name="sensor_location" Content="传感器位置:" Canvas.Left="1033" Canvas.Top="434" FontSize="18"/>
+            <TextBox x:Name="txt_sensor_location" TextWrapping="Wrap"  Canvas.Left="1145" Canvas.Top="434" Height="47" Width="120" Foreground="Black" Background="White" FontSize="18" VerticalContentAlignment="Center" IsReadOnly="True"/>
+
             <Label x:Name="gong" Content="共        条记录" Canvas.Left="295" Canvas.Top="678" FontSize="14"/>
             <TextBlock x:Name="count" Canvas.Left="314" TextWrapping="Wrap" Text="" Canvas.Top="685" Width="30" TextAlignment="Center"/>
+            <Label x:Name="baidu" Content="百度坐标拾取" Canvas.Left="1270" Canvas.Top="437" BorderThickness="0,0,0,1" BorderBrush="Black" FontStyle="Oblique" Cursor="Hand" MouseUp="baidu_MouseUp" Margin="0" Padding="5,5,5,0"/>
+            <Grid Name="grid_baidu" Height="735" Canvas.Left="39" Canvas.Top="23" Width="1204"  Visibility="Collapsed">
+                <WindowsFormsHost>
+                    <winforms:WebBrowser x:Name="myWeb" ScriptErrorsSuppressed="False"  Width="605"></winforms:WebBrowser>
+                </WindowsFormsHost>
+            </Grid>
+
         </Canvas>
     </Viewbox>
 </Page>

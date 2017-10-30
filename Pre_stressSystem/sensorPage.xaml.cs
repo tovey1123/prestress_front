@@ -4,6 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System;
+using System.Net;
+using System.Diagnostics;
+
 
 namespace Pre_stressSystem
 {
@@ -86,6 +90,7 @@ namespace Pre_stressSystem
                             si.conver_radio = dic["conver_radio"].ToString();
                             si.railway_name = dic["railway_name"].ToString();
                             si.sensor_location = dic["sensor_location"].ToString();
+                            si.sensor_SN = dic["sensor_SN"].ToString();
                             si.sensor_state = dic["sensor_state"].ToString();
                             si.stress_state = dic["stress_state"].ToString();
                             si.stress_init = dic["stress_init"].ToString();
@@ -121,7 +126,7 @@ namespace Pre_stressSystem
             }
             if (ls.Count == 0)
             {
-                MessageBox.Show("无传感器记录");
+                MessageBox.Show("数据库无传感器记录");
             }
             else
             {
@@ -133,6 +138,7 @@ namespace Pre_stressSystem
                     si.conver_radio = dic["conver_radio"].ToString();
                     si.railway_name = dic["railway_name"].ToString();
                     si.sensor_location = dic["sensor_location"].ToString();
+                    si.sensor_SN = dic["sensor_SN"].ToString();
                     si.sensor_state = dic["sensor_state"].ToString();
                     si.stress_state = dic["stress_state"].ToString();
                     si.stress_init = dic["stress_init"].ToString();
@@ -167,6 +173,7 @@ namespace Pre_stressSystem
                     this.txt_conver_radio.Text = dic["conver_radio"].ToString();
                     this.txt_railway_name.Text = dic["railway_name"].ToString();
                     this.txt_sensor_location.Text= dic["sensor_location"].ToString();
+                    this.txt_SN.Text = dic["sensor_SN"].ToString();
                     string sensor_status = this.comboBox_sensor_status.Text =  dic["sensor_state"].ToString();
                     //if (sensor_status != "正常")
                     //{
@@ -205,6 +212,7 @@ namespace Pre_stressSystem
             this.txt_railway_name.Text = null;
             this.txt_sensor_id.Text = null;
             this.txt_sensor_location.Text = null;
+            this.txt_SN.Text = null;
             this.txt_stress_init.Text = null;
             this.txt_stress_recent.Text = null;
             this.comboBox_sensor_status.Text = null;
@@ -217,6 +225,7 @@ namespace Pre_stressSystem
             this.txt_conver_radio.Text = null;
             this.txt_railway_name.Text = null;
             this.txt_sensor_id.Text = null;
+            this.txt_SN.Text = null;
             this.txt_sensor_location.Text = null;
             this.txt_stress_init.Text = null;
             this.txt_stress_recent.Text = null;
@@ -228,6 +237,7 @@ namespace Pre_stressSystem
             this.txt_conver_radio.IsReadOnly = false;
             this.txt_railway_name.IsReadOnly = false;
             this.txt_sensor_id.IsReadOnly = false;
+            this.txt_SN.IsReadOnly = false;
             this.txt_sensor_location.IsReadOnly = false;
             this.txt_stress_init.IsReadOnly = false;
             this.txt_stress_recent.IsReadOnly = false;
@@ -251,6 +261,7 @@ namespace Pre_stressSystem
             this.txt_conver_radio.IsReadOnly = false;
             this.txt_railway_name.IsReadOnly = false;
             this.txt_sensor_id.IsReadOnly = false;
+            this.txt_SN.IsReadOnly = false;
             this.txt_sensor_location.IsReadOnly = false;
             this.txt_stress_init.IsReadOnly = false;
             this.txt_stress_recent.IsReadOnly = false;
@@ -282,6 +293,7 @@ namespace Pre_stressSystem
                     this.txt_conver_radio.Text = null;
                     this.txt_railway_name.Text = null;
                     this.txt_sensor_id.Text = null;
+                    this.txt_SN.Text = null;
                     this.txt_sensor_location.Text = null;
                     this.txt_stress_init.Text = null;
                     this.txt_stress_recent.Text = null;
@@ -335,6 +347,7 @@ namespace Pre_stressSystem
                 string railway_name = this.txt_railway_name.Text;
                 string sensor_location = this.txt_sensor_location.Text;
                 string stress_init = this.txt_stress_init.Text;
+                string SN = this.txt_SN.Text;
                 string conver_radio = this.txt_conver_radio.Text;
                 string stress_recent = this.txt_stress_recent.Text.Length == 0 ? "NULL" : this.txt_stress_recent.Text;
                 string sensor_state = this.comboBox_sensor_status.Text.Length == 0 ? "NULL" : "'" + this.comboBox_sensor_status.Text + "'";
@@ -350,8 +363,8 @@ namespace Pre_stressSystem
                     }
                     else
                     {
-                        string order_insert = string.Format("insert into sensor_tb (sensor_id,conver_radio,railway_name,sensor_location,sensor_state,stress_state,stress_init,stress_recent) values( '{0}',{1},'{2}','{3}',{4},{5},{6},{7})",
-                       ID, conver_radio, railway_name, sensor_location, sensor_state, stress_state, stress_init, stress_recent);
+                        string order_insert = string.Format("insert into sensor_tb (sensor_id,conver_radio,railway_name,sensor_location,sensor_state,stress_state,stress_init,stress_recent,sensor_SN) values( '{0}',{1},'{2}','{3}',{4},{5},{6},{7},{8})",
+                       ID, conver_radio, railway_name, sensor_location, sensor_state, stress_state, stress_init, stress_recent,SN);
                         bool re = connecttoMysql.insert(order_insert);
                         if (re)
                         {
@@ -362,8 +375,8 @@ namespace Pre_stressSystem
                 }
                 else if (func == 2) //update
                 {
-                    string order_update = string.Format("update sensor_tb set conver_radio = {0},railway_name='{1}',sensor_location = '{2}',sensor_state = {3},stress_state={4},stress_init={5},stress_recent={6} where sensor_id = '{7}'"
-                        , conver_radio, railway_name, sensor_location, sensor_state, stress_state, stress_init, stress_recent,ID);
+                    string order_update = string.Format("update sensor_tb set conver_radio = {0},railway_name='{1}',sensor_location = '{2}',sensor_state = {3},stress_state={4},stress_init={5},stress_recent={6} ,sensor_SN={7} where sensor_id = '{8}'"
+                        , conver_radio, railway_name, sensor_location, sensor_state, stress_state, stress_init, stress_recent,SN,ID);
                     bool re = connecttoMysql.update(order_update);
                     if (re)
                     {
@@ -423,10 +436,10 @@ namespace Pre_stressSystem
             else if (this.txt_railway_name.Text == null || this.txt_railway_name.Text == "")
             {
                 MessageBox.Show("线路名称不能为空", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else if (this.txt_sensor_location.Text == null || this.txt_sensor_location.Text == "")
+            }         
+            else if (this.txt_SN.Text == null || this.txt_SN.Text == "")
             {
-                MessageBox.Show("传感器位置不能为空", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("传感器编号不能为空", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else if (this.txt_stress_init == null || this.txt_stress_init.Text == "")
             {
@@ -435,7 +448,12 @@ namespace Pre_stressSystem
             else if (this.txt_conver_radio == null)
             {
                 MessageBox.Show("转换系数不能为空", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }else
+            }
+            else if (this.txt_sensor_location.Text == null || this.txt_sensor_location.Text == "")
+            {
+                MessageBox.Show("传感器位置不能为空", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
             {
                 string ID = this.txt_sensor_id.Text;
                 string order_checkid = "select * from sensor_tb where sensor_id = '" + ID + "'";
@@ -450,12 +468,13 @@ namespace Pre_stressSystem
                     string sensor_location = this.txt_sensor_location.Text;
                     string stress_init = this.txt_stress_init.Text;
                     string conver_radio = this.txt_conver_radio.Text;
+                    string SN = this.txt_SN.Text;
                     string stress_recent = this.txt_stress_recent.Text.Length==0 ? "NULL" : this.txt_stress_recent.Text;
                     string sensor_state = this.comboBox_sensor_status.Text.Length==0 ? "NULL" : "'" + this.comboBox_sensor_status.Text+ "'";
                     string stress_state = this.comboBox_stress_status.Text.Length==0 ? "NULL" : "'" + this.comboBox_stress_status.Text+ "'" ;
 
-                    string order_insert = string.Format("insert into sensor_tb (sensor_id,conver_radio,railway_name,sensor_location,sensor_state,stress_state,stress_init,stress_recent) values( '{0}',{1},'{2}','{3}',{4},{5},{6},{7})",
-                        ID, conver_radio, railway_name, sensor_location, sensor_state, stress_state, stress_init, stress_recent);
+                    string order_insert = string.Format("insert into sensor_tb (sensor_id,conver_radio,railway_name,sensor_location,sensor_state,stress_state,stress_init,stress_recent，sensor_SN) values( '{0}',{1},'{2}','{3}',{4},{5},{6},{7},{8})",
+                        ID, conver_radio, railway_name, sensor_location, sensor_state, stress_state, stress_init, stress_recent,SN);
                     bool re = connecttoMysql.insert(order_insert);
                     if (re)
                     {
@@ -472,6 +491,7 @@ namespace Pre_stressSystem
             this.txt_conver_radio.IsReadOnly = true;
             this.txt_railway_name.IsReadOnly = true;
             this.txt_sensor_id.IsReadOnly = true;
+            this.txt_SN.IsReadOnly = true;
             this.txt_sensor_location.IsReadOnly = true;
             this.txt_stress_init.IsReadOnly = true;
             this.txt_stress_recent.IsReadOnly = true;
@@ -484,8 +504,35 @@ namespace Pre_stressSystem
             this.delete.Visibility = Visibility.Visible;
             this.save.Visibility = Visibility.Collapsed;
             this.cancel.Visibility = Visibility.Collapsed;
+
+            //
+            this.txt_conver_radio.Text = null;
+            this.txt_railway_name.Text = null;
+            this.txt_sensor_id.Text = null;
+            this.txt_SN.Text = null;
+            this.txt_sensor_location.Text = null;
+            this.txt_stress_init.Text = null;
+            this.txt_stress_recent.Text = null;
+            this.comboBox_sensor_status.Text = null;
+            this.comboBox_stress_status.Text = null;
+
         }
 
+        private void baidu_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            //百度坐标拾取api网址
+           // Uri uri = new Uri("http://api.map.baidu.com/lbsapi/getpoint/index.html");
+            //Uri uri = new Uri("https://www.baidu.com/");
+           // myWeb.Navigate(uri);
+            // WebPage mypage = new WebPage("https://www.baidu.com/");
+            // frame.Content = mypage;
+            Process ie = new Process();
+            ie.StartInfo.FileName = "IEXPLORE.EXE";
+            ie.StartInfo.Arguments = "http://api.map.baidu.com/lbsapi/getpoint/index.html";
+            ie.Start();
+
+
+        }
     }
    
 }

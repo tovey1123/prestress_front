@@ -4,6 +4,22 @@
              xmlns:local="clr-namespace:Pre_stressSystem"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="TextBlock">
+            <Setter Property="Visibility" Value="Visible">
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Text" Value="Visifire Trial Edition">
+                    <Trigger.Setters>
+                        <Setter Property="Visibility"  Value="Collapsed"></Setter>
+                    </Trigger.Setters>
+                </Trigger>
+                <Trigger Property="Text" Value="You are using the trial version">
+                    <Trigger.Setters>
+                        <Setter Property="TextBlock.Opacity"  Value="0"></Setter>
+                    </Trigger.Setters>
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

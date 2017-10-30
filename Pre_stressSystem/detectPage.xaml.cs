@@ -120,7 +120,7 @@ namespace Pre_stressSystem
                 serialPort1.Read(buf, 0, n);//读取缓冲数据  
                                             //因为要访问ui资源，所以需要使用invoke方式同步ui
                 string ascii = Encoding.ASCII.GetString(buf);
-                Regex re = new Regex(@"\u0002(\S+)\r\n\u0003");
+                Regex re = new Regex(@"\u0002(\S+)\r\n\u0003");   //正则匹配去掉开始结束标志
                 Match match = re.Match(ascii);
                 rcv = match.Groups[1].ToString() == "" ? ascii : match.Groups[1].ToString();
 
@@ -250,6 +250,7 @@ namespace Pre_stressSystem
                 Dictionary<string, object> dic = ls[0];
                 this.txt_railway.Text = dic["railway_name"].ToString();
                 this.txt_location.Text = dic["sensor_location"].ToString();
+                this.txt_SN.Text = dic["sensor_SN"].ToString();
                 string param = this.txt_param.Text = dic["conver_radio"].ToString();
                 this.sensor_status.Text = dic["sensor_state"].ToString();
                 data_value = calc(data, param);
@@ -286,6 +287,8 @@ namespace Pre_stressSystem
 
         private void bd_save_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if(rcv != null)
+            {
             //string insert_order = "insert into sensor_data_tb (data_value,sensor_id,user_id,date) values("+data_value+",'"+ID+"',"+GlobalVariable.userNumber+",'"+ DateTime.Now.ToString("yyyy-MM-dd") +"')";
             string insert_order = string.Format("insert into sensor_data_tb (data_value,sensor_id,user_id,date) values({0},'{1}',{2},'{3}')",data_value, ID, GlobalVariable.userNumber, DateTime.Now.ToString("yyyy-MM-dd"));
             bool re = connecttoMysql.insert(insert_order);
@@ -295,14 +298,18 @@ namespace Pre_stressSystem
             if (re && re2)
             {
                 MessageBox.Show("数据保存成功");
-                txt_ID.Text = "";
-                txt_data.Text = "";
-                txt_location.Text = "";
-                txt_param.Text = "";
-                txt_prestress.Text = "";
-                txt_railway.Text = "";
-                sensor_status.Text = "";
-                stress_status.Text = "";
+                this.txt_ID.Text = null;
+                this.txt_data.Text = null;
+                this.txt_location.Text = null;
+                this.txt_SN.Text = null;
+                this.txt_param.Text = null;
+                this.txt_prestress.Text = null;
+                this.txt_railway.Text = null;
+                this.sensor_status.Text = null;
+                this.stress_status.Text = null;
+                rcv = null;
+                this.txtReceive.Text = null;
+            }
             }
         }
 

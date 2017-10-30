@@ -11,6 +11,7 @@ namespace Pre_stressSystem
         public string sensor_id { get; set; }
         public string conver_radio { get; set; }
         public string railway_name { get; set; }
+        public string sensor_SN { get; set; }
         public string sensor_location { get; set; }
         public string sensor_state { get; set; }
         public string stress_state { get; set; }

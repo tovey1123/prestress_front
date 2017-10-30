@@ -33,12 +33,12 @@
             <Canvas.Background>
                 <ImageBrush ImageSource="picture/blue.jpg"/>
             </Canvas.Background>
-            <TextBlock Name="date_time_info" Text="2017年10月15日 19:09:55" Foreground="White" FontSize="20" Canvas.Left="1200" Canvas.Top="3" FontStyle="Italic" >
+            <TextBlock Name="date_time_info" Text="2017年10月15日 19:09:55" Foreground="White" FontSize="20" Canvas.Left="1366" Canvas.Top="3" FontStyle="Italic" >
                 <TextBlock.RenderTransform>
                     <TranslateTransform>
                     </TranslateTransform>
                 </TextBlock.RenderTransform>
-                <TextBlock.Triggers>
+                <!--<TextBlock.Triggers>
                     <EventTrigger RoutedEvent="Window.Loaded">
                         <EventTrigger.Actions>
                             <BeginStoryboard>
@@ -50,7 +50,7 @@
                             </BeginStoryboard>
                         </EventTrigger.Actions>
                     </EventTrigger>
-                </TextBlock.Triggers>
+                </TextBlock.Triggers>-->
             </TextBlock>
 
             <!--
@@ -77,9 +77,8 @@
             </DockPanel>-->
             <!--<WrapPanel Height="731" Canvas.Left="0" Canvas.Top="37" Width="100"/>-->
 
-            <Frame x:Name="function_frame" Content="" Height="767" Canvas.Top="1" Width="1216" Canvas.Left="150" />
-            <Border Name="bg" BorderBrush="White" Height="767" Canvas.Top="1" Width="150" Background="#FF1870C7" Opacity="0.4">
-            </Border>
+            <Frame x:Name="function_frame" Content="" Height="767" Width="1216" Canvas.Left="155"  />
+            <Border Name="bg" BorderBrush="White" Height="770" Width="150" Background="#FF1870C7" Opacity="0.4"/>
             <Grid Name="leftBar" Height="731" Canvas.Top="37" Width="150">
                 <Border Name="portrait"  BorderThickness="1" Margin="0,0,0,578" Width="120" Height="120" CornerRadius="90">
                     <Border.Background>
@@ -101,11 +100,11 @@
                 <Border Name="sensor_history" Width="150" Height="55" Margin="0,384,0,292" BorderThickness="0,0.5" BorderBrush="White" MouseUp="sensor_history_Click">
                     <Label Content="传感器数据查询" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
                 </Border>
-                <Border Name="line_history" Width="150" Height="55" Margin="0,439,0,237" BorderThickness="0,0.5" BorderBrush="White" MouseUp="line_history_Click">
+                <!--<Border Name="line_history" Width="150" Height="55" Margin="0,439,0,237" BorderThickness="0,0.5" BorderBrush="White" MouseUp="line_history_Click">
                     <Label Content="线路数据查询" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
-                </Border>
-                <Border Name="user_management" Width="150" Height="55" Margin="0,494,0,182" BorderThickness="0,0.5,0,1" BorderBrush="White" MouseUp="user_managment_Click">
-                    <Label Content="用户管理" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+                </Border>-->
+                <Border Name="user_management" Width="150" Height="55" Margin="0,439,0,237" BorderThickness="0,0.5,0,1" BorderBrush="White" MouseUp="user_managment_Click">
+                    <Label Content="用户管理" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="0,-2,0,0"/>
                 </Border>
             </Grid>
             <Grid Name="bg2"       Height="575" Canvas.Left="398" Canvas.Top="108" Width="690" Background="#FF084FCB" Opacity="0.5">
@@ -116,14 +115,14 @@
                         <TextBlock Name="greet" Text="凌晨好:" FontSize="30" Foreground="White" Margin="14,2,555,81" FontFamily="MingLiU_HKSCS"/>
                         <TextBlock Name="user_name" Text="" FontSize="35" Foreground="White" Margin="114,4,432,79" FontFamily="STXinwei"/>
                         <Label Name="welcome_word" Content="欢迎使用大型预应力预制件管理系统" Foreground="White" FontSize="25" Margin="144,44,103,38"/>
-                        <TextBlock x:Name="city" Margin="636,96,-2,6" Foreground="White" FontSize="14" FontStyle="Oblique" ><Run Text="北京市"/></TextBlock>
+                        <TextBlock x:Name="city" Margin="627,97,0,5" Foreground="White" FontSize="14" FontStyle="Oblique" Cursor="Hand" MouseUp="city_MouseUp" VerticalAlignment="Center" HorizontalAlignment="Center" ><Run Text="北京市"/></TextBlock>
                     </Grid>
 
                 </Border>
                 <DockPanel HorizontalAlignment="Left" Height="340" LastChildFill="False" Margin="0,125,0,0" VerticalAlignment="Top" Width="822">
                     <ScrollViewer  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" IsEnabled="False" Height="340">
                         <Grid Name="forecast">
-                            <WrapPanel HorizontalAlignment="Left">
+                            <WrapPanel HorizontalAlignment="Left" RenderTransformOrigin="0,-0.5">
                                 <Grid Name="today" Height="340" Width="200">
                                     <Image x:Name="ico_today" HorizontalAlignment="Left" Height="100" Margin="47,3,0,0" VerticalAlignment="Top" Width="100" Source="picture/weatherico/na.png"/>
                                     <TextBlock x:Name="tmp" HorizontalAlignment="Left" Margin="54,96,0,0" TextWrapping="Wrap" Text="?" VerticalAlignment="Top" Height="63" TextAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="50" Width="69"/>
@@ -189,6 +188,32 @@
                 </Border>
 
             </Grid>
+            <Border  Name="bd_distinct" BorderBrush="White" BorderThickness="0.5" Height="100" Canvas.Left="1089" Canvas.Top="158" Width="152" RenderTransformOrigin="0,0.5" >
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0" ScaleY="0"/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <Grid >
+                    <Label x:Name="label_district" Content="请输入位置:" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="11"/>
+                    <TextBox x:Name="district" Height="23" Canvas.Left="1170" TextWrapping="Wrap"  Canvas.Top="168" Margin="68,11,10,65" TextAlignment="Center" VerticalContentAlignment="Center" ScrollViewer.CanContentScroll="True"/>
+                    <Border x:Name="ok" BorderThickness="0" Canvas.Left="695" Canvas.Top="568"  MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" MouseUp="ok_MouseUp" Margin="19,58,85,13" >
+                        <Border.Background>
+                            <ImageBrush ImageSource="picture/button.png"/>
+                        </Border.Background>
+                        <Label Content="确定"  Height="27" VerticalAlignment="Top" FontSize="11" Margin="7,1,2,0" />
+                    </Border>
+                    <Border x:Name="cancel" BorderThickness="0" Canvas.Left="695" Canvas.Top="568"  MouseEnter="btn_MouseEnter" MouseLeave="btn_MouseLeave" Opacity="0.8" MouseUp="cancel_MouseUp" Margin="86,58,18,13" >
+                        <Border.Background>
+                            <ImageBrush ImageSource="picture/button.png"/>
+                        </Border.Background>
+                        <Label Content="取消"  Height="27" VerticalAlignment="Top" FontSize="11" Margin="7,1,2,0" />
+                    </Border>
+                </Grid>
+            </Border>
+
+
+
             <!--<Grid>
                 <w:WeatherReaderUI MouseLeftButtonDown="WeatherReaderUI_MouseLeftButtonDown" />
                 <Image Source="/WpfWeatherReporter;component/Images/Close.png" 

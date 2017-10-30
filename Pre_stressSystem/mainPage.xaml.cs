@@ -12,6 +12,7 @@ using System.Net;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using System.Windows.Media.Animation;
 
 
 namespace Pre_stressSystem
@@ -40,25 +41,49 @@ namespace Pre_stressSystem
             LaunchTimer();
             setPortrait();
             setWeather(weather);
-
         }
 
 
-
+        String date = DateTime.Now.ToString("yyyy年MM月dd日 ");
+        String time = DateTime.Now.ToLongTimeString();
+        String info = "   接下来这里可以动态滚动公司的的通知、公告等";
 
         private void SetDateTime(object sender, EventArgs e)
         {
-            String date = System.DateTime.Now.ToString("yyyy年MM月dd日 ");
-            String time = DateTime.Now.ToLongTimeString();
-            String info = "   接下来这里可以动态滚动公司的的通知、公告等";
-            date_time_info.Text = date + time +info;
+             date = DateTime.Now.ToString("yyyy年MM月dd日 ");
+             time = DateTime.Now.ToLongTimeString();
+            date_time_info.Text = date + time +info;      
         }
         private void LaunchTimer()
         {
-            DispatcherTimer innerTimer = new DispatcherTimer(TimeSpan.FromSeconds(1.0),
-            DispatcherPriority.Loaded, new EventHandler(this.SetDateTime), this.Dispatcher);
+            date_time_info.Text = date + time + info;
+            DispatcherTimer innerTimer = new DispatcherTimer(TimeSpan.FromSeconds(1.0),DispatcherPriority.Loaded, new EventHandler(this.SetDateTime), this.Dispatcher);
             innerTimer.Start();
+            setAnimation();
         }
+
+
+        private void setAnimation()
+        {
+
+            Double x = Convert.ToDouble(date_time_info.Text.Length)*20.0;
+            date_time_info.RenderTransform = new TranslateTransform();
+            DoubleAnimation textBlockFlow = new DoubleAnimation();
+            textBlockFlow.From = 0;
+            textBlockFlow.To = -1450-x;
+            double time = (1450 + x) / 130;
+            textBlockFlow.Duration = new System.Windows.Duration(TimeSpan.FromSeconds(time));
+            Storyboard sd = new Storyboard();
+            sd.FillBehavior = FillBehavior.Stop;
+            sd.AutoReverse = false;
+            sd.RepeatBehavior = RepeatBehavior.Forever;
+            Storyboard.SetTarget(textBlockFlow, date_time_info);
+            Storyboard.SetTargetProperty(textBlockFlow, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
+            sd.Children.Add(textBlockFlow);
+            sd.Begin();
+        }
+
+
         private void logout_MouseUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Forms.Application.Restart();
@@ -170,9 +195,9 @@ namespace Pre_stressSystem
                     case 4:
                         this.sensor_history.Background = null; 
                         break;
-                    case 5:
-                        this.line_history.Background = null;
-                        break;
+                    //case 5:
+                    //    this.line_history.Background = null;
+                    //    break;
                     case 6:
                         this.user_management.Background = null;
                         break;
@@ -191,9 +216,9 @@ namespace Pre_stressSystem
                     case 4:
                         this.sensor_history.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
                         break;
-                    case 5:
-                        this.line_history.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
-                        break;
+                    //case 5:
+                    //    this.line_history.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
+                    //    break;
                     case 6:
                         this.user_management.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
                         break;
@@ -421,45 +446,45 @@ namespace Pre_stressSystem
         }
 
 
-        private string getLocation()
-        {
-            string IPLocation_URI = "http://api.map.baidu.com/location/ip?ak=jeiS1mDguIqIp9TBdrWLMSotBYSSZnWZ&coor=bd09ll";
-            JObject jo = (JObject)JsonConvert.DeserializeObject(GetWebResponseString(IPLocation_URI, Encoding.UTF8, false));
-            if (jo["status"].ToString() != "0")
-            {
-                return "status_error";
-            }
-            else {
-                #region  根据经纬度获取的位置信息
-                //string lat = jo["content"]["point"]["y"].ToString(); //30.9299
-                //string lng = jo["content"]["point"]["x"].ToString(); //120.1234
-                //string Geocoding_URI = "http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location="+lat+","+lng+ "&output=json&pois=1&ak=jeiS1mDguIqIp9TBdrWLMSotBYSSZnWZ";
-                //string tmp = GetWebResponseString(Geocoding_URI, Encoding.UTF8);
-                //int startIndex = tmp.IndexOf("(");
-                //int endIndex = tmp.LastIndexOf(")");
-                //string result = tmp.Substring(startIndex + 1, endIndex - startIndex - 1);
-                //JObject jo2 = (JObject)JsonConvert.DeserializeObject(result);
-                //if (jo2["status"].ToString() != "0")
-                //{
-                //    return jo["content"]["address_detail"]["city"].ToString();  //无法精确得到县级以下位置，则返回市
-                //}
-                //else
-                //{
-                //    string formatted_address = jo2["result"]["formatted_address"].ToString();
-                //    return  formatted_address; 
-                //}
-                #endregion
-                if (jo["content"]["address_detail"]["district"].ToString() != "")
-                {
-                    return jo["content"]["address_detail"]["district"].ToString();
-                }
-                else
-                {
-                    return jo["content"]["address_detail"]["city"].ToString();
-                }
+        //private string getLocation()
+        //{
+        //    string IPLocation_URI = "http://api.map.baidu.com/location/ip?ak=jeiS1mDguIqIp9TBdrWLMSotBYSSZnWZ&coor=bd09ll";
+        //    JObject jo = (JObject)JsonConvert.DeserializeObject(GetWebResponseString(IPLocation_URI, Encoding.UTF8, false));
+        //    if (jo["status"].ToString() != "0")
+        //    {
+        //        return "status_error";
+        //    }
+        //    else {
+        //        #region  根据经纬度获取的位置信息
+        //        //string lat = jo["content"]["point"]["y"].ToString(); //30.9299
+        //        //string lng = jo["content"]["point"]["x"].ToString(); //120.1234
+        //        //string Geocoding_URI = "http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location="+lat+","+lng+ "&output=json&pois=1&ak=jeiS1mDguIqIp9TBdrWLMSotBYSSZnWZ";
+        //        //string tmp = GetWebResponseString(Geocoding_URI, Encoding.UTF8);
+        //        //int startIndex = tmp.IndexOf("(");
+        //        //int endIndex = tmp.LastIndexOf(")");
+        //        //string result = tmp.Substring(startIndex + 1, endIndex - startIndex - 1);
+        //        //JObject jo2 = (JObject)JsonConvert.DeserializeObject(result);
+        //        //if (jo2["status"].ToString() != "0")
+        //        //{
+        //        //    return jo["content"]["address_detail"]["city"].ToString();  //无法精确得到县级以下位置，则返回市
+        //        //}
+        //        //else
+        //        //{
+        //        //    string formatted_address = jo2["result"]["formatted_address"].ToString();
+        //        //    return  formatted_address; 
+        //        //}
+        //        #endregion
+        //        if (jo["content"]["address_detail"]["district"].ToString() != "")
+        //        {
+        //            return jo["content"]["address_detail"]["district"].ToString();
+        //        }
+        //        else
+        //        {
+        //            return jo["content"]["address_detail"]["city"].ToString();
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
         private string GetWebResponseString(string strUrl, Encoding encode, bool Decompress) {
             Uri uri = new Uri(strUrl);
@@ -491,5 +516,110 @@ namespace Pre_stressSystem
             }
         }
 
+        private void btn_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            (sender as Border).Opacity = 1;
+
+        }
+        private void btn_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            (sender as Border).Opacity = 0.8;
+        }
+
+        private void city_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+
+            // bd_distinct.RenderTransform = new ScaleTransform();
+            Storyboard sd = new Storyboard();
+            bd_distinct.RenderTransform = new ScaleTransform();
+            DoubleAnimation scale = new DoubleAnimation();
+            scale.From = 0;
+            scale.To = 1;
+            scale.Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.3));         
+            sd.FillBehavior = FillBehavior.HoldEnd;
+            sd.AutoReverse = false;
+            Storyboard.SetTarget(scale, bd_distinct);
+            Storyboard.SetTargetProperty(scale, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleX)"));          
+            sd.Children.Add(scale);
+
+            DoubleAnimation scale2 = new DoubleAnimation();
+            scale2.From = 0;
+            scale2.To = 1;
+            scale2.Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.3));
+            sd.FillBehavior = FillBehavior.HoldEnd;
+            sd.AutoReverse = false;
+            Storyboard.SetTarget(scale2, bd_distinct);
+            Storyboard.SetTargetProperty(scale2, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
+            sd.Children.Add(scale2);
+
+            sd.Begin();
+
+
+
+        }
+
+        private void ok_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            string location = this.district.Text;
+            string weather_URI = "http://wthrcdn.etouch.cn/weather_mini?city=" + location;
+            JObject jo = null;
+            try
+            {
+               jo = (JObject)JsonConvert.DeserializeObject(GetWebResponseString(weather_URI, UTF8Encoding.UTF8, true));
+
+                if (jo != null) {
+
+                    if ((jo["desc"].ToString() != "OK"))
+                    {
+                        throw new Exception();
+                    }
+                    else {
+                        setWeather(jo);
+                        cancel_MouseUp(null, null);
+                    }
+
+                }
+
+            }
+            catch
+            {
+                MessageBox.Show("请检查输入地区是否有误", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            
+        }
+
+        private void cancel_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            // bd_distinct.RenderTransform = new ScaleTransform();
+            Storyboard sd = new Storyboard();
+            bd_distinct.RenderTransform = new ScaleTransform();
+            DoubleAnimation scale = new DoubleAnimation();
+            scale.From  =1;
+            scale.To = 0;
+            scale.Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.3));
+            sd.FillBehavior = FillBehavior.HoldEnd;
+            sd.AutoReverse = false;
+            Storyboard.SetTarget(scale, bd_distinct);
+            Storyboard.SetTargetProperty(scale, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleX)"));
+            sd.Children.Add(scale);
+
+            DoubleAnimation scale2 = new DoubleAnimation();
+            scale2.From = 1;
+            scale2.To = 0;
+            scale2.Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.3));
+            sd.FillBehavior = FillBehavior.HoldEnd;
+            sd.AutoReverse = false;
+            Storyboard.SetTarget(scale2, bd_distinct);
+            Storyboard.SetTargetProperty(scale2, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
+            sd.Children.Add(scale2);
+
+            sd.Begin();
+
+            this.district.Text = null;
+        }
+
+ 
     }
 }
