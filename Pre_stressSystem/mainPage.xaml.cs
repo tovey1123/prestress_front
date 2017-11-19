@@ -232,9 +232,9 @@ namespace Pre_stressSystem
         }
 
 
-        string savePath = Environment.CurrentDirectory + "\\" + GlobalVariable.userNumber.ToString() + ".jpg";
+        string savePath = Environment.CurrentDirectory + "\\" + UserInfo.employee_id.ToString() + ".jpg";
         private void setPortrait() {
-            user_name.Text = GlobalVariable.userName;
+            user_name.Text =UserInfo.employee_name;
             if (File.Exists(savePath))
             {
                 //image.Source = new BitmapImage(new Uri(savePath, UriKind.RelativeOrAbsolute));
@@ -486,15 +486,6 @@ namespace Pre_stressSystem
         //    }
         //}
 
-        private string GetWebResponseString(string strUrl, Encoding encode, bool Decompress) {
-            Uri uri = new Uri(strUrl);
-            WebRequest webreq = WebRequest.Create(uri);
-            Stream s = Decompress ? new System.IO.Compression.GZipStream(webreq.GetResponse().GetResponseStream(), System.IO.Compression.CompressionMode.Decompress)
-                                 : webreq.GetResponse().GetResponseStream();
-            StreamReader sr = new StreamReader(s, encode);
-            string all = sr.ReadToEnd();         //读取网站返回的数据
-            return all;
-        }
 
         private void setTodayWeather(JToken item, string status)
         {
@@ -566,7 +557,7 @@ namespace Pre_stressSystem
             JObject jo = null;
             try
             {
-               jo = (JObject)JsonConvert.DeserializeObject(GetWebResponseString(weather_URI, UTF8Encoding.UTF8, true));
+               jo = (JObject)JsonConvert.DeserializeObject(MyHttpRequest.GetWebResponse_Get(weather_URI, UTF8Encoding.UTF8, true));
 
                 if (jo != null) {
 

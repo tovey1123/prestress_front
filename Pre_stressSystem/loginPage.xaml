@@ -24,6 +24,7 @@
                 <Label x:Name="label_regsit" Content="注册" Margin="206,207,57,55" FontSize="17" BorderThickness="0,0,0,1" BorderBrush="Black" MouseUp="label_regsit_MouseUp" Cursor="Hand" Padding="5,5,5,0" VerticalContentAlignment="Bottom" />
                 <CheckBox x:Name="savePassword" Content="记住密码" Canvas.Left="772" Canvas.Top="614" Margin="229,156,-11,116"/>
             </Grid>
+            <Button x:Name="button" Content="Button" Canvas.Left="1008" Canvas.Top="603" Width="75" Click="button_Click"/>
 
 
         </Canvas>

@@ -20,7 +20,7 @@ namespace Pre_stressSystem
                 case "0":
                     return "/Pre_stressSystem;component/picture/Portrait.png";
                 case "1":
-                    return "/Pre_stressSystem;component/bin/Debug/" + GlobalVariable.userNumber.ToString() + ".jpg";
+                    return "/Pre_stressSystem;component/bin/Debug/" + UserInfo.employee_id + ".jpg";
                 default:
                     return "/Pre_stressSystem;component/picture/Portrait.png";
             }

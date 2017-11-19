@@ -175,11 +175,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="class\connecttoMysql.cs" />
+    <Compile Include="class\ConnecttoMysql.cs" />
+    <Compile Include="class\MyHttpRequest.cs" />
     <Compile Include="class\InitFile.cs" />
     <Compile Include="class\MyConvert.cs" />
     <Compile Include="class\PicturePath.cs" />
     <Compile Include="class\SensorInfo.cs" />
+    <Compile Include="class\UserInfo.cs" />
     <Compile Include="class\WeatherInfo.cs" />
     <Compile Include="detectPage.xaml.cs">
       <DependentUpon>detectPage.xaml</DependentUpon>

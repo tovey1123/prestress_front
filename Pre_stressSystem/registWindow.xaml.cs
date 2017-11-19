@@ -37,7 +37,7 @@ namespace Pre_stressSystem
                 else
                 {
                     
-                    connecttoMysql.getLoginResult();
+                    ConnecttoMysql.getLoginResult();
                     if (checkNumber())
                     {
                         MessageBox.Show("此用户已注册");
@@ -52,7 +52,7 @@ namespace Pre_stressSystem
                         string birthday= (textBox_birthday.Text .Length==0) ? "NULL" : "'"+textBox_birthday.Text + "'";
                         string department = (textBox_department.Text .Length==0) ? "NULL" : "'"+textBox_department.Text + "'";
                         string order2 = "insert into user_tb (employee_id,employee_name,employee_pwd,gender,phone,birthday,department) values(" + ID+","+name+","+pwd+","+gender+","+phone+","+birthday+","+department+")";
-                        bool result = connecttoMysql.insert(order2);
+                        bool result = ConnecttoMysql.insert(order2);
                         if (result)
                         {
                             this.Close();
@@ -61,14 +61,14 @@ namespace Pre_stressSystem
                     }
                 }
             }
-            connecttoMysql.input.Clear();
+            ConnecttoMysql.input.Clear();
 
         }
 
         private Boolean checkNumber()
         {
             bool numberExist = false;
-            foreach (var id in connecttoMysql.input)
+            foreach (var id in ConnecttoMysql.input)
             {
                 if (id.Key == Convert.ToInt32(textBox_number.Text))
                 {

@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 
 namespace Pre_stressSystem
 {
-    class connecttoMysql
+    class ConnecttoMysql
 
     {
         public static bool hasSearched = false;
@@ -22,7 +22,7 @@ namespace Pre_stressSystem
         public static void getLoginResult()
         {
             clearData();
-            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            MySqlConnection mysql = ConnecttoMysql.getMySqlCon();
             string order = "select * from user_tb";
             MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);
             MySqlDataReader reader = mySqlCommand.ExecuteReader();
@@ -68,8 +68,8 @@ namespace Pre_stressSystem
         public static Dictionary<string, object> getUserInfo()
         {
             Dictionary<string, object> userInfo = new Dictionary<string, object>();
-            MySqlConnection mysql = connecttoMysql.getMySqlCon();
-            string order = "select * from user_tb where employee_id=" + GlobalVariable.userNumber.ToString();
+            MySqlConnection mysql = ConnecttoMysql.getMySqlCon();
+            string order = "select * from user_tb where employee_id=" + UserInfo.employee_id;
             MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);
             try
             {
@@ -122,7 +122,7 @@ namespace Pre_stressSystem
         {
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             Dictionary<string, object> userInfo = new Dictionary<string, object>();
-            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            MySqlConnection mysql = ConnecttoMysql.getMySqlCon();
             MySqlCommand mySqlCommand = new MySqlCommand(order, mysql);         
             try
             {
@@ -155,7 +155,7 @@ namespace Pre_stressSystem
 
         public static bool insert(string order)
         {
-            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            MySqlConnection mysql = ConnecttoMysql.getMySqlCon();
             MySqlCommand SqlCommand= new MySqlCommand(order, mysql);
             try
             {
@@ -175,7 +175,7 @@ namespace Pre_stressSystem
 
         public static bool update(string order)
         {
-            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            MySqlConnection mysql = ConnecttoMysql.getMySqlCon();
             MySqlCommand SqlCommand = new MySqlCommand(order, mysql);
             try
             {
@@ -195,7 +195,7 @@ namespace Pre_stressSystem
 
         public static bool delete(string order)
         {
-            MySqlConnection mysql = connecttoMysql.getMySqlCon();
+            MySqlConnection mysql = ConnecttoMysql.getMySqlCon();
             MySqlCommand SqlCommand = new MySqlCommand(order, mysql);
             try
             {

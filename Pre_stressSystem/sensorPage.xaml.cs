@@ -66,7 +66,7 @@ namespace Pre_stressSystem
                             break;
                     }
                     order += string.Format(" where {0} like '%{1}%'", sql_key, value);
-                    ls = connecttoMysql.query(order);
+                    ls = ConnecttoMysql.query(order);
 
                     if (this.sensorList == null)
                     {
@@ -114,7 +114,7 @@ namespace Pre_stressSystem
         {
             lastQuery = 2;
             string order = "select * from sensor_tb";
-            ls = connecttoMysql.query(order);
+            ls = ConnecttoMysql.query(order);
 
             if (this.sensorList == null)
             {
@@ -288,7 +288,7 @@ namespace Pre_stressSystem
                 MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 string order_delete = "delete from sensor_tb where sensor_id='"+ID+"'";
-                if (connecttoMysql.delete(order_delete))
+                if (ConnecttoMysql.delete(order_delete))
                 {
                     this.txt_conver_radio.Text = null;
                     this.txt_railway_name.Text = null;
@@ -356,7 +356,7 @@ namespace Pre_stressSystem
                 if (func == 1)//add
                 {
                     string order_checkid = "select * from sensor_tb where sensor_id = '" + ID + "'";
-                    List<Dictionary<string, object>> found = connecttoMysql.query(order_checkid);
+                    List<Dictionary<string, object>> found = ConnecttoMysql.query(order_checkid);
                     if (found.Count != 0)
                     {
                         MessageBox.Show("此ID的传感器已经存在", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -365,7 +365,7 @@ namespace Pre_stressSystem
                     {
                         string order_insert = string.Format("insert into sensor_tb (sensor_id,conver_radio,railway_name,sensor_location,sensor_state,stress_state,stress_init,stress_recent,sensor_SN) values( '{0}',{1},'{2}','{3}',{4},{5},{6},{7},{8})",
                        ID, conver_radio, railway_name, sensor_location, sensor_state, stress_state, stress_init, stress_recent,SN);
-                        bool re = connecttoMysql.insert(order_insert);
+                        bool re = ConnecttoMysql.insert(order_insert);
                         if (re)
                         {
                             MessageBox.Show("成功插入新传感器");
@@ -377,7 +377,7 @@ namespace Pre_stressSystem
                 {
                     string order_update = string.Format("update sensor_tb set conver_radio = {0},railway_name='{1}',sensor_location = '{2}',sensor_state = {3},stress_state={4},stress_init={5},stress_recent={6} ,sensor_SN={7} where sensor_id = '{8}'"
                         , conver_radio, railway_name, sensor_location, sensor_state, stress_state, stress_init, stress_recent,SN,ID);
-                    bool re = connecttoMysql.update(order_update);
+                    bool re = ConnecttoMysql.update(order_update);
                     if (re)
                     {
                         MessageBox.Show("更新传感器数据成功");
@@ -457,7 +457,7 @@ namespace Pre_stressSystem
             {
                 string ID = this.txt_sensor_id.Text;
                 string order_checkid = "select * from sensor_tb where sensor_id = '" + ID + "'";
-                List<Dictionary<string, object>> found = connecttoMysql.query(order_checkid);
+                List<Dictionary<string, object>> found = ConnecttoMysql.query(order_checkid);
                 if (found.Count != 0)
                 {
                     MessageBox.Show("此ID的传感器已经存在", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -475,7 +475,7 @@ namespace Pre_stressSystem
 
                     string order_insert = string.Format("insert into sensor_tb (sensor_id,conver_radio,railway_name,sensor_location,sensor_state,stress_state,stress_init,stress_recent，sensor_SN) values( '{0}',{1},'{2}','{3}',{4},{5},{6},{7},{8})",
                         ID, conver_radio, railway_name, sensor_location, sensor_state, stress_state, stress_init, stress_recent,SN);
-                    bool re = connecttoMysql.insert(order_insert);
+                    bool re = ConnecttoMysql.insert(order_insert);
                     if (re)
                     {
                         MessageBox.Show("成功插入新传感器");

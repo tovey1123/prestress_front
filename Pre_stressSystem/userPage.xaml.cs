@@ -59,20 +59,30 @@ namespace Pre_stressSystem
         Dictionary<string, object> userInfo = null;
         private void getUserInfo()
         {
-            userInfo = connecttoMysql.getUserInfo();
+            userInfo = ConnecttoMysql.getUserInfo();
         }
 
         private void showInfo()
         {
-            this.textBox_Number.Text = userInfo["number"].ToString().PadLeft(4,'0');
+            this.textBox_Number.Text = userInfo["number"].ToString().PadLeft(4, '0');
             this.textBox_name.Text = userInfo["name"].ToString();
-            this.textBox_email.Text = userInfo["Email"]==null?null:userInfo["Email"].ToString();
-            this.comboBox.Text = userInfo["gender"]==null?null:userInfo["gender"].ToString();
-            this.textBox_phone.Text = userInfo["phone"]==null?null:userInfo["phone"].ToString();
-            this.textBox_birthday.Text = userInfo["birthday"]==null?null:userInfo["birthday"].ToString();
-            this.textBox_department.Text = userInfo["department"]==null?null:userInfo["department"].ToString();
-            this.textBox_lever.Text = userInfo["lever"]==null?null:userInfo["lever"].ToString();
-            this.textBox_address.Text = userInfo["address"]==null?null:userInfo["address"].ToString();
+            this.textBox_email.Text = userInfo["Email"] == null ? null : userInfo["Email"].ToString();
+            this.comboBox.Text = userInfo["gender"] == null ? null : userInfo["gender"].ToString();
+            this.textBox_phone.Text = userInfo["phone"] == null ? null : userInfo["phone"].ToString();
+            this.textBox_birthday.Text = userInfo["birthday"] == null ? null : userInfo["birthday"].ToString();
+            this.textBox_department.Text = userInfo["department"] == null ? null : userInfo["department"].ToString();
+            this.textBox_lever.Text = userInfo["lever"] == null ? null : userInfo["lever"].ToString();
+            this.textBox_address.Text = userInfo["address"] == null ? null : userInfo["address"].ToString();
+
+            //this.textBox_Number.Text = UserInfo.employee_id.PadLeft(4, '0');
+            //this.textBox_name.Text = UserInfo.employee_name;
+            //this.textBox_email.Text = UserInfo.Email;
+            //this.comboBox.Text = UserInfo.gender;
+            //this.textBox_phone.Text = UserInfo.phone;
+            //this.textBox_birthday.Text = UserInfo.birthday;
+            //this.textBox_department.Text = UserInfo.department;
+            //this.textBox_lever.Text = UserInfo.lever;
+            //this.textBox_address.Text = UserInfo.address;
         }
 
         private void info_save_Click(object sender, RoutedEventArgs e)
@@ -90,7 +100,7 @@ namespace Pre_stressSystem
                 }
                 else
                 {
-                    MySqlConnection mysql = connecttoMysql.getMySqlCon();
+                    MySqlConnection mysql = ConnecttoMysql.getMySqlCon();
 
                         int number = Convert.ToInt32(textBox_Number.Text);
                         string name = "'" + textBox_name.Text + "'";
@@ -110,7 +120,7 @@ namespace Pre_stressSystem
                         + "Email=" + email + ","
                         + "address=" + address + "," 
                         +"lever="+lever 
-                        + " where employee_id="+ GlobalVariable.userNumber;
+                        + " where employee_id="+ UserInfo.employee_id;
                         MySqlCommand SqlCommandUpdate = new MySqlCommand(order2, mysql);
                         try
                         {
@@ -143,7 +153,7 @@ namespace Pre_stressSystem
             {
                 File.Delete(savePath);
             }
-            getUserInfo();
+            //getUserInfo();
             showInfo();
             this.info_edit.Visibility = Visibility.Visible;
             this.info_save.Visibility = Visibility.Collapsed;
@@ -172,9 +182,9 @@ namespace Pre_stressSystem
                 MessageBox.Show("两次密码输入不一致", "", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else {
-                MySqlConnection mysql = connecttoMysql.getMySqlCon();
+                MySqlConnection mysql = ConnecttoMysql.getMySqlCon();
                 string pwd = "'" + passwordBox_new.Password + "'";
-                string order3 = "update user_tb  set employee_pwd=" + pwd + " where employee_Number=" + GlobalVariable.userNumber;
+                string order3 = "update user_tb  set employee_pwd=" + pwd + " where employee_id=" + UserInfo.employee_id;
                 MySqlCommand SqlCommandSetpwd = new MySqlCommand(order3, mysql);
                 try
                 {
@@ -232,8 +242,8 @@ namespace Pre_stressSystem
 
         }
        // PicturePath Portraint = new PicturePath();
-        string savePath = Environment.CurrentDirectory + "\\" + GlobalVariable.userNumber.ToString() + ".jpg";
-        string savePath2 = Environment.CurrentDirectory + "\\" + GlobalVariable.userNumber.ToString() +"_temp"+".jpg";
+        string savePath = Environment.CurrentDirectory + "\\" + UserInfo.employee_id + ".jpg";
+        string savePath2 = Environment.CurrentDirectory + "\\" + UserInfo.employee_id + "_temp"+".jpg";
 
         public void refresh(object source, EventArgs e)
         {

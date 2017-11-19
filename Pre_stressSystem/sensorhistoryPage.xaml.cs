@@ -85,7 +85,7 @@ namespace Pre_stressSystem
                    value, from, to);
                 if (ls != null)
                     ls.Clear();
-                ls = connecttoMysql.query(order_query1);
+                ls = ConnecttoMysql.query(order_query1);
                 if (ls.Count == 0)
                 {
                     MessageBox.Show("没有相应的传感器记录");
@@ -114,7 +114,7 @@ namespace Pre_stressSystem
                    value, from, to);
                 if (ls != null)
                     ls.Clear();
-                ls = connecttoMysql.query(order_query1);
+                ls = ConnecttoMysql.query(order_query1);
                 if (ls.Count == 0) {
                     MessageBox.Show("没有相应的传感器记录");
                 }else

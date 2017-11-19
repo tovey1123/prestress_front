@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 
 namespace Pre_stressSystem
@@ -30,6 +31,7 @@ namespace Pre_stressSystem
             this.textBox_username.Focus();
             if (isConnected2Intnet())
             {
+               // MessageBox.Show(("wzw" + "" + "spy").Length.ToString());
                 LoadIni();  //加载初始化信息--账号,密码,版本信息,并且提前获取天气信息
             }
             else
@@ -45,7 +47,7 @@ namespace Pre_stressSystem
         private void button_login_Click(object sender, RoutedEventArgs e)
         {
 
-            connecttoMysql.getLoginResult();
+            ConnecttoMysql.getLoginResult();
 
             #region check login
 
@@ -55,28 +57,101 @@ namespace Pre_stressSystem
             }
             else
             {
-                if (!checkID())
-                {
-                    MessageBox.Show("用户名不存在！");
-                }
 
-                else
+
+                //if (!checkID())
+                //{
+                //    MessageBox.Show("用户名不存在！");
+                //}
+
+                //else
+                //{
+                //    if (!checkpwd())
+                //    {
+                //        MessageBox.Show("密码输入错误！");
+                //    }
+                //    else
+                //    {
+
+                //        writeIntoIniFile();
+                //        m_parent.Content = new mainPage(weather);
+
+                //    }
+                //}
+
+
+                //先获取公钥，将密码加密发送
+              
+                
+                string getKey = "http://localhost:8080/spring_MyServer/getPublicKey";
+                string modexp = MyHttpRequest.GetWebResponse_Get(getKey, Encoding.UTF8, false);
+
+                //服务器返回的是字符串会把换行转换为\r\n , C#端会字符串就成了\\r\\n；  需重新转换为换行
+                MatchEvaluator match = delegate (Match m)
                 {
-                    if (!checkpwd())
+                    return "\r\n";
+                };
+                string[] me = Regex.Replace(modexp.Substring(1, modexp.Length - 2), @"\\r\\n", match).Split(',');   // \\r\\n用\r\n代替
+
+                //向服务器发送账号密码              
+                //密码用RSA加密
+                try
+                {
+                    InitFile initFileWriter = new InitFile(System.Environment.CurrentDirectory + "\\InitFile.ini");
+                   
+
+                    string severIP = "http://localhost:8080/spring_MyServer/login";
+                    RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+                    RSAParameters para = new RSAParameters();
+                    initFileWriter.WriteValue("Test", "mod", me[0].Substring(0, me[0].Length - 2));
+                    initFileWriter.WriteValue("Test", "exp", me[1].Substring(0, me[1].Length - 2));
+
+                    para.Modulus =  Convert.FromBase64String(me[0].Substring(0, me[0].Length - 2));
+                    para.Exponent = Convert.FromBase64String(me[1].Substring(0, me[1].Length - 2));
+                    rsa.ImportParameters(para);
+                    byte[] enBytes = rsa.Encrypt(UTF8Encoding.UTF8.GetBytes(passwordBox.Password), false);
+                    string pwd = Convert.ToBase64String(enBytes);
+                    string postData = "ID=" + textBox_username.Text + "&PWD=" + pwd;
+                    string response = MyHttpRequest.GetWebResponse_Post(severIP, Encoding.UTF8, false, postData);
+
+                    JObject jo = (JObject)JsonConvert.DeserializeObject(response);
+
+                    if (jo["errCode"].ToString() == "1")
                     {
-                        MessageBox.Show("密码输入错误！");
+                        MessageBox.Show("账号不存在！请重试", "", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                    else
+                    else if (jo["errCode"].ToString() == "2")
                     {
+                        MessageBox.Show("密码错误！请重试", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else {
+                        UserInfo.employee_id = "1234";
+                        UserInfo.employee_id   = jo["data"]["employee_id"].ToString();
+                        UserInfo.employee_name = jo["data"]["employee_name"].ToString();
+                        UserInfo.employee_pwd  = jo["data"]["employee_pwd"].ToString();
+                        UserInfo.gender = jo["data"]["gender"] == null ? null : jo["data"]["gender"].ToString();
+                        UserInfo.phone = jo["data"]["phone"] == null ? null : jo["data"]["phone"].ToString();
+                        UserInfo.birthday = jo["data"]["birthday"] == null ? null : jo["data"]["birthday"].ToString();
+                        UserInfo.department = jo["data"]["department"] == null ? null : jo["data"]["department"].ToString();
+                        UserInfo.Email = jo["data"]["Email"] == null ? null : jo["data"]["Email"].ToString();
+                        UserInfo.address = jo["data"]["address"] == null ? null : jo["data"]["address"].ToString();
+                        UserInfo.lever = jo["data"]["lever"] == null ? null : jo["data"]["lever"].ToString();
 
                         writeIntoIniFile();
                         m_parent.Content = new mainPage(weather);
 
                     }
                 }
+                catch(Exception exc)                
+                {
+                    MessageBox.Show(exc.Message);
+                }
+
+
+
             }
             #endregion
-            connecttoMysql.input.Clear();
+            ConnecttoMysql.input.Clear();
         }
 
         //press "Enter", the same as login_click
@@ -93,37 +168,39 @@ namespace Pre_stressSystem
 
  
         //检查工号是不是存在
-        private Boolean checkID()
-        {
-            bool numberExist = false;
+        //private Boolean checkID()
+        //{
+        //    bool numberExist = false;
             
-            if (connecttoMysql.input.ContainsKey(Convert.ToInt32(textBox_username.Text)))
-            { numberExist = true; }
-            return numberExist;
-        }
-        private Boolean checkpwd()
-        {
+        //    if (ConnecttoMysql.input.ContainsKey(Convert.ToInt32(textBox_username.Text)))
+        //    { numberExist = true; }
+        //    return numberExist;
+        //}
 
-            KeyValuePair<string, string> namepwd = new KeyValuePair<string, string>();
-            bool idcorrect = false;
-            foreach (var item in connecttoMysql.input)
-            {
-                if (item.Key== Convert.ToInt32(textBox_username.Text))
-                {
+        //校验密码
+        //private Boolean checkpwd()
+        //{
 
-                    namepwd=item.Value;
-                 if (namepwd.Value== passwordBox.Password)
-                    {
+        //    KeyValuePair<string, string> namepwd = new KeyValuePair<string, string>();
+        //    bool idcorrect = false;
+        //    foreach (var item in ConnecttoMysql.input)
+        //    {
+        //        if (item.Key== Convert.ToInt32(textBox_username.Text))
+        //        {
 
-                        idcorrect = true;
-                        GlobalVariable.userName = namepwd.Key;
-                        GlobalVariable.userNumber = Convert.ToInt32(textBox_username.Text);
-                        return idcorrect;
-                    }
-                }
-            }
-            return idcorrect;
-        }
+        //            namepwd=item.Value;
+        //         if (namepwd.Value== passwordBox.Password)
+        //            {
+
+        //                idcorrect = true;
+        //                GlobalVariable.userName = namepwd.Key;
+        //                GlobalVariable.userNumber = Convert.ToInt32(textBox_username.Text);
+        //                return idcorrect;
+        //            }
+        //        }
+        //    }
+        //    return idcorrect;
+        //}
 
         private void label_regsit_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -201,6 +278,7 @@ namespace Pre_stressSystem
         }
 
 
+        //内网IP  暂时没有用
         private void GetIP()
         {
             //获取本机IP地址
@@ -268,7 +346,7 @@ namespace Pre_stressSystem
         {
             string location = getLocation();
             string weather_URI = "http://wthrcdn.etouch.cn/weather_mini?city=" + location;
-            JObject jo = (JObject)JsonConvert.DeserializeObject(GetWebResponseString(weather_URI, UTF8Encoding.UTF8, true));
+            JObject jo = (JObject)JsonConvert.DeserializeObject(MyHttpRequest.GetWebResponse_Get(weather_URI, UTF8Encoding.UTF8, true));
             return jo;
 
         }
@@ -276,10 +354,11 @@ namespace Pre_stressSystem
         private string getLocation()
         {
             string IPLocation_URI = "http://api.map.baidu.com/location/ip?ak=jeiS1mDguIqIp9TBdrWLMSotBYSSZnWZ&coor=bd09ll";
-            JObject jo = (JObject)JsonConvert.DeserializeObject(GetWebResponseString(IPLocation_URI, Encoding.UTF8, false));
+            JObject jo = (JObject)JsonConvert.DeserializeObject(MyHttpRequest.GetWebResponse_Get(IPLocation_URI, Encoding.UTF8, false));
             if (jo["status"].ToString() != "0")
             {
-                return "status_error";
+                MessageBox.Show("无法定位您的IP地址，请检查是否开启了代理","定位失败",MessageBoxButton.OK,MessageBoxImage.Error);
+                return "北京";
             }
             else
             {
@@ -314,16 +393,7 @@ namespace Pre_stressSystem
             }
         }
 
-        private string GetWebResponseString(string strUrl, Encoding encode, bool Decompress)
-        {
-               Uri uri = new Uri(strUrl);
-               WebRequest webreq = WebRequest.Create(uri);
-               Stream s = Decompress ? new System.IO.Compression.GZipStream(webreq.GetResponse().GetResponseStream(), System.IO.Compression.CompressionMode.Decompress)
-                                     : webreq.GetResponse().GetResponseStream();
-               StreamReader sr = new StreamReader(s, encode);
-               string all = sr.ReadToEnd();         //读取网站返回的数据
-               return all;         
-        }
+       
 
         [DllImport("wininet")]
         private static extern bool InternetGetConnectedState(out int connectionDescription, int reservedValue);
@@ -347,5 +417,20 @@ namespace Pre_stressSystem
 
         }
 
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            //var client = new RestClient("http://localhost:8080/spring_MyServer/getPublicKey");
+            //var request = new RestRequest(Method.POST);
+            //request.AddHeader("postman-token", "30f260fa-5bc6-6903-5b0d-1a6a126dd96d");
+            //request.AddHeader("cache-control", "no-cache");
+            //request.AddHeader("content-type", "application/x-www-form-urlencoded");
+            //request.AddParameter("application/x-www-form-urlencoded", "word=12345", ParameterType.RequestBody);
+            //IRestResponse response = client.Execute(request);
+
+        
+            //string severIP = "http://localhost:8080/spring_MyServer/query";
+            //string re = MyHttpRequest.GetWebResponse_Post(severIP, Encoding.UTF8, false, "word1=施颖培&word2=1314王志文");
+            //MessageBox.Show(re);
+        }
     }
 }

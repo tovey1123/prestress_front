@@ -241,7 +241,7 @@ namespace Pre_stressSystem
                 string data = this.txt_data.Text = rcv.Substring(6, 4);
                 string order = "select * from sensor_tb where sensor_id='" + ID + "'";
 
-                List<Dictionary<string, object>> ls = connecttoMysql.query(order);
+                List<Dictionary<string, object>> ls = ConnecttoMysql.query(order);
                 if (ls.Count == 0)
                 {
                     MessageBox.Show("没有相应的传感器ID记录，请检查数据", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -290,11 +290,11 @@ namespace Pre_stressSystem
             if(rcv != null)
             {
             //string insert_order = "insert into sensor_data_tb (data_value,sensor_id,user_id,date) values("+data_value+",'"+ID+"',"+GlobalVariable.userNumber+",'"+ DateTime.Now.ToString("yyyy-MM-dd") +"')";
-            string insert_order = string.Format("insert into sensor_data_tb (data_value,sensor_id,user_id,date) values({0},'{1}',{2},'{3}')",data_value, ID, GlobalVariable.userNumber, DateTime.Now.ToString("yyyy-MM-dd"));
-            bool re = connecttoMysql.insert(insert_order);
+            string insert_order = string.Format("insert into sensor_data_tb (data_value,sensor_id,user_id,date) values({0},'{1}',{2},'{3}')",data_value, ID, UserInfo.employee_id, DateTime.Now.ToString("yyyy-MM-dd"));
+            bool re = ConnecttoMysql.insert(insert_order);
             //string update_order = "update sensor_tb set stress_stat = '" + stress_state +"',stress_recent=" + data_value+" where sensor_id = '" + ID+"'";
             string update_order = string.Format("update sensor_tb set stress_state = '{0}',stress_recent = {1} where sensor_id = '{2}'",stress_state,data_value,ID);
-            bool  re2= connecttoMysql.update(update_order);
+            bool  re2= ConnecttoMysql.update(update_order);
             if (re && re2)
             {
                 MessageBox.Show("数据保存成功");

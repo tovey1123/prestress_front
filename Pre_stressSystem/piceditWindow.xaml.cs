@@ -225,11 +225,11 @@ namespace Pre_stressSystem
                 string str2 = Environment.CurrentDirectory;
                 // b.Save(@"D:\imagecutor.jpg");
                 // string savePath = "pack://application:,,,/picture/" + GlobalVariable.userNumber.ToString() + ".jpg";
-                string savePath = str2 +"\\"+ GlobalVariable.userNumber.ToString() + ".jpg";
+                string savePath = str2 +"\\"+ UserInfo.employee_id + ".jpg";
 
                 if (File.Exists(savePath))
                 {
-                    string savePath2 = str2 + "\\" + GlobalVariable.userNumber.ToString() + "_temp" + ".jpg";
+                    string savePath2 = str2 + "\\" + UserInfo.employee_id + "_temp" + ".jpg";
                     b.Save(@savePath2);
                     //File.Delete(savePath);
                     //File.Replace(GlobalVariable.userNumber.ToString() + "_temp" + ".jpg",
