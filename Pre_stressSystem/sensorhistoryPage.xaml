@@ -10,7 +10,7 @@
 
     <Viewbox Stretch="Fill">
         <Canvas Height="768" Width="1366"  >
-            <Label x:Name="label" Content="传感器数据查询" Canvas.Left="472" Height="74" Width="382" FontSize="53" Canvas.Top="74" Foreground="White"/>
+            <Label x:Name="label" Content="预应力数据查询" Canvas.Left="485" Height="74" Width="382" FontSize="53" Canvas.Top="71" Foreground="White"/>
             <!--<Border BorderBrush="Black"  Height="768" Width="284" Background="#FFEEEEEE" Opacity="0.2" Canvas.Left="2"/>-->
             <Label x:Name="query" Content="查询条件" Canvas.Left="43" Canvas.Top="245" Foreground="White" FontSize="16"/>
             <ComboBox x:Name="key" Canvas.Left="136" Canvas.Top="248" HorizontalAlignment="Center" VerticalAlignment="Top" Width="119" Height="27"  HorizontalContentAlignment="Center" FontSize="18" SelectedIndex="0" DropDownClosed="key_DropDownClosed" >

@@ -46,7 +46,7 @@ namespace Pre_stressSystem
 
         String date = DateTime.Now.ToString("yyyy年MM月dd日 ");
         String time = DateTime.Now.ToLongTimeString();
-        String info = "   接下来这里可以动态滚动公司的的通知、公告等";
+        String info = "   中国铁总与中国邮政集团签署战略合作协议;   上海站年发送旅客首次突破1亿人次;  认真学习宣传贯彻党的十九大精神;  员工冬季运动会将于下周开展";
 
         private void SetDateTime(object sender, EventArgs e)
         {
@@ -190,7 +190,7 @@ namespace Pre_stressSystem
                         this.detect.Background = null;
                         break;
                     case 3:
-                        this.sensor.Background = null;
+                       // this.sensor.Background = null;
                         break;
                     case 4:
                         this.sensor_history.Background = null; 
@@ -199,7 +199,7 @@ namespace Pre_stressSystem
                     //    this.line_history.Background = null;
                     //    break;
                     case 6:
-                        this.user_management.Background = null;
+                        //this.user_management.Background = null;
                         break;
                 }
                 switch (newSelected)
@@ -211,7 +211,7 @@ namespace Pre_stressSystem
                         this.detect.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
                         break;
                     case 3:
-                        this.sensor.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
+                       // this.sensor.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
                         break;
                     case 4:
                         this.sensor_history.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
@@ -220,7 +220,7 @@ namespace Pre_stressSystem
                     //    this.line_history.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
                     //    break;
                     case 6:
-                        this.user_management.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
+                        //this.user_management.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF546E58"));
                         break;
                 }
 

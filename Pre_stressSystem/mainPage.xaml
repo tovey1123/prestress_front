@@ -94,18 +94,18 @@
                 <Border Name="detect" Width="150" Height="55" Margin="0,274,0,402" BorderThickness="0,0.5" BorderBrush="White" MouseUp="dectct_Click">
                     <Label Content="预应力检测" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" />
                 </Border>
-                <Border Name="sensor" Width="150" Height="55" Margin="0,329,0,347" BorderThickness="0,0.5" BorderBrush="White" MouseUp="sensor_Click">
+                <!--<Border Name="sensor" Width="150" Height="55" Margin="0,329,0,347" BorderThickness="0,0.5" BorderBrush="White" MouseUp="sensor_Click">
                     <Label Content="传感器管理" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" />
-                </Border>
-                <Border Name="sensor_history" Width="150" Height="55" Margin="0,384,0,292" BorderThickness="0,0.5" BorderBrush="White" MouseUp="sensor_history_Click">
-                    <Label Content="传感器数据查询" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+                </Border>-->
+                <Border Name="sensor_history" Width="150" Height="55" Margin="0,329,0,347" BorderThickness="0,0.5" BorderBrush="White" MouseUp="sensor_history_Click">
+                    <Label Content="预应力数据查询" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
                 </Border>
                 <!--<Border Name="line_history" Width="150" Height="55" Margin="0,439,0,237" BorderThickness="0,0.5" BorderBrush="White" MouseUp="line_history_Click">
                     <Label Content="线路数据查询" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
                 </Border>-->
-                <Border Name="user_management" Width="150" Height="55" Margin="0,439,0,237" BorderThickness="0,0.5,0,1" BorderBrush="White" MouseUp="user_managment_Click">
+                <!--<Border Name="user_management" Width="150" Height="55" Margin="0,439,0,237" BorderThickness="0,0.5,0,1" BorderBrush="White" MouseUp="user_managment_Click">
                     <Label Content="用户管理" Width="150" Height="55" Foreground="White" FontSize="18"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="0,-2,0,0"/>
-                </Border>
+                </Border>-->
             </Grid>
             <Grid Name="bg2"       Height="575" Canvas.Left="398" Canvas.Top="108" Width="690" Background="#FF084FCB" Opacity="0.5">
             </Grid>
@@ -114,7 +114,7 @@
                     <Grid Name="top">
                         <TextBlock Name="greet" Text="凌晨好:" FontSize="30" Foreground="White" Margin="14,2,555,81" FontFamily="MingLiU_HKSCS"/>
                         <TextBlock Name="user_name" Text="" FontSize="35" Foreground="White" Margin="114,4,432,79" FontFamily="STXinwei"/>
-                        <Label Name="welcome_word" Content="欢迎使用大型预应力预制件管理系统" Foreground="White" FontSize="25" Margin="144,44,103,38"/>
+                        <Label Name="welcome_word" Content="欢迎使用大型预制构件预应力采集管理系统" Foreground="White" FontSize="25" Margin="114,44,91,38"/>
                         <TextBlock x:Name="city" Margin="627,97,0,5" Foreground="White" FontSize="14" FontStyle="Oblique" Cursor="Hand" MouseUp="city_MouseUp" VerticalAlignment="Center" HorizontalAlignment="Center" ><Run Text="北京市"/></TextBlock>
                     </Grid>
 
